@@ -6,6 +6,68 @@
     <title>Método Hércules (Interactivo)</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M20 50 L40 70 L80 30' stroke='%2322c55e' stroke-width='10' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
     
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // ¡¡¡IMPORTANTE!!!
+        // Estos valores DEBEN ser los mismos que en tu index.html
+        const SUPABASE_URL = 'https://arwxqomdfquhkneufnnh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyd3hxb21kZnF1aGtuZXVmbm5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyODc3MjUsImV4cCI6MjA3Nzg2MzcyNX0.ts0LsML3MBHAEptN9xmUdsFZDX7wETbbWvAVhtrtcqc';
+        
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Función "Guardia" que se ejecuta sola
+        (async () => {
+            console.log("Iniciando verificación de seguridad...");
+
+            // 1. Revisa si hay un usuario logueado
+            const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+            if (userError || !user) {
+                // ¡FUERA! No hay sesión activa.
+                console.log("No hay usuario, redirigiendo al login.");
+                // Te redirige a la página principal para que inicie sesión
+                window.location.href = "/"; 
+                return;
+            }
+
+            // Si hay usuario, seguimos.
+            console.log("Usuario encontrado:", user.id);
+            
+            // 2. Revisa si es Admin
+            const isAdmin = (user.email === 'edfmarcoflores@gmail.com');
+            if (isAdmin) {
+                console.log("Acceso de ADMIN concedido.");
+                return; // Si es Admin, no revises más y deja que vea la página.
+            }
+
+            // 3. Si NO es Admin, revisa si pagó por ESTE programa
+            // Revisa que el 'plan_id' de Hércules en tu tabla 'plans' sea 'hercules'
+            const PLAN_ID_DE_ESTA_PAGINA = 'hercules'; 
+            
+            const { data: compra, error: perfilError } = await supabase
+                .from('purchases') // Revisa la tabla de COMPRAS
+                .select('status')
+                .eq('user_id', user.id) // Del usuario actual
+                .eq('plan_id', PLAN_ID_DE_ESTA_PAGINA) // De ESTE plan
+                .in('status', ['paid', 'pagado', 'approved', 'aprobado']) // Y que esté pagado
+                .maybeSingle(); // Solo nos interesa si existe al menos una
+
+            if (perfilError || !compra) {
+                // Error o no se encontró una compra válida
+                console.error("Error al buscar compra o no se encontró:", perfilError);
+                alert("No tienes permiso para ver este programa. Si crees que es un error, contacta a Marco.");
+                window.location.href = "/"; // Redirige a la página principal
+                return;
+            }
+
+            // 4. Si el script llega aquí, ¡FELICIDADES!
+            // El usuario está logueado Y SÍ pagó (o es Admin).
+            console.log("Acceso de cliente concedido.");
+            
+        })();
+    </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {

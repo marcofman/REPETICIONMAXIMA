@@ -161,7 +161,7 @@ async function ensureProfile(){
   if(!currentUser) return;
   try{
     const { data:existing }=await sb.from(TABLES.profiles).select('id').eq('id',currentUser.id).maybeSingle();
-    if(!existing){ await sb.from(TABLES.profiles).insert({ id: currentUser.id, email: currentUser.email }); }
+    if(!existing){ await sb.from(TABLEAS.profiles).insert({ id: currentUser.id, email: currentUser.email }); }
   }catch{ /* noop */ }
 }
 
@@ -261,7 +261,9 @@ function renderProgramCards(grid, items, isAdmin) {
 // --- FIN CORRECCIÓN 2 ---
 
 
-// --- ESTA ES LA FUNCIÓN CORREGIDA ---
+// #############################################
+// ### ¡¡¡ESTA FUNCIÓN ESTÁ ARREGLADA!!! ###
+// #############################################
 async function handlePlanClick(e) {
   const btn = e.target.closest('.open-plan');
   if (!btn) return;
@@ -277,10 +279,14 @@ async function handlePlanClick(e) {
     btn.textContent = "Abrir programa";
     return;
   }
+  
   try {
     // --- ESTA ES LA LÍNEA CORREGIDA ---
-    // Construye la URL pública directamente.
-    const url = `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${path}`;
+    // Construye la URL usando el origen de tu sitio (Netlify) y la ruta que
+    // acabas de arreglar en la base de datos (Paso 1).
+    const url = window.location.origin + '/' + path;
+    
+    console.log("Intentando abrir:", url); // Para depurar
     
     window.open(url, '_blank');
   } catch (err) {
@@ -290,6 +296,7 @@ async function handlePlanClick(e) {
     btn.textContent = "Abrir programa";
   }
 }
+// #############################################
 
 
 // ------- Utilitarios UI -------
