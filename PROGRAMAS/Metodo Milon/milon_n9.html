@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Método Milón: Nivel 9</title>
+  <!-- Icono Nivel 9 (Ámbar) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='20' width='25' height='60' rx='5' fill='%23f59e0b'/><rect x='70' y='20' width='25' height='60' rx='5' fill='%23f59e0b'/><rect x='30' y='20' width='40' height='20' rx='6' fill='%23f59e0b'/><rect x='30' y='40' width='40' height='20' rx='6' fill='%23f59e0b'/></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    body{font-family:'Manrope',sans-serif}
+    h1,h2,h3,h4,.font-bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.05em}
+    /* Color Nivel 9: Ámbar (#f59e0b) */
+    .gradient-text{background:linear-gradient(to right,#f59e0b,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .week-tab-active,.day-tab-active{background-color:#f59e0b;color:#fff}
+    .week-tab-inactive,.day-tab-inactive{background-color:#e5e7eb;color:#4b5563}
+    .day-checked{background-color:#f59e0b!important;color:#fff!important;border-color:#f59e0b!important}
+    .set-checkbox:checked+label{text-decoration:line-through;color:#9ca3af}
+    .set-checkbox:checked{background-color:#f59e0b;border-color:#f59e0b;}
+    .focus\:ring-amber-500:focus{--tw-ring-color:#f59e0b}
+    .focus\:border-amber-500:focus{--tw-border-opacity:1;border-color:#f59e0b}
+    .text-amber-600{color:#b45309} /* Amber Oscuro para texto */
+    .text-amber-500{color:#f59e0b}
+    .bg-amber-500{background-color:#f59e0b}
+    .hover\:bg-amber-600:hover{background-color:#d97706}
+    .border-amber-200{border-color:#fde68a}
+    .bg-amber-50{background-color:#fffbeb}
+    .text-amber-800{color:#92400e}
+    .text-amber-400{color:#fbbf24}
+    .border-amber-300{border-color:#fcd34d}
+    .border-amber-400{border-color:#fbbf24}
+    .hidden{display:none}
+    .mode-toggle-bg{background-color:#e5e7eb}
+    .mode-toggle-btn{background-color:#fff;color:#f59e0b;box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .3s ease}
+    .mode-toggle-btn.active{background-color:#f59e0b;color:#fff;box-shadow:0 4px 6px rgba(0,0,0,.1)}
+    .mode-toggle-btn.gym.active{transform:translateX(0%)}
+    .mode-toggle-btn.casa.active{transform:translateX(100%)}
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+
+    <header class="text-center mb-10">
+      <h1 class="text-6xl md:text-7xl font-extrabold gradient-text">MÉTODO MILÓN</h1>
+      <h2 class="text-xl md:text-2xl text-gray-800 font-semibold mt-2 font-bebas">POR PROF. MARCO FLORES</h2>
+      <p class="text-lg text-gray-600 mt-2">Nivel 9: El Escultor</p>
+      <p class="text-sm text-gray-500 mt-1">Bloque de especialización en hipertrofia. Foco en aislamiento, tempos, y alto volumen.</p>
+    </header>
+
+    <div class="text-center mb-12 space-y-4 sm:space-y-0 sm:space-x-4">
+      <button id="open-guide-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">GUÍA ESENCIAL</button>
+      <button id="open-theory-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">TEORÍA DEL NIVEL 9</button>
+    </div>
+
+    <main>
+      <section id="workout-view">
+        <div id="level-intro-text" class="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg mb-8 text-center"></div>
+
+        <div id="rutinas">
+          <h2 id="workout-title" class="text-4xl text-gray-900 mb-6 text-center"></h2>
+
+          <div id="week-tabs" class="flex justify-center mb-2 border-b-2 border-gray-300"></div>
+          <div id="day-tabs" class="flex flex-wrap justify-center mb-6"></div>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative w-64 p-1 rounded-lg mode-toggle-bg grid grid-cols-2 gap-1">
+              <button id="mode-btn-gym" class="mode-toggle-btn gym relative z-10 w-full py-2 px-4 rounded-md font-bebas text-lg">GIMNASIO</button>
+              <button id="mode-btn-casa" class="mode-toggle-btn casa relative z-10 w-full py-2 px-4 rounded-md font-bebas text-lg">CASA</button>
+            </div>
+          </div>
+
+          <div id="workouts-container" class="space-y-6"></div>
+        </div>
+
+        <div id="calendario" class="mt-12">
+          <h2 class="text-4xl text-gray-900 mb-6 text-center">Calendario de Seguimiento Semanal</h2>
+          <div class="flex justify-center"></div>
+        </div>
+      </section>
+    </main>
+
+    <section id="coach-profile" class="bg-gray-100 p-8 rounded-2xl mt-12">
+      <div class="text-center">
+        <h3 class="text-3xl text-gray-900">Notas del Coach</h3>
+        <p class="text-amber-600 font-semibold mt-1">Prof. Marco Flores</p>
+        <p class="text-gray-700 mt-4 max-w-xl mx-auto">Este es un bloque de especialización. Después de construir el "motor" y la "fuerza" en los niveles 7 y 8, volvemos a la hipertrofia pura. El objetivo es simple: más volumen, más aislamiento, más músculo. Come para crecer.</p>
+        <blockquote class="mt-6 italic text-gray-600 border-l-4 border-amber-300 pl-4 inline-block text-left">“La fuerza construye la base. El volumen pule la obra de arte.”</blockquote>
+      </div>
+    </section>
+
+    <footer class="text-center mt-12 py-6 border-t border-gray-300">
+      <h3 class="text-3xl text-gray-900 font-bebas mb-4">Especialización completada</h3>
+      <h4 class="text-xl font-bebas text-gray-900">Método Milón | Creado por Prof. Marco Flores</h4>
+      <p class="text-sm text-gray-600 mb-6">Tu Coach de Recomposición y Rendimiento</p>
+      <a href="https://is.gd/milon_master" target="_blank" class="bg-amber-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-amber-600 transition-all duration-300 transform hover:scale-105 font-bebas text-xl inline-flex items-center gap-2">
+        <span>IR AL MASTER</span>
+      </a>
+    </footer>
+  </div>
+
+  <!-- Modal Guía -->
+  <div id="guide-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div id="guide-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+    <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+      <div class="p-6 sm:p-8">
+        <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+          <h2 id="guide-modal-title" class="text-4xl text-gray-900">Guía Esencial Nivel 9</h2>
+          <button id="close-guide-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+        </div>
+
+        <div id="guide-main-view" class="space-y-6 text-gray-700">
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Pilar 1: Nutrición de Hipertrofia</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li><strong>Calorías:</strong> Ligero Superávit (+200 a +400 kcal). Este es un bloque de construcción. No tengas miedo de comer.</li>
+              <li><strong>Proteína:</strong> 1.8–2.2 g/kg/día.</li>
+              <li><strong>Carbohidratos:</strong> Son tu mejor herramienta. Aumenta su consumo, especialmente alrededor de tus 5 días de entrenamiento.</li>
+              <li><button id="show-carbs-btn" class="text-blue-600 hover:underline text-sm font-semibold">(Ver ideas pre/post)</button></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Pilar 2: Técnicas de "El Escultor"</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li><strong>Tempo (Ej: 3010):</strong> 3s de bajada (excéntrica), 0s de pausa, 1s de subida (concéntrica), 0s de pausa. Maximiza el tiempo bajo tensión (TUT).</li>
+              <li><strong>Myo-Reps:</strong> 1x Serie de Activación (ej. 15-20 reps) + 3-5 "mini-series" de 5-8 reps con solo 10-15s de descanso entre ellas. Estrés metabólico puro.</li>
+              <li><strong>Drop Set (Serie Descendente):</strong> Haz una serie al fallo (RIR 0), baja el peso inmediatamente un 20-30%, y vuelve a ir al fallo. Repite 1-2 veces.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="guide-carbs-view" class="hidden space-y-4 text-gray-700">
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Pre (60-90 min) - "Pump"</h3>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Arroz blanco + Miel + Sal</li>
+              <li>Crema de Arroz (Cream of Rice)</li>
+              <li>Avena + Plátano</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Post (0–60 min) - "Construcción"</h3>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Batido: Proteína + Carbs (Dextrosa, Avena)</li>
+              <li>Papas/Camote + Pollo/Pescado</li>
+            </ul>
+          </div>
+          <div class="pt-4">
+            <button id="back-to-guide-btn" class="text-blue-600 hover:underline font-semibold">&larr; Volver</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Teoría -->
+  <div id="theory-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div id="theory-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+    <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+      <div class="p-6 sm:p-8">
+        <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+          <h2 class="text-4xl text-gray-900">¿Qué es "El Escultor"?</h2>
+          <button id="close-theory-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+        </div>
+        <div class="space-y-4 text-gray-700">
+          <p>Después de completar el ciclo de atleta híbrido (L8), "El Escultor" es un bloque de **especialización**.</p>
+          <p>Damos un paso atrás en la fuerza máxima (L6) y el motor metabólico (L7) para enfocarnos obsesivamente en la **hipertrofia** (L5). La división de 5 días (Empuje, Tracción, Pierna, Z2, Hombro/Brazo) nos permite aumentar drásticamente el volumen semanal por grupo muscular.</p>
+          <p class="font-bold text-amber-800">Usamos tempos controlados, Myo-Reps y Drop Sets para maximizar el estrés metabólico y el daño muscular, dos de los principales motores del crecimiento. El objetivo es simple: esculpir y construir más músculo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const programData = {
+      nivel: 9,
+      titulo: 'Nivel 9: El Escultor',
+      intro: "Bloque de especialización en hipertrofia (post-L8). Foco en aislamiento, tempos, drop-sets y alto volumen para pulir el físico. Come para crecer.",
+      semanas: {
+        // ====== SEMANA 1: Adaptación (RIR 2) ======
+        1: {
+          focus: 'Semana 1: Adaptación al Volumen (RIR 2)',
+          dias: ['Día 1: Empuje (Pecho/Hombro)', 'Día 2: Tracción (Espalda/Bíceps)', 'Día 3: Pierna (Cuáds/Femoral)', 'Día 4: Oxidativo Z2', 'Día 5: Hombro y Brazo (Punto Débil)'],
+          workouts: {
+            0: { // Día 1: Empuje
+              gym: { exercises: [
+                  { name:'Press Inclinado Mancuernas (Tempo 3010)', sets:3, reps:'8-10', rest:'90s', rir:'2', tip:'Baja en 3s, sube en 1s. Foco en pecho superior.' },
+                  { name:'Press Banca Plano (Barra o Manc.)', sets:3, reps:'8-10', rest:'90s', rir:'2', tip:'Controlado, sin rebotar.' },
+                  { name:'Aperturas en Polea (o Pec Deck)', sets:3, reps:'12-15', rest:'60s', rir:'2', tip:'Estira y aprieta.' },
+                  { name:'Elevaciones Laterales (Myo-Reps)', sets:1, reps:'15-20 + 4x(5)', rest:'10-15s', rir:'1-2', tip:'Activación (15-20 reps) + 4 mini-series de 5 reps.' },
+                  { name:'Extensiones Tríceps Cuerda (Tempo 2011)', sets:3, reps:'12-15', rest:'60s', rir:'2', tip:'Aprieta 1s abajo.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Flexiones Declinadas (Tempo 3010)', sets:3, reps:'AMRAP', rest:'90s', rir:'2', tip:'Baja en 3s. Pies en silla. Añade mochila.' },
+                  { name:'Fondos en Sillas (con lastre)', sets:3, reps:'10-15', rest:'90s', rir:'2', tip:'Profundidad completa.' },
+                  { name:'Flexiones Arqueadas (o a 1 mano asistida)', sets:3, reps:'AMRAP c/u', rest:'75s', rir:'1-2', tip:'Foco en un pectoral a la vez.' },
+                  { name:'Laterales con Banda (Myo-Reps)', sets:1, reps:'20-25 + 4x(8)', rest:'10-15s', rir:'1-2', tip:'Activación + 4 mini-series.' },
+                  { name:'Flexiones Diamante', sets:3, reps:'AMRAP', rest:'60s', rir:'2', tip:'Foco en tríceps.' },
+                ]
+              }
+            },
+            1: { // Día 2: Tracción
+              gym: { exercises: [
+                  { name:'Dominadas (o Jalón Pecho) (Tempo 3010)', sets:3, reps:'6-10', rest:'90s', rir:'2', tip:'Baja en 3s. Rango completo.' },
+                  { name:'Remo con Mancuerna (pesado)', sets:3, reps:'8-10 c/u', rest:'75s', rir:'2', tip:'Tira hacia la cadera.' },
+                  { name:'Pullover en Polea (o con mancuerna)', sets:3, reps:'12-15', rest:'60s', rir:'2', tip:'Estira el dorsal.' },
+                  { name:'Face Pulls', sets:3, reps:'15-20', rest:'60s', rir:'2', tip:'Salud del hombro.' },
+                  { name:'Curl con Barra Z (Myo-Reps)', sets:1, reps:'12-15 + 4x(4)', rest:'10-15s', rir:'1-2', tip:'Activación + 4 mini-series.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Dominadas (o Remo Invertido) (Tempo 3010)', sets:3, reps:'AMRAP', rest:'90s', rir:'2', tip:'Baja en 3s. Con lastre si es fácil.' },
+                  { name:'Remo con Mochila (a 1 mano, pesado)', sets:3, reps:'10-15 c/u', rest:'75s', rir:'2', tip:'Apóyate en silla. Espalda recta.' },
+                  { name:'"Ángel" en Suelo (Superman)', sets:3, reps:'15-20', rest:'60s', rir:'2', tip:'Foco en espalda baja y media.' },
+                  { name:'Face Pulls (con banda)', sets:3, reps:'20-25', rest:'60s', rir:'2', tip:'Banda dura.' },
+                  { name:'Curl con Mochila (Myo-Reps)', sets:1, reps:'15-20 + 4x(5)', rest:'10-15s', rir:'1-2', tip:'Activación + 4 mini-series.' },
+                ]
+              }
+            },
+            2: { // Día 3: Pierna
+              gym: { exercises: [
+                  { name:'Sentadilla Hack (o Prensa) (Tempo 3110)', sets:4, reps:'8-12', rest:'90s', rir:'2', tip:'Baja 3s, pausa 1s, sube 1s.' },
+                  { name:'RDL con Mancuernas (Tempo 3010)', sets:4, reps:'10-12', rest:'90s', rir:'2', tip:'Baja 3s. Siente el estirón.' },
+                  { name:'Zancadas (con mancuernas)', sets:3, reps:'10-12 c/u', rest:'75s', rir:'2', tip:'Paso largo.' },
+                  { name:'Curl Femoral (Sentado o Tumbado)', sets:3, reps:'12-15', rest:'60s', rir:'2', tip:'Controla la negativa.' },
+                  { name:'Elevación Talones (de Pie)', sets:3, reps:'15-20', rest:'60s', rir:'2', tip:'Pausa 1s arriba.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Sentadilla Búlgara (Tempo 3110)', sets:4, reps:'10-12 c/u', rest:'90s', rir:'2', tip:'Baja 3s, pausa 1s, sube 1s. Con lastre.' },
+                  { name:'RDL a 1 Pierna (Tempo 3010)', sets:4, reps:'10-12 c/u', rest:'75s', rir:'2', tip:'Baja 3s. Equilibrio.' },
+                  { name:'Puente de Glúteos (1 pierna, con peso)', sets:3, reps:'12-15 c/u', rest:'60s', rir:'2', tip:'Pausa 2s arriba.' },
+                  { name:'Curl Nórdico (Negativas)', sets:3, reps:'5-8', rest:'90s', rir:'2', tip:'Baja lo más lento posible.' },
+                  { name:'Elevación Talones 1 Pierna', sets:3, reps:'15-20 c/u', rest:'45s', rir:'2', tip:'Pausa 1s arriba.' },
+                ]
+              }
+            },
+            3: { // Día 4: Oxidativo Z2
+              gym: { cardio: 'Oxidativo Z2: 30-45 min continuo (bike/remo/cinta). Recuperación activa. Ritmo de conversación.' },
+              casa:{ cardio: 'Oxidativo Z2: 30-45 min caminata rápida o bici. Ritmo de conversación. Recuperación activa.' }
+            },
+            4: { // Día 5: Hombro y Brazo
+              gym: { exercises: [
+                  { name:'Press Militar (Manc. o Barra) (Tempo 3010)', sets:3, reps:'8-10', rest:'90s', rir:'2', tip:'Baja en 3s. Core firme.' },
+                  { name:'Elevaciones Laterales (Drop Set)', sets:1, reps:'10-12 + AMRAP + AMRAP', rest:'90s', rir:'0', tip:'Serie al fallo, baja peso, al fallo, baja peso, al fallo.' },
+                  { name:'Curl Martillo (Mancuernas)', sets:3, reps:'10-12', rest:'60s', rir:'2', tip:'Foco en braquial.' },
+                  { name:'Press Francés (o Skullcrushers)', sets:3, reps:'10-12', rest:'60s', rir:'2', tip:'Codos fijos.' },
+                  { name:'Curl Concentrado (Mancuerna)', sets:2, reps:'12-15 c/u', rest:'45s', rir:'2', tip:'Pico del bíceps.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Pike Push-ups (Pies elevados) (Tempo 3010)', sets:3, reps:'8-12', rest:'90s', rir:'2', tip:'Baja en 3s.' },
+                  { name:'Laterales con Banda (Drop Set)', sets:1, reps:'AMRAP + AMRAP', rest:'90s', rir:'0', tip:'Al fallo, afloja la banda (camina), al fallo.' },
+                  { name:'Curl Martillo (Mochila)', sets:3, reps:'10-15', rest:'60s', rir:'2', tip:'Agarre neutro.' },
+                  { name:'Extensiones Tríceps (Banda, sobre la cabeza)', sets:3, reps:'12-15', rest:'60s', rir:'2', tip:'Codos cerrados.' },
+                  { name:'Curl Concentrado (Mochila)', sets:2, reps:'12-15 c/u', rest:'45s', rir:'2', tip:'Apoya el codo.' },
+                ]
+              }
+            }
+          }
+        },
+
+        // ====== SEMANA 2: Sobrecarga (RIR 1-2) ======
+        2: {
+          focus: 'Semana 2: Sobrecarga de Volumen (RIR 1-2)',
+          dias: ['Día 1: Empuje (Pecho/Hombro)', 'Día 2: Tracción (Espalda/Bíceps)', 'Día 3: Pierna (Cuáds/Femoral)', 'Día 4: Oxidativo Z2', 'Día 5: Hombro y Brazo (Punto Débil)'],
+          workouts: {
+            0: { // Día 1: Empuje
+              gym: { exercises: [
+                  { name:'Press Inclinado Mancuernas (Tempo 3010)', sets:4, reps:'8-10', rest:'90s', rir:'1-2', tip:'Una serie más. RIR 1-2.' },
+                  { name:'Press Banca Plano (Barra o Manc.)', sets:4, reps:'8-10', rest:'90s', rir:'1-2', tip:'Una serie más. RIR 1-2.' },
+                  { name:'Aperturas en Polea (o Pec Deck)', sets:3, reps:'12-15', rest:'60s', rir:'1-2', tip:'Más peso o reps.' },
+                  { name:'Elevaciones Laterales (Myo-Reps)', sets:1, reps:'15-20 + 5x(5)', rest:'10-15s', rir:'1', tip:'Una mini-serie más.' },
+                  { name:'Extensiones Tríceps Cuerda (Tempo 2011)', sets:4, reps:'12-15', rest:'60s', rir:'1-2', tip:'Una serie más.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Flexiones Declinadas (Tempo 3010)', sets:4, reps:'AMRAP', rest:'90s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Fondos en Sillas (con lastre)', sets:4, reps:'10-15', rest:'90s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Flexiones Arqueadas', sets:3, reps:'AMRAP c/u', rest:'75s', rir:'1', tip:'Intenta 1-2 reps más.' },
+                  { name:'Laterales con Banda (Myo-Reps)', sets:1, reps:'20-25 + 5x(8)', rest:'10-15s', rir:'1', tip:'Una mini-serie más.' },
+                  { name:'Flexiones Diamante', sets:4, reps:'AMRAP', rest:'60s', rir:'1-2', tip:'Una serie más.' },
+                ]
+              }
+            },
+            1: { // Día 2: Tracción
+              gym: { exercises: [
+                  { name:'Dominadas (o Jalón Pecho) (Tempo 3010)', sets:4, reps:'6-10', rest:'90s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Remo con Mancuerna (pesado)', sets:4, reps:'8-10 c/u', rest:'75s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Pullover en Polea (o con mancuerna)', sets:3, reps:'12-15', rest:'60s', rir:'1-2', tip:'Más peso.' },
+                  { name:'Face Pulls', sets:3, reps:'15-20', rest:'60s', rir:'1-2', tip:'Más peso.' },
+                  { name:'Curl con Barra Z (Myo-Reps)', sets:1, reps:'12-15 + 5x(4)', rest:'10-15s', rir:'1', tip:'Una mini-serie más.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Dominadas (o Remo Invertido) (Tempo 3010)', sets:4, reps:'AMRAP', rest:'90s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Remo con Mochila (a 1 mano, pesado)', sets:4, reps:'10-15 c/u', rest:'75s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'"Ángel" en Suelo (Superman)', sets:3, reps:'15-20', rest:'60s', rir:'1-2', tip:'Más reps.' },
+                  { name:'Face Pulls (con banda)', sets:3, reps:'20-25', rest:'60s', rir:'1-2', tip:'Banda más dura.' },
+                  { name:'Curl con Mochila (Myo-Reps)', sets:1, reps:'15-20 + 5x(5)', rest:'10-15s', rir:'1', tip:'Una mini-serie más.' },
+                ]
+              }
+            },
+            2: { // Día 3: Pierna
+              gym: { exercises: [
+                  { name:'Sentadilla Hack (o Prensa) (Tempo 3110)', sets:4, reps:'8-12', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'RDL con Mancuernas (Tempo 3010)', sets:4, reps:'10-12', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Zancadas (con mancuernas)', sets:4, reps:'10-12 c/u', rest:'75s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Curl Femoral (Sentado o Tumbado)', sets:4, reps:'12-15', rest:'60s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Elevación Talones (de Pie)', sets:4, reps:'15-20', rest:'60s', rir:'1-2', tip:'Una serie más.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Sentadilla Búlgara (Tempo 3110)', sets:4, reps:'10-12 c/u', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'RDL a 1 Pierna (Tempo 3010)', sets:4, reps:'10-12 c/u', rest:'75s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Puente de Glúteos (1 pierna, con peso)', sets:4, reps:'12-15 c/u', rest:'60s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Curl Nórdico (Negativas)', sets:4, reps:'5-8', rest:'90s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Elevación Talones 1 Pierna', sets:4, reps:'15-20 c/u', rest:'45s', rir:'1-2', tip:'Una serie más.' },
+                ]
+              }
+            },
+            3: { // Día 4: Oxidativo Z2
+              gym: { cardio: 'Oxidativo Z2: 30-45 min continuo (bike/remo/cinta). Recuperación activa. Ritmo de conversación.' },
+              casa:{ cardio: 'Oxidativo Z2: 30-45 min caminata rápida o bici. Ritmo de conversación. Recuperación activa.' }
+            },
+            4: { // Día 5: Hombro y Brazo
+              gym: { exercises: [
+                  { name:'Press Militar (Manc. o Barra) (Tempo 3010)', sets:4, reps:'8-10', rest:'90s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Elevaciones Laterales (Drop Set)', sets:2, reps:'10-12 + AMRAP + AMRAP', rest:'90s', rir:'0', tip:'Dos drop sets completos.' },
+                  { name:'Curl Martillo (Mancuernas)', sets:3, reps:'10-12', rest:'60s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Press Francés (o Skullcrushers)', sets:3, reps:'10-12', rest:'60s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Curl Concentrado (Mancuerna)', sets:3, reps:'12-15 c/u', rest:'45s', rir:'1-2', tip:'Una serie más.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Pike Push-ups (Pies elevados) (Tempo 3010)', sets:4, reps:'8-12', rest:'90s', rir:'1-2', tip:'Una serie más.' },
+                  { name:'Laterales con Banda (Drop Set)', sets:2, reps:'AMRAP + AMRAP', rest:'90s', rir:'0', tip:'Dos drop sets.' },
+                  { name:'Curl Martillo (Mochila)', sets:3, reps:'10-15', rest:'60s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Extensiones Tríceps (Banda, sobre la cabeza)', sets:3, reps:'12-15', rest:'60s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Curl Concentrado (Mochila)', sets:3, reps:'12-15 c/u', rest:'45s', rir:'1-2', tip:'Una serie más.' },
+                ]
+              }
+            }
+          }
+        },
+        
+        // ====== SEMANA 3: Pico de Hipertrofia (RIR 0-1) ======
+        3: {
+          focus: 'Semana 3: Pico de Hipertrofia (RIR 0-1)',
+          dias: ['Día 1: Empuje (Pecho/Hombro)', 'Día 2: Tracción (Espalda/Bíceps)', 'Día 3: Pierna (Cuáds/Femoral)', 'Día 4: Oxidativo Z2', 'Día 5: Hombro y Brazo (Punto Débil)'],
+          workouts: {
+            0: { // Día 1: Empuje
+              gym: { exercises: [
+                  { name:'Press Inclinado Mancuernas (Tempo 3010)', sets:4, reps:'8-10', rest:'90s', rir:'1', tip:'Al fallo técnico (RIR 1).' },
+                  { name:'Press Banca Plano (Barra o Manc.)', sets:4, reps:'8-10', rest:'90s', rir:'1', tip:'Al fallo técnico (RIR 1).' },
+                  { name:'Aperturas en Polea (Drop Set)', sets:2, reps:'10-12 + AMRAP + AMRAP', rest:'75s', rir:'0', tip:'Dos drop sets al fallo total.' },
+                  { name:'Elevaciones Laterales (Myo-Reps)', sets:1, reps:'AMRAP + 5x(AMRAP)', rest:'10-15s', rir:'0', tip:'Al fallo total.' },
+                  { name:'Extensiones Tríceps Cuerda (Drop Set)', sets:2, reps:'10-12 + AMRAP + AMRAP', rest:'75s', rir:'0', tip:'Dos drop sets al fallo.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Flexiones Declinadas (Tempo 3010)', sets:4, reps:'AMRAP', rest:'90s', rir:'1', tip:'Al fallo técnico.' },
+                  { name:'Fondos en Sillas (con lastre)', sets:4, reps:'AMRAP', rest:'90s', rir:'1', tip:'Al fallo técnico.' },
+                  { name:'Flexiones Arqueadas', sets:3, reps:'AMRAP c/u', rest:'75s', rir:'0-1', tip:'Al fallo.' },
+                  { name:'Laterales con Banda (Myo-Reps)', sets:1, reps:'AMRAP + 5x(AMRAP)', rest:'10-15s', rir:'0', tip:'Al fallo total.' },
+                  { name:'Flexiones Diamante (Drop Set)', sets:2, reps:'AMRAP + AMRAP rodillas', rest:'75s', rir:'0', tip:'Dos drop sets.' },
+                ]
+              }
+            },
+            1: { // Día 2: Tracción
+              gym: { exercises: [
+                  { name:'Dominadas (o Jalón Pecho) (Tempo 3010)', sets:4, reps:'AMRAP', rest:'90s', rir:'1', tip:'Al fallo técnico (RIR 1).' },
+                  { name:'Remo con Mancuerna (pesado)', sets:4, reps:'6-8 c/u', rest:'75s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Pullover en Polea (Drop Set)', sets:2, reps:'12-15 + AMRAP', rest:'75s', rir:'0', tip:'Un drop set (baja peso 1 vez).' },
+                  { name:'Face Pulls', sets:3, reps:'AMRAP', rest:'60s', rir:'0-1', tip:'Al fallo.' },
+                  { name:'Curl con Barra Z (Myo-Reps)', sets:1, reps:'AMRAP + 5x(AMRAP)', rest:'10-15s', rir:'0', tip:'Al fallo total.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Dominadas (o Remo Invertido) (Tempo 3010)', sets:4, reps:'AMRAP', rest:'90s', rir:'1', tip:'Al fallo técnico.' },
+                  { name:'Remo con Mochila (a 1 mano, pesado)', sets:4, reps:'10-12 c/u', rest:'75s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'"Ángel" en Suelo (Superman)', sets:3, reps:'AMRAP', rest:'60s', rir:'1', tip:'Al fallo.' },
+                  { name:'Face Pulls (con banda)', sets:3, reps:'AMRAP', rest:'60s', rir:'0-1', tip:'Al fallo.' },
+                  { name:'Curl con Mochila (Myo-Reps)', sets:1, reps:'AMRAP + 5x(AMRAP)', rest:'10-15s', rir:'0', tip:'Al fallo total.' },
+                ]
+              }
+            },
+            2: { // Día 3: Pierna
+              gym: { exercises: [
+                  { name:'Sentadilla Hack (o Prensa) (Tempo 3110)', sets:4, reps:'8-12', rest:'90s', rir:'1', tip:'Al fallo técnico (RIR 1).' },
+                  { name:'RDL con Mancuernas (Tempo 3010)', sets:4, reps:'10-12', rest:'90s', rir:'1', tip:'Al fallo técnico (RIR 1).' },
+                  { name:'Zancadas (Drop Set)', sets:2, reps:'10-12 c/u + AMRAP sin peso', rest:'90s', rir:'0', tip:'Dos drop sets (de mancuernas a peso corporal).' },
+                  { name:'Curl Femoral (Myo-Reps)', sets:1, reps:'AMRAP + 5x(AMRAP)', rest:'10-15s', rir:'0', tip:'Al fallo total.' },
+                  { name:'Elevación Talones (de Pie)', sets:3, reps:'AMRAP', rest:'60s', rir:'0', tip:'Al fallo.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Sentadilla Búlgara (Tempo 3110)', sets:4, reps:'AMRAP c/u', rest:'90s', rir:'1', tip:'Al fallo técnico (RIR 1).' },
+                  { name:'RDL a 1 Pierna (Tempo 3010)', sets:4, reps:'AMRAP c/u', rest:'75s', rir:'1', tip:'Al fallo técnico (RIR 1).' },
+                  { name:'Puente de Glúteos (1 pierna, Drop Set)', sets:2, reps:'AMRAP c/u + AMRAP 2 piernas', rest:'75s', rir:'0', tip:'Fallo 1 pierna, luego fallo 2 piernas.' },
+                  { name:'Curl Nórdico (Negativas)', sets:3, reps:'AMRAP (5-8)', rest:'90s', rir:'0-1', tip:'Al fallo.' },
+                  { name:'Elevación Talones 1 Pierna', sets:3, reps:'AMRAP c/u', rest:'45s', rir:'0', tip:'Al fallo.' },
+                ]
+              }
+            },
+            3: { // Día 4: Oxidativo Z2
+              gym: { cardio: 'Oxidativo Z2: 30-45 min continuo (bike/remo/cinta). Recuperación activa. Ritmo de conversación.' },
+              casa:{ cardio: 'Oxidativo Z2: 30-45 min caminata rápida o bici. Ritmo de conversación. Recuperación activa.' }
+            },
+            4: { // Día 5: Hombro y Brazo
+              gym: { exercises: [
+                  { name:'Press Militar (Manc. o Barra) (Tempo 3010)', sets:4, reps:'6-8', rest:'90s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Elevaciones Laterales (Drop Set)', sets:2, reps:'10-12 + AMRAP + AMRAP', rest:'90s', rir:'0', tip:'Dos drop sets completos.' },
+                  { name:'Curl Martillo (Mancuernas)', sets:3, reps:'8-10', rest:'60s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Press Francés (o Skullcrushers)', sets:3, reps:'8-10', rest:'60s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Curl Concentrado (Mancuerna)', sets:3, reps:'AMRAP c/u', rest:'45s', rir:'0', tip:'Al fallo.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Pike Push-ups (Pies elevados) (Tempo 3010)', sets:4, reps:'AMRAP', rest:'90s', rir:'1', tip:'Al fallo técnico.' },
+                  { name:'Laterales con Banda (Drop Set)', sets:2, reps:'AMRAP + AMRAP', rest:'90s', rir:'0', tip:'Dos drop sets.' },
+                  { name:'Curl Martillo (Mochila)', sets:3, reps:'AMRAP', rest:'60s', rir:'1', tip:'Al fallo técnico.' },
+                  { name:'Extensiones Tríceps (Banda, sobre la cabeza)', sets:3, reps:'AMRAP', rest:'60s', rir:'1', tip:'Al fallo técnico.' },
+                  { name:'Curl Concentrado (Mochila)', sets:3, reps:'AMRAP c/u', rest:'45s', rir:'0', tip:'Al fallo.' },
+                ]
+              }
+            }
+          }
+        },
+
+        // ====== SEMANA 4: Descarga (Deload) ======
+        4: {
+          focus: 'Semana 4: Descarga y Supercompensación',
+          dias: ['Día 1: Full Body Ligero A', 'Día 2: Full Body Ligero B', 'Día 3: Descanso Z2 Suave'],
+          workouts: {
+            0: { // Día 1: Ligero A
+              gym: { exercises: [
+                  { name:'Press Inclinado Mancuernas', sets:2, reps:'10-12', rest:'90s', rir:'4-5', tip:'50-60% de la Semana 3. Mover sangre.' },
+                  { name:'Jalón al Pecho', sets:2, reps:'10-12', rest:'90s', rir:'4-5', tip:'Técnica fluida.' },
+                  { name:'Elevaciones Laterales', sets:2, reps:'15', rest:'60s', rir:'4-5', tip:'Ligero y fácil.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Flexiones (sin tempo)', sets:2, reps:'12-15', rest:'90s', rir:'4-5', tip:'Fácil, sin peso.' },
+                  { name:'Remo Invertido (pies en suelo)', sets:2, reps:'12-15', rest:'75s', rir:'4-5', tip:'Fácil, solo para mover la espalda.' },
+                  { name:'Pike Push-ups (pies en suelo)', sets:2, reps:'8-10', rest:'75s', rir:'4-5', tip:'Movimiento ligero.' },
+                ]
+              }
+            },
+            1: { // Día 2: Ligero B
+              gym: { exercises: [
+                  { name:'Sentadilla Goblet (sin tempo)', sets:2, reps:'10-12', rest:'90s', rir:'4-5', tip:'Peso muy ligero. Foco en movilidad.' },
+                  { name:'RDL (Mancuernas ligeras)', sets:2, reps:'12-15', rest:'90s', rir:'4-5', tip:'Estiramiento dinámico.' },
+                  { name:'Curl Femoral (ligero)', sets:2, reps:'12-15', rest:'75s', rir:'4-5', tip:'Bombeo ligero.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Sentadilla Goblet (con libro)', sets:2, reps:'15-20', rest:'90s', rir:'4-5', tip:'Peso simbólico. Foco en la movilidad.' },
+                  { name:'RDL a 1 Pierna (sin peso)', sets:2, reps:'12-15 c/u', rest:'75s', rir:'4-5', tip:'Foco en el equilibrio y el estiramiento.' },
+                  { name:'Puente de Glúteos (sin peso)', sets:2, reps:'20', rest:'60s', rir:'4-5', tip:'Activación ligera.' },
+                ]
+              }
+            },
+            2: { // Día 3: Z2 Suave
+              gym: { cardio: 'Oxidativo Z2 Suave: 20-30 min caminata o bici muy ligera. Foco total en recuperación.' },
+              casa:{ cardio: 'Descanso activo: 20-30 min caminata suave. Prepárate para el próximo bloque.' }
+            }
+          }
+        }
+      }
+    };
+
+    // ====== ESTADO Y ELEMENTOS (Sin cambios) ======
+    let currentWeek = 1;
+    let currentMode = 'gym';
+    let currentDayIndex = 0;
+    const storageKeyBase = `milonNivel${programData.nivel}`; // Clave única para Nivel 9
+
+    const workoutTitle = document.getElementById('workout-title');
+    const introTextContainer = document.getElementById('level-intro-text');
+    const weekTabsContainer = document.getElementById('week-tabs');
+    const dayTabsContainer = document.getElementById('day-tabs');
+    const workoutsContainer = document.getElementById('workouts-container');
+    const calendarContainer = document.querySelector('#calendario .flex');
+
+    const openGuideBtn = document.getElementById('open-guide-btn');
+    const closeGuideBtn = document.getElementById('close-guide-btn');
+    const guideModal = document.getElementById('guide-modal');
+    const guideModalTitle = document.getElementById('guide-modal-title');
+    const guideMainView = document.getElementById('guide-main-view');
+    const guideCarbsView = document.getElementById('guide-carbs-view');
+    const showCarbsBtn = document.getElementById('show-carbs-btn');
+    const backToGuideBtn = document.getElementById('back-to-guide-btn');
+
+    const openTheoryBtn = document.getElementById('open-theory-btn');
+    const closeTheoryBtn = document.getElementById('close-theory-btn');
+    const theoryModal = document.getElementById('theory-modal');
+
+    const modeBtnGym = document.getElementById('mode-btn-gym');
+    const modeBtnCasa = document.getElementById('mode-btn-casa');
+
+    // ====== FUNCIONES UI (Idénticas a N8) ======
+    function setMainMode(mode, save=true){
+      currentMode = mode;
+      if(save){ localStorage.setItem(`${storageKeyBase}Mode`, mode); }
+      updateModeButtons();
+      showWorkout(currentDayIndex);
+    }
+    function updateModeButtons(){
+      if(currentMode==='gym'){ modeBtnGym.classList.add('active'); modeBtnCasa.classList.remove('active'); }
+      else{ modeBtnCasa.classList.add('active'); modeBtnGym.classList.remove('active'); }
+    }
+    function loadMainMode(){
+      const saved = localStorage.getItem(`${storageKeyBase}Mode`);
+      if(saved){ currentMode = saved; }
+      updateModeButtons();
+    }
+
+    function showWorkoutView(){
+      workoutTitle.textContent = programData.titulo;
+      introTextContainer.textContent = programData.intro;
+      generateWeekTabs(Object.keys(programData.semanas));
+      const savedWeek = localStorage.getItem(`${storageKeyBase}Week`);
+      showWeek(savedWeek ? parseInt(savedWeek,10) : 1);
+    }
+
+    function generateWeekTabs(weeks){
+      weekTabsContainer.innerHTML = '';
+      weeks.forEach(weekNumber=>{
+        const weekData = programData.semanas[weekNumber];
+        const tab = document.createElement('button');
+        tab.className = 'week-tab py-2 px-4 font-bebas text-lg rounded-t-lg week-tab-inactive';
+        tab.innerHTML = `Semana ${weekNumber}<br><span class="text-xs font-normal">${weekData.focus}</span>`;
+        tab.onclick = ()=>showWeek(parseInt(weekNumber,10));
+        weekTabsContainer.appendChild(tab);
+      });
+    }
+
+    function showWeek(weekNumber){
+      currentWeek = weekNumber;
+      localStorage.setItem(`${storageKeyBase}Week`, weekNumber);
+      document.querySelectorAll('.week-tab').forEach((tab,idx)=>{
+        tab.classList.toggle('week-tab-active', (idx+1)===Number(weekNumber));
+        tab.classList.toggle('week-tab-inactive', (idx+1)!==Number(weekNumber));
+      });
+      const weekData = programData.semanas[weekNumber];
+      generateDayTabs(weekData.dias);
+      generateCalendar(weekData.dias);
+      const savedDay = localStorage.getItem(`${storageKeyBase}Day_w${currentWeek}`);
+      showWorkout(savedDay ? parseInt(savedDay,10) : 0);
+    }
+
+    function generateDayTabs(days){
+      dayTabsContainer.innerHTML = '';
+      days.forEach((day,index)=>{
+        const tab = document.createElement('button');
+        tab.className = 'day-tab py-2 px-4 font-bebas text-md rounded-lg m-1 day-tab-inactive';
+        tab.textContent = day;
+        tab.onclick = ()=>showWorkout(index);
+        dayTabsContainer.appendChild(tab);
+      });
+    }
+
+    function showWorkout(dayIndex){
+      currentDayIndex = dayIndex;
+      localStorage.setItem(`${storageKeyBase}Day_w${currentWeek}`, dayIndex);
+      document.querySelectorAll('.day-tab').forEach((tab,idx)=>{
+        tab.classList.toggle('day-tab-active', idx===dayIndex);
+        tab.classList.toggle('day-tab-inactive', idx!==dayIndex);
+      });
+
+      const weekWorkouts = programData.semanas[currentWeek].workouts || {};
+      const node = weekWorkouts[dayIndex];
+      const dayData = node ? node[currentMode] : null;
+
+      workoutsContainer.innerHTML = '';
+
+      if(!dayData || (!dayData.exercises && !dayData.cardio)){
+        workoutsContainer.innerHTML = '<p class="text-center text-gray-500">No hay rutina para este modo o día.</p>';
+        return;
+      }
+
+      if(dayData.exercises){
+        dayData.exercises.forEach((ex,exIndex)=>{
+          // No renderizar ejercicios con sets 0 (ocultos)
+          if (ex.sets === 0) return;
+
+          const uniqueId = `prog-${programData.nivel}-w${currentWeek}-d${dayIndex}-m${currentMode}-${exIndex}`;
+          const setsCheckboxes = Array.from({length: ex.sets || 0},(_,i)=>(
+            `<div class="flex items-center">
+               <input type="checkbox" id="set-${uniqueId}-${i}" class="set-checkbox h-4 w-4 rounded bg-gray-100 border-gray-300 text-amber-500 focus:ring-amber-500">
+               <label for="set-${uniqueId}-${i}" class="ml-2 text-sm text-gray-600">Serie ${i+1}</label>
+             </div>`
+          )).join('');
+
+          const div = document.createElement('div');
+          div.className = 'bg-white border border-gray-200 p-5 rounded-lg shadow-sm';
+          div.innerHTML = `
+            <div class="flex justify-between items-start flex-wrap gap-4">
+              <div>
+                <h4 class="text-2xl text-gray-900">${ex.name}</h4>
+                <p class="text-amber-600 font-semibold text-sm mt-1">${ex.sets||'N/A'} series x ${ex.reps||'N/A'} reps</p>
+                <p class="text-gray-600 text-xs mt-1">${ex.rest?`Desc: ${ex.rest}`:''} ${ex.rir?`| RIR: ${ex.rir}`:''}</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <label for="weight-${uniqueId}" class="text-sm font-semibold text-gray-500">Peso:</label>
+                  <input type="text" id="weight-${uniqueId}" class="weight-input w-24 rounded-md border-gray-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500" placeholder="ej: 100kg">
+                </div>
+              </div>
+              <div class="flex space-x-3">${setsCheckboxes}</div>
+            </div>
+            ${ex.tip ? `<p class="text-sm mt-3 pt-3 border-t border-gray-200 text-gray-600"><strong>Técnica clave:</strong> ${ex.tip}</p>` : ''}`;
+          
+          // Lógica para renderizar sub-ejercicios (MetCons, EMOMs, Myo-Reps)
+          if (ex.subExercises && ex.subExercises.length > 0) {
+            const subList = document.createElement('ul');
+            subList.className = 'mt-4 pl-5 border-l-2 border-amber-300 space-y-3';
+            
+            ex.subExercises.forEach(subEx => {
+              const item = document.createElement('li');
+              item.className = 'text-sm';
+              item.innerHTML = `
+                <strong class="text-gray-800">${subEx.name}</strong>
+                <span class="text-amber-600 font-medium ml-2">${subEx.reps}</span>
+                ${subEx.tip ? `<p class="text-xs text-gray-500">${subEx.tip}</p>` : ''}
+              `;
+              subList.appendChild(item);
+            });
+            
+            div.appendChild(subList);
+          }
+
+          workoutsContainer.appendChild(div);
+        });
+      }
+
+      if(dayData.cardio){
+        workoutsContainer.insertAdjacentHTML('beforeend', `
+          <div class="bg-white border-2 border-dashed border-amber-400 p-5 rounded-lg mt-6">
+            <div class="flex items-center gap-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+              <div>
+                <h4 class="text-2xl text-gray-900">Bloque Oxidativo</h4>
+                <p class="text-gray-700 mt-1">${dayData.cardio}</p>
+              </div>
+            </div>
+          </div>
+        `);
+      }
+
+      loadAndSaveProgress();
+    }
+
+    function generateCalendar(days){
+      calendarContainer.innerHTML = '';
+      const wrap = document.createElement('div');
+      wrap.className = 'bg-white border border-gray-200 p-4 rounded-lg w-full max-w-2xl';
+      wrap.innerHTML = `<h3 class="text-xl text-gray-900 text-center mb-4">Progreso Semana ${currentWeek}</h3>`;
+
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-center';
+
+      days.forEach((day, idx)=>{
+        const dayEl = document.createElement('div');
+        const dayName = day.split(':')[0];
+        const dayId = `cal-${storageKeyBase}-w${currentWeek}-d${idx}`;
+        dayEl.id = dayId;
+        dayEl.className = 'calendar-day bg-gray-200 p-3 rounded-md cursor-pointer border-2 border-transparent hover:border-amber-500 transition-all font-semibold';
+        dayEl.textContent = dayName;
+        if(localStorage.getItem(dayId)==='true'){ dayEl.classList.add('day-checked'); }
+        dayEl.addEventListener('click', ()=>{
+          dayEl.classList.toggle('day-checked');
+          localStorage.setItem(dayId, dayEl.classList.contains('day-checked'));
+        });
+        grid.appendChild(dayEl);
+      });
+
+      wrap.appendChild(grid);
+      calendarContainer.appendChild(wrap);
+    }
+
+    function loadAndSaveProgress(){
+      document.querySelectorAll('.set-checkbox').forEach(cb=>{
+        if(localStorage.getItem(cb.id)==='true'){ cb.checked = true; }
+        cb.addEventListener('change', ()=> localStorage.setItem(cb.id, cb.checked));
+      });
+      document.querySelectorAll('.weight-input').forEach(inp=>{
+        inp.value = localStorage.getItem(inp.id) || '';
+        inp.addEventListener('input', ()=> localStorage.setItem(inp.id, inp.value));
+      });
+    }
+
+    function openModal(modal){
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+      setTimeout(()=> modal.querySelector('.bg-black').classList.remove('opacity-0'),10);
+      setTimeout(()=> modal.querySelector('.transform').classList.remove('scale-95'),10);
+    }
+    function closeModal(modal){
+      modal.querySelector('.transform').classList.add('scale-95');
+      modal.querySelector('.bg-black').classList.add('opacity-0');
+      setTimeout(()=> modal.classList.add('hidden'),300);
+    }
+
+    // ====== INIT ======
+    document.addEventListener('DOMContentLoaded', ()=>{
+      loadMainMode();
+      showWorkoutView();
+
+      modeBtnGym.addEventListener('click', ()=>setMainMode('gym'));
+      modeBtnCasa.addEventListener('click', ()=>setMainMode('casa'));
+
+      // Guía
+      openGuideBtn.addEventListener('click', ()=>{
+        guideModalTitle.textContent = 'Guía Esencial Nivel 9';
+        guideMainView.classList.remove('hidden');
+        guideCarbsView.classList.add('hidden');
+        openModal(guideModal);
+      });
+      closeGuideBtn.addEventListener('click', ()=>closeModal(guideModal));
+      document.getElementById('guide-modal-overlay').addEventListener('click', ()=>closeModal(guideModal));
+      document.getElementById('theory-modal-overlay').addEventListener('click', ()=>closeModal(theoryModal));
+
+      document.getElementById('open-theory-btn').addEventListener('click', ()=>openModal(theoryModal));
+      document.getElementById('close-theory-btn').addEventListener('click', ()=>closeModal(theoryModal));
+
+      document.getElementById('show-carbs-btn').addEventListener('click', ()=>{
+        guideModalTitle.textContent = 'Ideas de Carbohidratos';
+        guideMainView.classList.add('hidden');
+        guideCarbsView.classList.remove('hidden');
+      });
+      document.getElementById('back-to-guide-btn').addEventListener('click', ()=>{
+        guideModalTitle.textContent = 'Guía Esencial Nivel 9';
+        guideCarbsView.classList.add('hidden');
+        guideMainView.classList.remove('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

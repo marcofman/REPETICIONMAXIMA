@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Método Milón: Nivel 7</title>
+  <!-- Icono Nivel 7 (Ámbar) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='20' width='25' height='60' rx='5' fill='%23f59e0b'/><rect x='70' y='20' width='25' height='60' rx='5' fill='%23f59e0b'/><rect x='30' y='20' width='40' height='20' rx='6' fill='%23f59e0b'/><rect x='30' y='60' width='40' height='20' rx='6' fill='%23f59e0b'/></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    body{font-family:'Manrope',sans-serif}
+    h1,h2,h3,h4,.font-bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.05em}
+    .gradient-text{background:linear-gradient(to right,#f59e0b,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .week-tab-active,.day-tab-active{background-color:#f59e0b;color:#fff}
+    .week-tab-inactive,.day-tab-inactive{background-color:#e5e7eb;color:#4b5563}
+    .day-checked{background-color:#f59e0b!important;color:#fff!important;border-color:#f59e0b!important}
+    .set-checkbox:checked+label{text-decoration:line-through;color:#9ca3af}
+    .hidden{display:none}
+    .mode-toggle-bg{background-color:#e5e7eb}
+    .mode-toggle-btn{background-color:#fff;color:#f59e0b;box-shadow:0 2px 4px rgba(0,0,0,.1);transition:all .3s ease}
+    .mode-toggle-btn.active{background-color:#f59e0b;color:#fff;box-shadow:0 4px 6px rgba(0,0,0,.1)}
+    .mode-toggle-btn.gym.active{transform:translateX(0%)}
+    .mode-toggle-btn.casa.active{transform:translateX(100%)}
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+
+    <header class="text-center mb-10">
+      <h1 class="text-6xl md:text-7xl font-extrabold gradient-text">MÉTODO MILÓN</h1>
+      <h2 class="text-xl md:text-2xl text-gray-800 font-semibold mt-2 font-bebas">POR PROF. MARCO FLORES</h2>
+      <p class="text-lg text-gray-600 mt-2">Nivel 7: El Híbrido Total</p>
+      <p class="text-sm text-gray-500 mt-1">Fuerza + MetCons, Strongman y Acondicionamiento de Alta Intensidad (HIIT).</p>
+    </header>
+
+    <div class="text-center mb-12 space-y-4 sm:space-y-0 sm:space-x-4">
+      <button id="open-guide-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">GUÍA ESENCIAL</button>
+      <button id="open-theory-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">TEORÍA DEL NIVEL 7</button>
+    </div>
+
+    <main>
+      <section id="workout-view">
+        <div id="level-intro-text" class="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg mb-8 text-center"></div>
+
+        <div id="rutinas">
+          <h2 id="workout-title" class="text-4xl text-gray-900 mb-6 text-center"></h2>
+
+          <div id="week-tabs" class="flex justify-center mb-2 border-b-2 border-gray-300"></div>
+          <div id="day-tabs" class="flex flex-wrap justify-center mb-6"></div>
+
+          <div class="flex justify-center mb-6">
+            <div class="relative w-64 p-1 rounded-lg mode-toggle-bg grid grid-cols-2 gap-1">
+              <button id="mode-btn-gym" class="mode-toggle-btn gym relative z-10 w-full py-2 px-4 rounded-md font-bebas text-lg">GIMNASIO</button>
+              <button id="mode-btn-casa" class="mode-toggle-btn casa relative z-10 w-full py-2 px-4 rounded-md font-bebas text-lg">CASA</button>
+            </div>
+          </div>
+
+          <div id="workouts-container" class="space-y-6"></div>
+        </div>
+
+        <div id="calendario" class="mt-12">
+          <h2 class="text-4xl text-gray-900 mb-6 text-center">Calendario de Seguimiento Semanal</h2>
+          <div class="flex justify-center"></div>
+        </div>
+      </section>
+    </main>
+
+    <section id="coach-profile" class="bg-gray-100 p-8 rounded-2xl mt-12">
+      <div class="text-center">
+        <h3 class="text-3xl text-gray-900">Notas del Coach</h3>
+        <p class="text-amber-600 font-semibold mt-1">Prof. Marco Flores</p>
+        <p class="text-gray-700 mt-4 max-w-xl mx-auto">Este es el nivel de recomposición en su máxima expresión. Vas a ser fuerte y vas a tener un motor. Aprende a sufrir con inteligencia, gestiona tu respiración en los MetCons y come para rendir.</p>
+        <blockquote class="mt-6 italic text-gray-600 border-l-4 border-amber-300 pl-4 inline-block text-left">“Un atleta fuerte es bueno. Un atleta fuerte que no se cansa, es letal.”</blockquote>
+      </div>
+    </section>
+
+    <footer class="text-center mt-12 py-6 border-t border-gray-300">
+      <h3 class="text-3xl text-gray-900 font-bebas mb-4">¿Listo para el Nivel 8?</h3>
+      <h4 class="text-xl font-bebas text-gray-900">Método Milón | Creado por Prof. Marco Flores</h4>
+      <p class="text-sm text-gray-600 mb-6">Tu Coach de Recomposición y Rendimiento</p>
+      <a href="https://is.gd/milon8" target="_blank" class="bg-amber-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-amber-600 transition-all duration-300 transform hover:scale-105 font-bebas text-xl inline-flex items-center gap-2">
+        <span>¡QUIERO EL NIVEL 8!</span>
+      </a>
+    </footer>
+  </div>
+
+  <!-- Modal Guía -->
+  <div id="guide-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div id="guide-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+    <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+      <div class="p-6 sm:p-8">
+        <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+          <h2 id="guide-modal-title" class="text-4xl text-gray-900">Guía Esencial Nivel 7</h2>
+          <button id="close-guide-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+        </div>
+
+        <div id="guide-main-view" class="space-y-6 text-gray-700">
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Pilar 1: Nutrición para el Híbrido</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li><strong>Calorías:</strong> Mantenimiento o ligero déficit (-200 kcal). Este bloque es de altísimo gasto calórico. La recomposición se acelera aquí.</li>
+              <li><strong>"Cycle Carbs":</strong> Come más carbohidratos los días de Fuerza+MetCon (Días 1, 2, 4, 5) y menos el día de Z2 (Día 3).</li>
+              <li><strong>Hidratación y Electrolitos:</strong> CRÍTICO. Vas a sudar mucho. Añade sal a tus comidas pre-entreno y bebe agua durante los MetCons.</li>
+              <li><button id="show-carbs-btn" class="text-blue-600 hover:underline text-sm font-semibold">(Ver ideas pre/post)</button></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Pilar 2: Métodos de Acondicionamiento</h3>
+            <ul class="list-disc list-inside space-y-2">
+              <li><strong>MetCon (Acondicionamiento Metabólico):</strong> Un "finisher" corto y de alta intensidad diseñado para disparar tu metabolismo y capacidad de trabajo.</li>
+              <li><strong>AMRAP (As Many Rounds As Possible):</strong> Tantas Rondas/Reps Como Sea Posible. En un tiempo fijo (ej. 10 min), completa tantas vueltas de un circuito como puedas.</li>
+              <li><strong>EMOM (Every Minute On the Minute):</strong> Cada Minuto, en el Minuto. Inicias un ejercicio al comienzo de cada minuto. El tiempo que te sobra es tu descanso.</li>
+              <li><strong>Strongman:</strong> Movimientos funcionales y pesados como Empujes de Trineo (Sled Push) o Caminatas de Granjero (Farmer's Carry).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div id="guide-carbs-view" class="hidden space-y-4 text-gray-700">
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Pre (60-90 min) - "Rendimiento"</h3>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Avena + Plátano + Sal</li>
+              <li>Arroz blanco + Miel</li>
+              <li>Papas cocidas</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-2xl text-amber-600 mb-2">Post (0–60 min) - "Recarga Rápida"</h3>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Batido de proteína + Dextrosa/Maltodextrina (o un gatorade)</li>
+              <li>Arroz blanco + Pollo</li>
+              <li>Cereal bajo en grasa + Leche y Proteína</li>
+            </ul>
+          </div>
+          <div class="pt-4">
+            <button id="back-to-guide-btn" class="text-blue-600 hover:underline font-semibold">&larr; Volver</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Teoría -->
+  <div id="theory-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+    <div id="theory-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+    <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+      <div class="p-6 sm:p-8">
+        <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+          <h2 class="text-4xl text-gray-900">¿Qué es "El Híbrido Total"?</h2>
+          <button id="close-theory-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+        </div>
+        <div class="space-y-4 text-gray-700">
+          <p>Este es el nivel de recomposición en su máxima expresión. Ya construiste músculo (L5) y lo volviste fuerte (L6). Ahora, vas a enseñarle a ese músculo a **trabajar bajo fatiga**.</p>
+          <p>Combinamos la fuerza pesada del Nivel 6 con **condicionamiento metabólico (MetCons)** y trabajo de **Strongman**. El objetivo es crear un atleta que no solo es fuerte, sino que tiene un "motor" que no se apaga.</p>
+          <p class="font-bold text-amber-800">Esto dispara el gasto calórico, mejora drásticamente la sensibilidad a la insulina y la capacidad de tu cuerpo para usar nutrientes (recomposición), y te vuelve un atleta letalmente completo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const programData = {
+      nivel: 7,
+      titulo: 'Nivel 7: El Híbrido Total',
+      intro: "Fuerza + Acondicionamiento. Este bloque combina levantamiento pesado (Top Sets) con 'finishers' de MetCon (AMRAPs, EMOMs) y trabajo de Strongman para la máxima recomposición corporal y capacidad de trabajo.",
+      semanas: {
+        // ====== SEMANA 1: Adaptación (MetCons fijos) ======
+        1: {
+          focus: 'Semana 1: Adaptación a MetCons (Rondas Fijas)',
+          dias: ['Día 1: Fuerza Torso + Finisher', 'Día 2: Fuerza Pierna + Finisher', 'Día 3: Oxidativo Z2', 'Día 4: Híbrido Strongman/MetCon', 'Día 5: Full Body Híbrido'],
+          workouts: {
+            0: { // Día 1: Torso + MetCon
+              gym: { exercises: [
+                  { name:'Top Set: Press Banca', sets:1, reps:'3-5', rest:'2-4 min', rir:'2-3', tip:'Pesado, RIR 2-3.' },
+                  { name:'Back-Offs: Press Banca', sets:3, reps:'5-8', rest:'2-3 min', rir:'2-3', tip:'Baja 5-10% del peso.' },
+                  { name:'Dominadas (con lastre)', sets:3, reps:'6-10', rest:'2 min', rir:'2-3', tip:'Rango completo.' },
+                  { name:'Press Inclinado Mancuernas', sets:3, reps:'8-12', rest:'90s', rir:'2-3', tip:'Controlado.' },
+                  { 
+                    name:'MetCon Finisher: 5 Rondas', sets:5, reps:'Circuito abajo', rest:'60s', rir:'1-2', tip:'Haz el circuito de abajo, descansa 60s. Repite 5 veces.',
+                    subExercises: [
+                      { name: 'Push-ups', reps: '10-15', tip: 'Descansa 15s antes del remo' },
+                      { name: 'Remo en Polea Baja', reps: '12-15' }
+                    ]
+                  },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Top Set: Flexiones con Mochila Pesada', sets:1, reps:'5-8', rest:'2-3 min', rir:'2-3', tip:'Pesado, RIR 2-3.' },
+                  { name:'Back-Offs: Flexiones (menos peso)', sets:3, reps:'8-12', rest:'2 min', rir:'2-3', tip:'RIR 2-3.' },
+                  { name:'Dominadas (si tienes) o Remo Invertido', sets:3, reps:'8-12', rest:'2 min', rir:'2-3', tip:'Con mochila.' },
+                  { name:'Fondos en Sillas (con lastre)', sets:3, reps:'8-12', rest:'90s', rir:'2-3', tip:'Controlado.' },
+                  { 
+                    name:'MetCon Finisher: 5 Rondas', sets:5, reps:'Circuito abajo', rest:'60s', rir:'1-2', tip:'Haz el circuito de abajo, descansa 60s. Repite 5 veces.',
+                    subExercises: [
+                      { name: 'Flexiones', reps: '10-15', tip: 'Descansa 15s antes del remo' },
+                      { name: 'Remo Invertido (pies en suelo)', reps: '12-15' }
+                    ]
+                  },
+                ]
+              }
+            },
+            1: { // Día 2: Pierna + MetCon
+              gym: { exercises: [
+                  { name:'Top Set: Sentadilla Trasera', sets:1, reps:'3-5', rest:'3-5 min', rir:'2-3', tip:'Pesado, RIR 2-3.' },
+                  { name:'Back-Offs: Sentadilla Trasera', sets:3, reps:'5-8', rest:'2-3 min', rir:'2-3', tip:'Baja 5-10% del peso.' },
+                  { name:'Peso Muerto Rumano (RDL)', sets:3, reps:'8-10', rest:'2 min', rir:'2-3', tip:'Tensión en isquios.' },
+                  { name:'Zancadas con Mancuernas', sets:3, reps:'8-10 c/u', rest:'90s', rir:'2-3', tip:'Paso largo.' },
+                  { 
+                    name:'MetCon Finisher: EMOM 8 Minutos', sets:8, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Cada minuto en el minuto por 8 min.',
+                    subExercises: [
+                      { name: 'Minuto Par: Goblet Squat', reps: '10-12', tip: 'Haz 10-12 reps, descansa el resto del minuto.' },
+                      { name: 'Minuto Impar: Kettlebell Swings', reps: '15-20', tip: 'Haz 15-20 reps, descansa el resto del minuto.' }
+                    ]
+                  },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Top Set: Sentadilla Búlgara (Mochila)', sets:1, reps:'5-8 c/u', rest:'2-3 min', rir:'2-3', tip:'Pesado, RIR 2-3.' },
+                  { name:'Back-Offs: Sentadilla Búlgara', sets:3, reps:'8-10 c/u', rest:'2 min', rir:'2-3', tip:'RIR 2-3.' },
+                  { name:'RDL a 1 Pierna (con peso)', sets:3, reps:'8-12 c/u', rest:'90s', rir:'2-3', tip:'Equilibrio.' },
+                  { name:'Puente de Glúteos (Pesado)', sets:3, reps:'10-15', rest:'90s', rir:'2-3', tip:'Pausa 2s arriba.' },
+                  { 
+                    name:'MetCon Finisher: EMOM 8 Minutos', sets:8, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Cada minuto en el minuto por 8 min.',
+                    subExercises: [
+                      { name: 'Minuto Par: Sentadilla Goblet (mochila)', reps: '12-15', tip: 'Haz 12-15 reps, descansa el resto del minuto.' },
+                      { name: 'Minuto Impar: Swings con Mochila', reps: '15-20', tip: 'Haz 15-20 reps, descansa el resto del minuto.' }
+                    ]
+                  },
+                ]
+              }
+            },
+            2: { // Día 3: Oxidativo Z2
+              gym: { cardio: 'Oxidativo Z2: 30-45 min continuo (bike/remo/cinta). Recuperación activa. Ritmo de conversación.' },
+              casa:{ cardio: 'Oxidativo Z2: 30-45 min caminata rápida o bici. Ritmo de conversación. Recuperación activa.' }
+            },
+            3: { // Día 4: Híbrido Strongman/MetCon
+              gym: { exercises: [
+                  { 
+                    name:'EMOM 12 Minutos (3 ejercicios)', sets:4, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Min 1: Sled, Min 2: Farmer, Min 3: Slam. Repite 4 veces.',
+                    subExercises: [
+                      { name: 'Min 1: Empuje de Trineo (Sled Push)', reps: '20m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 2: Caminata de Granjero (Farmer\'s Carry)', reps: '20-30m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 3: Golpes de Balón (Slam Ball)', reps: '10-12', tip: 'Descansa el resto del minuto.' }
+                    ]
+                  },
+                  { name:'Core: Plancha con Arrastre', sets:3, reps:'8-10 c/u', rest:'60s', rir:'2', tip:'En plancha, arrastra una mancuerna de un lado a otro.' },
+                  { name:'Core: Pallof Press', sets:3, reps:'10-12 c/u', rest:'60s', rir:'2', tip:'Anti-rotación.' },
+                ]
+              },
+              casa: { exercises: [
+                  { 
+                    name:'EMOM 12 Minutos (3 ejercicios)', sets:4, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Min 1: Bear Crawl, Min 2: Farmer, Min 3: Salto. Repite 4 veces.',
+                    subExercises: [
+                      { name: 'Min 1: Gateo de Oso (Bear Crawl)', reps: '15m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 2: Caminata Granjero (mochilas/bidones)', reps: '30m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 3: Saltos a la Silla (Box Jumps)', reps: '10-12', tip: 'Descansa el resto del minuto.' }
+                    ]
+                  },
+                  { name:'Core: Plancha con Arrastre (mochila)', sets:3, reps:'8-10 c/u', rest:'60s', rir:'2' },
+                  { name:'Core: Pallof Press (con banda)', sets:3, reps:'10-12 c/u', rest:'60s', rir:'2' },
+                ]
+              }
+            },
+            4: { // Día 5: Full Body Híbrido
+              gym: { exercises: [
+                  { 
+                    name:'AMRAP 15 Minutos', sets:1, reps:'AMRAP', rest:'N/A', rir:'N/A', tip:'Tantas rondas como sea posible en 15 min.',
+                    subExercises: [
+                      { name: 'Thrusters con Mancuernas', reps: '10' },
+                      { name: 'Dominadas o Remo Invertido', reps: '10' },
+                      { name: 'Burpees', reps: '10' }
+                    ]
+                  },
+                  { name:'Elevación de Talones (Finisher)', sets:3, reps:'20-30', rest:'45s', rir:'1', tip:'Bombeo final.' },
+                ]
+              },
+              casa: { exercises: [
+                  { 
+                    name:'AMRAP 15 Minutos', sets:1, reps:'AMRAP', rest:'N/A', rir:'N/A', tip:'Tantas rondas como sea posible en 15 min.',
+                    subExercises: [
+                      { name: 'Thrusters con Mochila', reps: '12' },
+                      { name: 'Remo Invertido', reps: '12' },
+                      { name: 'Burpees', reps: '12' }
+                    ]
+                  },
+                  { name:'Elevación de Talones (Finisher)', sets:3, reps:'20-30', rest:'45s', rir:'1', tip:'Bombeo final.' },
+                ]
+              }
+            }
+          }
+        },
+
+        // ====== SEMANA 2: Sobrecarga (Más Rondas/Densidad) ======
+        2: {
+          focus: 'Semana 2: Sobrecarga de Densidad (Más Rondas)',
+          dias: ['Día 1: Fuerza Torso + Finisher', 'Día 2: Fuerza Pierna + Finisher', 'Día 3: Oxidativo Z2', 'Día 4: Híbrido Strongman/MetCon', 'Día 5: Full Body Híbrido'],
+          workouts: {
+            0: { // Día 1: Torso + MetCon
+              gym: { exercises: [
+                  { name:'Top Set: Press Banca', sets:1, reps:'3-5', rest:'2-4 min', rir:'1-2', tip:'Sube 2.5-5kg. RIR 1-2.' },
+                  { name:'Back-Offs: Press Banca', sets:3, reps:'5-8', rest:'2-3 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Dominadas (con lastre)', sets:3, reps:'6-10', rest:'2 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Press Inclinado Mancuernas', sets:3, reps:'8-12', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { 
+                    name:'MetCon Finisher: 6 Rondas', sets:6, reps:'Circuito abajo', rest:'60s', rir:'1-2', tip:'Una ronda más que la Semana 1.',
+                    subExercises: [
+                      { name: 'Push-ups', reps: '10-15', tip: 'Descansa 15s antes del remo' },
+                      { name: 'Remo en Polea Baja', reps: '12-15' }
+                    ]
+                  },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Top Set: Flexiones con Mochila Pesada', sets:1, reps:'5-8', rest:'2-3 min', rir:'1-2', tip:'Más peso. RIR 1-2.' },
+                  { name:'Back-Offs: Flexiones (menos peso)', sets:3, reps:'8-12', rest:'2 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Dominadas (si tienes) o Remo Invertido', sets:3, reps:'8-12', rest:'2 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Fondos en Sillas (con lastre)', sets:3, reps:'8-12', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { 
+                    name:'MetCon Finisher: 6 Rondas', sets:6, reps:'Circuito abajo', rest:'60s', rir:'1-2', tip:'Una ronda más que la Semana 1.',
+                    subExercises: [
+                      { name: 'Flexiones', reps: '10-15', tip: 'Descansa 15s antes del remo' },
+                      { name: 'Remo Invertido (pies en suelo)', reps: '12-15' }
+                    ]
+                  },
+                ]
+              }
+            },
+            1: { // Día 2: Pierna + MetCon
+              gym: { exercises: [
+                  { name:'Top Set: Sentadilla Trasera', sets:1, reps:'3-5', rest:'3-5 min', rir:'1-2', tip:'Sube 2.5-5kg. RIR 1-2.' },
+                  { name:'Back-Offs: Sentadilla Trasera', sets:3, reps:'5-8', rest:'2-3 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Peso Muerto Rumano (RDL)', sets:3, reps:'8-10', rest:'2 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Zancadas con Mancuernas', sets:3, reps:'8-10 c/u', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { 
+                    name:'MetCon Finisher: EMOM 10 Minutos', sets:10, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Aumentamos a 10 minutos.',
+                    subExercises: [
+                      { name: 'Minuto Par: Goblet Squat', reps: '10-12', tip: 'Haz 10-12 reps, descansa el resto del minuto.' },
+                      { name: 'Minuto Impar: Kettlebell Swings', reps: '15-20', tip: 'Haz 15-20 reps, descansa el resto del minuto.' }
+                    ]
+                  },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Top Set: Sentadilla Búlgara (Mochila)', sets:1, reps:'5-8 c/u', rest:'2-3 min', rir:'1-2', tip:'Más peso. RIR 1-2.' },
+                  { name:'Back-Offs: Sentadilla Búlgara', sets:3, reps:'8-10 c/u', rest:'2 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'RDL a 1 Pierna (con peso)', sets:3, reps:'8-12 c/u', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Puente de Glúteos (Pesado)', sets:3, reps:'10-15', rest:'90s', rir:'1-2', tip:'RIR 1-2.' },
+                  { 
+                    name:'MetCon Finisher: EMOM 10 Minutos', sets:10, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Aumentamos a 10 minutos.',
+                    subExercises: [
+                      { name: 'Minuto Par: Sentadilla Goblet (mochila)', reps: '12-15', tip: 'Haz 12-15 reps, descansa el resto del minuto.' },
+                      { name: 'Minuto Impar: Swings con Mochila', reps: '15-20', tip: 'Haz 15-20 reps, descansa el resto del minuto.' }
+                    ]
+                  },
+                ]
+              }
+            },
+            2: { // Día 3: Oxidativo Z2
+              gym: { cardio: 'Oxidativo Z2: 30-45 min continuo (bike/remo/cinta). Recuperación activa. Ritmo de conversación.' },
+              casa:{ cardio: 'Oxidativo Z2: 30-45 min caminata rápida o bici. Ritmo de conversación. Recuperación activa.' }
+            },
+            3: { // Día 4: Híbrido Strongman/MetCon
+              gym: { exercises: [
+                  { 
+                    name:'EMOM 15 Minutos (3 ejercicios)', sets:5, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Min 1: Sled, Min 2: Farmer, Min 3: Slam. Repite 5 veces.',
+                    subExercises: [
+                      { name: 'Min 1: Empuje de Trineo (Sled Push)', reps: '20m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 2: Caminata de Granjero (Farmer\'s Carry)', reps: '20-30m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 3: Golpes de Balón (Slam Ball)', reps: '10-12', tip: 'Descansa el resto del minuto.' }
+                    ]
+                  },
+                  { name:'Core: Plancha con Arrastre', sets:3, reps:'10-12 c/u', rest:'60s', rir:'1-2', tip:'Más reps o peso.' },
+                  { name:'Core: Pallof Press', sets:3, reps:'12-15 c/u', rest:'60s', rir:'1-2', tip:'Más reps o peso.' },
+                ]
+              },
+              casa: { exercises: [
+                  { 
+                    name:'EMOM 15 Minutos (3 ejercicios)', sets:5, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Min 1: Bear Crawl, Min 2: Farmer, Min 3: Salto. Repite 5 veces.',
+                    subExercises: [
+                      { name: 'Min 1: Gateo de Oso (Bear Crawl)', reps: '15m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 2: Caminata Granjero (mochilas/bidones)', reps: '30m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 3: Saltos a la Silla (Box Jumps)', reps: '10-12', tip: 'Descansa el resto del minuto.' }
+                    ]
+                  },
+                  { name:'Core: Plancha con Arrastre (mochila)', sets:3, reps:'10-12 c/u', rest:'60s', rir:'1-2' },
+                  { name:'Core: Pallof Press (con banda)', sets:3, reps:'12-15 c/u', rest:'60s', rir:'1-2' },
+                ]
+              }
+            },
+            4: { // Día 5: Full Body Híbrido
+              gym: { exercises: [
+                  { 
+                    name:'AMRAP 18 Minutos', sets:1, reps:'AMRAP', rest:'N/A', rir:'N/A', tip:'Tantas rondas como sea posible en 18 min.',
+                    subExercises: [
+                      { name: 'Thrusters con Mancuernas', reps: '10' },
+                      { name: 'Dominadas o Remo Invertido', reps: '10' },
+                      { name: 'Burpees', reps: '10' }
+                    ]
+                  },
+                  { name:'Elevación de Talones (Finisher)', sets:3, reps:'20-30', rest:'45s', rir:'1', tip:'Bombeo final.' },
+                ]
+              },
+              casa: { exercises: [
+                  { 
+                    name:'AMRAP 18 Minutos', sets:1, reps:'AMRAP', rest:'N/A', rir:'N/A', tip:'Tantas rondas como sea posible en 18 min.',
+                    subExercises: [
+                      { name: 'Thrusters con Mochila', reps: '12' },
+                      { name: 'Remo Invertido', reps: '12' },
+                      { name: 'Burpees', reps: '12' }
+                    ]
+                  },
+                  { name:'Elevación de Talones (Finisher)', sets:3, reps:'20-30', rest:'45s', rir:'1', tip:'Bombeo final.' },
+                ]
+              }
+            }
+          }
+        },
+        
+        // ====== SEMANA 3: Pico de Intensidad (AMRAP) ======
+        3: {
+          focus: 'Semana 3: Pico de Intensidad (AMRAP / For Time)',
+          dias: ['Día 1: Fuerza Torso + Finisher', 'Día 2: Fuerza Pierna + Finisher', 'Día 3: Oxidativo Z2', 'Día 4: Híbrido Strongman/MetCon', 'Día 5: Full Body Híbrido'],
+          workouts: {
+            0: { // Día 1: Torso + MetCon
+              gym: { exercises: [
+                  { name:'Top Set: Press Banca', sets:1, reps:'2-4', rest:'3-5 min', rir:'1', tip:'¡PR Técnico! RIR 1.' },
+                  { name:'Back-Offs: Press Banca', sets:3, reps:'4-6', rest:'2-3 min', rir:'1-2', tip:'Peso de Semana 1-2.' },
+                  { name:'Dominadas (con lastre)', sets:3, reps:'5-8', rest:'2 min', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Press Inclinado Mancuernas', sets:3, reps:'6-10', rest:'90s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { 
+                    name:'MetCon Finisher: 7 Rondas "For Time"', sets:7, reps:'Circuito abajo', rest:'Mínimo', rir:'0-1', tip:'Haz 7 rondas lo más rápido posible (con buena técnica).',
+                    subExercises: [
+                      { name: 'Push-ups', reps: '10', tip: 'Descansa 15s antes del remo' },
+                      { name: 'Remo en Polea Baja', reps: '12' }
+                    ]
+                  },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Top Set: Flexiones con Mochila Pesada', sets:1, reps:'4-6', rest:'2-3 min', rir:'1', tip:'¡PR Técnico! RIR 1.' },
+                  { name:'Back-Offs: Flexiones (menos peso)', sets:3, reps:'6-10', rest:'2 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'Dominadas (si tienes) o Remo Invertido', sets:3, reps:'6-10', rest:'2 min', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Fondos en Sillas (con lastre)', sets:3, reps:'6-10', rest:'90s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { 
+                    name:'MetCon Finisher: 7 Rondas "For Time"', sets:7, reps:'Circuito abajo', rest:'Mínimo', rir:'0-1', tip:'Haz 7 rondas lo más rápido posible.',
+                    subExercises: [
+                      { name: 'Flexiones', reps: '10', tip: 'Descansa 15s antes del remo' },
+                      { name: 'Remo Invertido (pies en suelo)', reps: '12' }
+                    ]
+                  },
+                ]
+              }
+            },
+            1: { // Día 2: Pierna + MetCon
+              gym: { exercises: [
+                  { name:'Top Set: Sentadilla Trasera', sets:1, reps:'2-4', rest:'3-5 min', rir:'1', tip:'¡PR Técnico! RIR 1.' },
+                  { name:'Back-Offs: Sentadilla Trasera', sets:3, reps:'4-6', rest:'2-3 min', rir:'1-2', tip:'Peso de Semana 1-2.' },
+                  { name:'Peso Muerto Rumano (RDL)', sets:3, reps:'6-8', rest:'2 min', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Zancadas con Mancuernas', sets:3, reps:'6-8 c/u', rest:'90s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { 
+                    name:'MetCon Finisher: EMOM 12 Minutos', sets:12, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Aumentamos a 12 minutos.',
+                    subExercises: [
+                      { name: 'Minuto Par: Goblet Squat', reps: '12-15', tip: 'Haz 12-15 reps, descansa el resto del minuto.' },
+                      { name: 'Minuto Impar: Kettlebell Swings', reps: '20-25', tip: 'Haz 20-25 reps, descansa el resto del minuto.' }
+                    ]
+                  },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Top Set: Sentadilla Búlgara (Mochila)', sets:1, reps:'4-6 c/u', rest:'2-3 min', rir:'1', tip:'¡PR Técnico! RIR 1.' },
+                  { name:'Back-Offs: Sentadilla Búlgara', sets:3, reps:'6-8 c/u', rest:'2 min', rir:'1-2', tip:'RIR 1-2.' },
+                  { name:'RDL a 1 Pierna (con peso)', sets:3, reps:'6-10 c/u', rest:'90s', rir:'1', tip:'RIR 1.' },
+                  { name:'Puente de Glúteos (Pesado)', sets:3, reps:'8-12', rest:'90s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { 
+                    name:'MetCon Finisher: EMOM 12 Minutos', sets:12, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Aumentamos a 12 minutos.',
+                    subExercises: [
+                      { name: 'Minuto Par: Sentadilla Goblet (mochila)', reps: '15-20', tip: 'Haz 15-20 reps, descansa el resto del minuto.' },
+                      { name: 'Minuto Impar: Swings con Mochila', reps: '20-25', tip: 'Haz 20-25 reps, descansa el resto del minuto.' }
+                    ]
+                  },
+                ]
+              }
+            },
+            2: { // Día 3: Oxidativo Z2
+              gym: { cardio: 'Oxidativo Z2: 30-45 min continuo (bike/remo/cinta). Recuperación activa. Ritmo de conversación.' },
+              casa:{ cardio: 'Oxidativo Z2: 30-45 min caminata rápida o bici. Ritmo de conversación. Recuperación activa.' }
+            },
+            3: { // Día 4: Híbrido Strongman/MetCon
+              gym: { exercises: [
+                  { 
+                    name:'EMOM 15 Minutos (3 ejercicios)', sets:5, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Min 1: Sled, Min 2: Farmer, Min 3: Slam. Repite 5 veces.',
+                    subExercises: [
+                      { name: 'Min 1: Empuje de Trineo (Sled Push)', reps: '20m (Pesado)', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 2: Caminata de Granjero (Farmer\'s Carry)', reps: '30m (Pesado)', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 3: Golpes de Balón (Slam Ball)', reps: '12-15', tip: 'Descansa el resto del minuto.' }
+                    ]
+                  },
+                  { name:'Core: Plancha con Arrastre', sets:3, reps:'10-12 c/u', rest:'60s', rir:'1', tip:'Pesado, RIR 1.' },
+                  { name:'Core: Pallof Press', sets:3, reps:'12-15 c/u', rest:'60s', rir:'1', tip:'Pesado, RIR 1.' },
+                ]
+              },
+              casa: { exercises: [
+                  { 
+                    name:'EMOM 15 Minutos (3 ejercicios)', sets:5, reps:'EMOM', rest:'EMOM', rir:'N/A', tip:'Min 1: Bear Crawl, Min 2: Farmer, Min 3: Salto. Repite 5 veces.',
+                    subExercises: [
+                      { name: 'Min 1: Gateo de Oso (con lastre)', reps: '15m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 2: Caminata Granjero (más pesado)', reps: '30m', tip: 'Descansa el resto del minuto.' },
+                      { name: 'Min 3: Saltos a la Silla (Box Jumps)', reps: '12-15', tip: 'Descansa el resto del minuto.' }
+                    ]
+                  },
+                  { name:'Core: Plancha con Arrastre (mochila)', sets:3, reps:'10-12 c/u', rest:'60s', rir:'1' },
+                  { name:'Core: Pallof Press (con banda)', sets:3, reps:'12-15 c/u', rest:'60s', rir:'1' },
+                ]
+              }
+            },
+            4: { // Día 5: Full Body Híbrido
+              gym: { exercises: [
+                  { 
+                    name:'AMRAP 20 Minutos', sets:1, reps:'AMRAP', rest:'N/A', rir:'N/A', tip:'Tantas rondas como sea posible en 20 min.',
+                    subExercises: [
+                      { name: 'Thrusters con Mancuernas', reps: '10' },
+                      { name: 'Dominadas o Remo Invertido', reps: '10' },
+                      { name: 'Burpees', reps: '10' }
+                    ]
+                  },
+                  { name:'Elevación de Talones (Finisher)', sets:3, reps:'AMRAP', rest:'45s', rir:'0', tip:'Al fallo.' },
+                ]
+              },
+              casa: { exercises: [
+                  { 
+                    name:'AMRAP 20 Minutos', sets:1, reps:'AMRAP', rest:'N/A', rir:'N/A', tip:'Tantas rondas como sea posible en 20 min.',
+                    subExercises: [
+                      { name: 'Thrusters con Mochila', reps: '12' },
+                      { name: 'Remo Invertido', reps: '12' },
+                      { name: 'Burpees', reps: '12' }
+                    ]
+                  },
+                  { name:'Elevación de Talones (Finisher)', sets:3, reps:'AMRAP', rest:'45s', rir:'0', tip:'Al fallo.' },
+                ]
+              }
+            }
+          }
+        },
+
+        // ====== SEMANA 4: Descarga (Deload) ======
+        4: {
+          focus: 'Semana 4: Descarga y Supercompensación',
+          dias: ['Día 1: Fuerza Ligera', 'Día 2: MetCon Ligero', 'Día 3: Descanso Z2 Suave'],
+          workouts: {
+            0: { // Día 1: Fuerza Ligera
+              gym: { exercises: [
+                  { name:'Press Banca (sin tempo)', sets:2, reps:'8-10', rest:'90s', rir:'4-5', tip:'50-60% de la Semana 3. Mover sangre.' },
+                  { name:'Sentadilla Goblet (sin tempo)', sets:2, reps:'10-12', rest:'90s', rir:'4-5', tip:'Peso muy ligero. Foco en movilidad.' },
+                  { name:'Remo con Barra (sin tempo)', sets:2, reps:'8-10', rest:'90s', rir:'4-5', tip:'Técnica fluida.' },
+                ]
+              },
+              casa: { exercises: [
+                  { name:'Flexiones (sin tempo)', sets:2, reps:'12-15', rest:'90s', rir:'4-5', tip:'Fácil, sin peso.' },
+                  { name:'Sentadilla Goblet (con libro)', sets:2, reps:'15-20', rest:'90s', rir:'4-5', tip:'Peso simbólico. Foco en la movilidad.' },
+                  { name:'Remo Invertido (pies en suelo)', sets:2, reps:'12-15', rest:'75s', rir:'4-5', tip:'Fácil, solo para mover la espalda.' },
+                ]
+              }
+            },
+            1: { // Día 2: MetCon Ligero
+              gym: { exercises: [
+                  { 
+                    name:'MetCon Ligero: 3 Rondas', sets:3, reps:'Circuito abajo', rest:'90s', rir:'4-5', tip:'Movimiento fluido, sin fatiga.',
+                    subExercises: [
+                      { name: 'Kettlebell Swings (ligeros)', reps: '15', tip: 'Descansa 30s' },
+                      { name: 'Empuje de Trineo (ligero)', reps: '20m', tip: 'Descansa 30s' },
+                      { name: 'Golpes de Balón (ligeros)', reps: '10' }
+                    ]
+                  },
+                ]
+              },
+              casa: { exercises: [
+                  { 
+                    name:'MetCon Ligero: 3 Rondas', sets:3, reps:'Circuito abajo', rest:'90s', rir:'4-5', tip:'Movimiento fluido, sin fatiga.',
+                    subExercises: [
+                      { name: 'Swings con Mochila (ligero)', reps: '15', tip: 'Descansa 30s' },
+                      { name: 'Gateo de Oso', reps: '10m', tip: 'Descansa 30s' },
+                      { name: 'Saltos (pequeños)', reps: '10' }
+                    ]
+                  },
+                ]
+              }
+            }
+          }
+        }
+      }
+    };
+
+    // ====== ESTADO Y ELEMENTOS ======
+    let currentWeek = 1;
+    let currentMode = 'gym';
+    let currentDayIndex = 0;
+    const storageKeyBase = `milonNivel${programData.nivel}`;
+
+    const workoutTitle = document.getElementById('workout-title');
+    const introTextContainer = document.getElementById('level-intro-text');
+    const weekTabsContainer = document.getElementById('week-tabs');
+    const dayTabsContainer = document.getElementById('day-tabs');
+    const workoutsContainer = document.getElementById('workouts-container');
+    const calendarContainer = document.querySelector('#calendario .flex');
+
+    const openGuideBtn = document.getElementById('open-guide-btn');
+    const closeGuideBtn = document.getElementById('close-guide-btn');
+    const guideModal = document.getElementById('guide-modal');
+    const guideModalTitle = document.getElementById('guide-modal-title');
+    const guideMainView = document.getElementById('guide-main-view');
+    const guideCarbsView = document.getElementById('guide-carbs-view');
+    const showCarbsBtn = document.getElementById('show-carbs-btn');
+    const backToGuideBtn = document.getElementById('back-to-guide-btn');
+
+    const openTheoryBtn = document.getElementById('open-theory-btn');
+    const closeTheoryBtn = document.getElementById('close-theory-btn');
+    const theoryModal = document.getElementById('theory-modal');
+
+    const modeBtnGym = document.getElementById('mode-btn-gym');
+    const modeBtnCasa = document.getElementById('mode-btn-casa');
+
+    // ====== FUNCIONES UI ======
+    function setMainMode(mode, save=true){
+      currentMode = mode;
+      if(save){ localStorage.setItem(`${storageKeyBase}Mode`, mode); }
+      updateModeButtons();
+      showWorkout(currentDayIndex);
+    }
+    function updateModeButtons(){
+      if(currentMode==='gym'){ modeBtnGym.classList.add('active'); modeBtnCasa.classList.remove('active'); }
+      else{ modeBtnCasa.classList.add('active'); modeBtnGym.classList.remove('active'); }
+    }
+    function loadMainMode(){
+      const saved = localStorage.getItem(`${storageKeyBase}Mode`);
+      if(saved){ currentMode = saved; }
+      updateModeButtons();
+    }
+
+    function showWorkoutView(){
+      workoutTitle.textContent = programData.titulo;
+      introTextContainer.textContent = programData.intro;
+      generateWeekTabs(Object.keys(programData.semanas));
+      const savedWeek = localStorage.getItem(`${storageKeyBase}Week`);
+      showWeek(savedWeek ? parseInt(savedWeek,10) : 1);
+    }
+
+    function generateWeekTabs(weeks){
+      weekTabsContainer.innerHTML = '';
+      weeks.forEach(weekNumber=>{
+        const weekData = programData.semanas[weekNumber];
+        const tab = document.createElement('button');
+        tab.className = 'week-tab py-2 px-4 font-bebas text-lg rounded-t-lg week-tab-inactive';
+        tab.innerHTML = `Semana ${weekNumber}<br><span class="text-xs font-normal">${weekData.focus}</span>`;
+        tab.onclick = ()=>showWeek(parseInt(weekNumber,10));
+        weekTabsContainer.appendChild(tab);
+      });
+    }
+
+    function showWeek(weekNumber){
+      currentWeek = weekNumber;
+      localStorage.setItem(`${storageKeyBase}Week`, weekNumber);
+      document.querySelectorAll('.week-tab').forEach((tab,idx)=>{
+        tab.classList.toggle('week-tab-active', (idx+1)===Number(weekNumber));
+        tab.classList.toggle('week-tab-inactive', (idx+1)!==Number(weekNumber));
+      });
+      const weekData = programData.semanas[weekNumber];
+      generateDayTabs(weekData.dias);
+      generateCalendar(weekData.dias);
+      const savedDay = localStorage.getItem(`${storageKeyBase}Day_w${currentWeek}`);
+      showWorkout(savedDay ? parseInt(savedDay,10) : 0);
+    }
+
+    function generateDayTabs(days){
+      dayTabsContainer.innerHTML = '';
+      days.forEach((day,index)=>{
+        const tab = document.createElement('button');
+        tab.className = 'day-tab py-2 px-4 font-bebas text-md rounded-lg m-1 day-tab-inactive';
+        tab.textContent = day;
+        tab.onclick = ()=>showWorkout(index);
+        dayTabsContainer.appendChild(tab);
+      });
+    }
+
+    function showWorkout(dayIndex){
+      currentDayIndex = dayIndex;
+      localStorage.setItem(`${storageKeyBase}Day_w${currentWeek}`, dayIndex);
+      document.querySelectorAll('.day-tab').forEach((tab,idx)=>{
+        tab.classList.toggle('day-tab-active', idx===dayIndex);
+        tab.classList.toggle('day-tab-inactive', idx!==dayIndex);
+      });
+
+      const weekWorkouts = programData.semanas[currentWeek].workouts || {};
+      const node = weekWorkouts[dayIndex];
+      const dayData = node ? node[currentMode] : null;
+
+      workoutsContainer.innerHTML = '';
+
+      if(!dayData || (!dayData.exercises && !dayData.cardio)){
+        workoutsContainer.innerHTML = '<p class="text-center text-gray-500">No hay rutina para este modo o día.</p>';
+        return;
+      }
+
+      if(dayData.exercises){
+        dayData.exercises.forEach((ex,exIndex)=>{
+          // No renderizar ejercicios con sets 0 (ocultos)
+          if (ex.sets === 0) return;
+
+          const uniqueId = `prog-${programData.nivel}-w${currentWeek}-d${dayIndex}-m${currentMode}-${exIndex}`;
+          const setsCheckboxes = Array.from({length: ex.sets || 0},(_,i)=>(
+            `<div class="flex items-center">
+               <input type="checkbox" id="set-${uniqueId}-${i}" class="set-checkbox h-4 w-4 rounded bg-gray-100 border-gray-300 text-amber-500 focus:ring-amber-600">
+               <label for="set-${uniqueId}-${i}" class="ml-2 text-sm text-gray-600">Serie ${i+1}</label>
+             </div>`
+          )).join('');
+
+          const div = document.createElement('div');
+          div.className = 'bg-white border border-gray-200 p-5 rounded-lg shadow-sm';
+          div.innerHTML = `
+            <div class="flex justify-between items-start flex-wrap gap-4">
+              <div>
+                <h4 class="text-2xl text-gray-900">${ex.name}</h4>
+                <p class="text-amber-600 font-semibold text-sm mt-1">${ex.sets||'N/A'} series x ${ex.reps||'N/A'} reps</p>
+                <p class="text-gray-600 text-xs mt-1">${ex.rest?`Desc: ${ex.rest}`:''} ${ex.rir?`| RIR: ${ex.rir}`:''}</p>
+                <div class="mt-2 flex items-center gap-2">
+                  <label for="weight-${uniqueId}" class="text-sm font-semibold text-gray-500">Peso:</label>
+                  <input type="text" id="weight-${uniqueId}" class="weight-input w-24 rounded-md border-gray-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500" placeholder="ej: 100kg">
+                </div>
+              </div>
+              <div class="flex space-x-3">${setsCheckboxes}</div>
+            </div>
+            ${ex.tip ? `<p class="text-sm mt-3 pt-3 border-t border-gray-200 text-gray-600"><strong>Técnica clave:</strong> ${ex.tip}</p>` : ''}`;
+          
+          // Lógica para renderizar sub-ejercicios (MetCons, EMOMs, etc.)
+          if (ex.subExercises && ex.subExercises.length > 0) {
+            const subList = document.createElement('ul');
+            subList.className = 'mt-4 pl-5 border-l-2 border-amber-300 space-y-3';
+            
+            ex.subExercises.forEach(subEx => {
+              const item = document.createElement('li');
+              item.className = 'text-sm';
+              item.innerHTML = `
+                <strong class="text-gray-800">${subEx.name}</strong>
+                <span class="text-amber-600 font-medium ml-2">${subEx.reps}</span>
+                ${subEx.tip ? `<p class="text-xs text-gray-500">${subEx.tip}</p>` : ''}
+              `;
+              subList.appendChild(item);
+            });
+            
+            div.appendChild(subList);
+          }
+
+          workoutsContainer.appendChild(div);
+        });
+      }
+
+      if(dayData.cardio){
+        workoutsContainer.insertAdjacentHTML('beforeend', `
+          <div class="bg-white border-2 border-dashed border-amber-400 p-5 rounded-lg mt-6">
+            <div class="flex items-center gap-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+              <div>
+                <h4 class="text-2xl text-gray-900">Bloque Oxidativo</h4>
+                <p class="text-gray-700 mt-1">${dayData.cardio}</p>
+              </div>
+            </div>
+          </div>
+        `);
+      }
+
+      loadAndSaveProgress();
+    }
+
+    function generateCalendar(days){
+      calendarContainer.innerHTML = '';
+      const wrap = document.createElement('div');
+      wrap.className = 'bg-white border border-gray-200 p-4 rounded-lg w-full max-w-2xl';
+      wrap.innerHTML = `<h3 class="text-xl text-gray-900 text-center mb-4">Progreso Semana ${currentWeek}</h3>`;
+
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-center';
+
+      days.forEach((day, idx)=>{
+        const dayEl = document.createElement('div');
+        const dayName = day.split(':')[0];
+        const dayId = `cal-${storageKeyBase}-w${currentWeek}-d${idx}`;
+        dayEl.id = dayId;
+        dayEl.className = 'calendar-day bg-gray-200 p-3 rounded-md cursor-pointer border-2 border-transparent hover:border-amber-500 transition-all font-semibold';
+        dayEl.textContent = dayName;
+        if(localStorage.getItem(dayId)==='true'){ dayEl.classList.add('day-checked'); }
+        dayEl.addEventListener('click', ()=>{
+          dayEl.classList.toggle('day-checked');
+          localStorage.setItem(dayId, dayEl.classList.contains('day-checked'));
+        });
+        grid.appendChild(dayEl);
+      });
+
+      wrap.appendChild(grid);
+      calendarContainer.appendChild(wrap);
+    }
+
+    function loadAndSaveProgress(){
+      document.querySelectorAll('.set-checkbox').forEach(cb=>{
+        if(localStorage.getItem(cb.id)==='true'){ cb.checked = true; }
+        cb.addEventListener('change', ()=> localStorage.setItem(cb.id, cb.checked));
+      });
+      document.querySelectorAll('.weight-input').forEach(inp=>{
+        inp.value = localStorage.getItem(inp.id) || '';
+        inp.addEventListener('input', ()=> localStorage.setItem(inp.id, inp.value));
+      });
+    }
+
+    function openModal(modal){
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+      setTimeout(()=> modal.querySelector('.bg-black').classList.remove('opacity-0'),10);
+      setTimeout(()=> modal.querySelector('.transform').classList.remove('scale-95'),10);
+    }
+    function closeModal(modal){
+      modal.querySelector('.transform').classList.add('scale-95');
+      modal.querySelector('.bg-black').classList.add('opacity-0');
+      setTimeout(()=> modal.classList.add('hidden'),300);
+    }
+
+    // ====== INIT ======
+    document.addEventListener('DOMContentLoaded', ()=>{
+      loadMainMode();
+      showWorkoutView();
+
+      modeBtnGym.addEventListener('click', ()=>setMainMode('gym'));
+      modeBtnCasa.addEventListener('click', ()=>setMainMode('casa'));
+
+      // Guía
+      openGuideBtn.addEventListener('click', ()=>{
+        guideModalTitle.textContent = 'Guía Esencial Nivel 7';
+        guideMainView.classList.remove('hidden');
+        guideCarbsView.classList.add('hidden');
+        openModal(guideModal);
+      });
+      closeGuideBtn.addEventListener('click', ()=>closeModal(guideModal));
+      document.getElementById('guide-modal-overlay').addEventListener('click', ()=>closeModal(guideModal));
+      document.getElementById('theory-modal-overlay').addEventListener('click', ()=>closeModal(theoryModal));
+
+      document.getElementById('open-theory-btn').addEventListener('click', ()=>openModal(theoryModal));
+      document.getElementById('close-theory-btn').addEventListener('click', ()=>closeModal(theoryModal));
+
+      document.getElementById('show-carbs-btn').addEventListener('click', ()=>{
+        guideModalTitle.textContent = 'Ideas de Carbohidratos';
+        guideMainView.classList.add('hidden');
+        guideCarbsView.classList.remove('hidden');
+      });
+      document.getElementById('back-to-guide-btn').addEventListener('click', ()=>{
+        guideModalTitle.textContent = 'Guía Esencial Nivel 7';
+        guideCarbsView.classList.add('hidden');
+        guideMainView.classList.remove('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

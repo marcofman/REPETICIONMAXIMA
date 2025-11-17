@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método Afrodita: Nivel 4 - Definición y Rendimiento</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 95C25 95 5 75 5 50C5 25 25 5 50 5S95 25 95 50C95 75 75 95 50 95Z' fill='%23ec4899'/><path d='M50 85C30 85 15 70 15 50S30 15 50 15 85 30 85 50 70 85 50 85Z' fill='%23fdf2f8'/><path d='M50 75C35 75 25 65 25 50S35 25 50 25 75 35 75 50 65 75 50 75Z' fill='%23ec4899'/></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4, .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+        .gradient-text { background: linear-gradient(to right, #ec4899, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .week-tab-active, .day-tab-active { background-color: #ec4899; color: #ffffff; }
+        .week-tab-inactive, .day-tab-inactive { background-color: #fce7f3; color: #9d174d; }
+        .day-completed { background-color: #14b8a6 !important; color: #ffffff !important; border-color: #0d9488 !important; }
+        .day-in-progress { background-color: #ec4899 !important; color: #ffffff !important; border-color: #db2777 !important; }
+        .day-completed::after { content: '✔'; font-weight: bold; margin-left: 8px; }
+        .set-checkbox:checked + label { text-decoration: line-through; color: #9ca3af; }
+        .set-checkbox { color: #ec4899; }
+        .set-checkbox:focus { ring-color: #f472b6; }
+        .hidden { display: none; }
+        .coach-name { background: linear-gradient(to right, #ec4899, #a855f7); color: white; padding: 2px 12px; border-radius: 9999px; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .variant-box { display: block; margin-top: 0.5rem; padding: 0.5rem; background-color: #fdf2f8; color: #be185d; border-radius: 0.375rem; font-weight: 500; border: 1px solid #fbcfe8; }
+        .view-toggle-btn {
+            background-color: transparent;
+            color: #9d174d;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .view-toggle-active {
+            background-color: #ec4899;
+            color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-pink-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-6xl md:text-7xl font-extrabold gradient-text">MÉTODO AFRODITA</h1>
+            <h2 class="text-2xl md:text-3xl text-gray-800 font-semibold mt-4 font-bebas coach-name">POR PROF. MARCO FLORES</h2>
+            <p class="text-lg text-gray-600 mt-4">Nivel 4: Definición y Rendimiento</p>
+        </header>
+        
+        <div class="text-center mb-12 space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="open-guide-btn" class="bg-gray-800 text-pink-300 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">
+                GUÍA ESENCIAL
+            </button>
+            <button id="open-theory-btn" class="bg-gray-800 text-pink-300 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">
+                NOMENCLATURA
+            </button>
+        </div>
+
+        <main>
+            <section>
+                 <div id="level-intro-text" class="bg-pink-100 border border-pink-200 text-pink-800 p-4 rounded-lg mb-8 text-center"></div>
+                <div id="rutinas">
+                    <h2 id="workout-title" class="text-4xl text-gray-900 mb-6 text-center"></h2>
+                    <div id="week-tabs" class="flex justify-center mb-2 border-b-2 border-gray-300"></div>
+                    <div id="day-tabs" class="flex flex-wrap justify-center mb-6"></div>
+
+                    <div id="view-toggle" class="flex justify-center my-6 rounded-lg shadow-md p-1 bg-pink-100 max-w-xs mx-auto">
+                        <button id="btn-gimnasio" class="view-toggle-btn flex-1 py-2 px-4 rounded-md font-bebas text-lg">Gimnasio</button>
+                        <button id="btn-casa" class="view-toggle-btn flex-1 py-2 px-4 rounded-md font-bebas text-lg">En Casa</button>
+                    </div>
+
+                    <div id="workouts-container" class="space-y-6"></div>
+                </div>
+            </section>
+            
+            <div id="calendario" class="mt-12 bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+                <h2 class="text-3xl text-gray-900 mb-4 text-center">Calendario Semanal</h2>
+                <div class="flex justify-center"></div>
+            </div>
+        </main>
+        
+        <section class="mt-16 bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+            <div class="text-center">
+                <h3 class="text-3xl text-gray-900">Unas palabras de tu Coach</h3>
+                <p class="text-pink-600 font-semibold mt-1 font-bebas text-2xl coach-name">Prof. Marco Flores</p>
+                <p class="text-gray-700 mt-4 max-w-xl mx-auto">
+                    ¡Hola! Soy Marco. Llevo más de 12 años dedicado a guiar transformaciones físicas basadas en ciencia y resultados. Mi enfoque se centra en la sobrecarga progresiva y la adaptación inteligente, una filosofía que he perfeccionado a lo largo de una carrera muy diversa: desde centros de alto rendimiento como Youtopia y la Ciudad Deportiva USS, hasta mi trabajo en el campo clínico y en el sector público de Providencia. Mi pasión por el movimiento comenzó a los 16 años con el Kickboxing y las MMA, y esa disciplina la aplico hoy para ayudarte, sea cual sea tu nivel, a construir tu mejor versión.
+                </p>
+                <blockquote class="mt-6 italic text-gray-600 border-l-4 border-pink-300 pl-4 inline-block text-left">
+                    “La fuerza no se hereda. Se construye, carga a carga.”
+                </blockquote>
+            </div>
+        </section>
+
+        <footer class="text-center mt-16 py-6 border-t border-pink-200">
+            <h3 class="text-3xl text-gray-900 font-bebas mb-4">¡Felicitaciones! Has completado el Método Afrodita</h3>
+            <h4 class="text-xl font-bebas text-gray-900">Creado por <span class="text-pink-600">Prof. Marco Flores</span></h4>
+            <a href="https://wa.me/56948505747?text=Hola%20Marco%2C%20¡termin%C3%A9%20el%20Nivel%204%20del%20M%C3%A9todo%20Afrodita!%20Estoy%20lista%20para%20lo%20que%20sigue." target="_blank" class="bg-pink-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-pink-600 transition-all duration-300 transform hover:scale-105 font-bebas text-xl inline-flex items-center gap-2">
+                <span>¡TERMINÉ EL NIVEL 4!</span>
+            </a>
+        </footer>
+    </div>
+    
+    <div id="guide-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="guide-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+                    <h2 id="guide-modal-title" class="text-4xl text-gray-900">Guía Esencial de Recomposición</h2>
+                    <button id="close-guide-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+                </div>
+                <div id="guide-main-view" class="space-y-6 text-gray-700">
+                    <div>
+                        <h3 class="text-2xl text-pink-600 mb-2">Pilar 1: Nutrición Inteligente</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Proteína es REINA:</strong> Apunta a consumir <strong>1.6-2.2 gramos de proteína por kg de tu peso</strong>.</li>
+                            <li><strong>Calorías:</strong> Para construir glúteo, un ligero superávit (200-300 kcal) es ideal. Si buscas recomposición, mantente en mantenimiento.</li>
+                            <li><strong>Carbohidratos para Rendir:</strong> Úsalos estratégicamente alrededor de tus entrenamientos. <button id="show-carbs-btn" class="text-blue-600 hover:underline text-sm font-semibold">(Ver ejemplos)</button></li>
+                            <li><strong>Grasas para la Salud:</strong> Son cruciales para tus hormonas. Prioriza fuentes saludables.</li>
+                        </ul>
+                    </div>
+                    <div><h3 class="text-2xl text-pink-600 mb-2">Pilar 2: Hidratación Constante</h3><ul class="list-disc list-inside space-y-2"><li><strong>El Músculo es Agua:</strong> Bebe un mínimo de <strong>2-3 litros de agua al día</strong>, y más en días de entrenamiento.</li></ul></div>
+                    <div><h3 class="text-2xl text-pink-600 mb-2">Pilar 3: Descanso y Recuperación</h3><ul class="list-disc list-inside space-y-2"><li><strong>Fábrica de Músculo Nocturna:</strong> Apunta a <strong>7-9 horas de sueño de calidad</strong> por noche.</li><li><strong>Días Libres son Días de Crecimiento:</strong> El glúteo crece cuando descansas. ¡No sobre-entrenes!</li></ul></div>
+                    
+                    <div>
+                        <h3 class="text-2xl text-pink-600 mb-2">Pilar 4: Adaptación (¿Qué pasa si...)</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>¿Estoy demasiado adolorida (DOMS)?</strong> No te saltes el día. Realiza la rutina de la "Semana 4: Descarga Activa" en lugar de tu día normal. El movimiento ligero ayuda a la recuperación.</li>
+                            <li><strong>¿No tengo tiempo para la rutina completa?</strong> Prioriza en este orden: 1. Calentamiento, 2. Activación, 3. Entrenamiento Principal. Puedes dejar el Finisher y el Core si es absolutamente necesario.</li>
+                            <li><strong>¿Solo puedo entrenar 2 días esta semana?</strong> Realiza las rutinas del Día 1 y Día 3. Salta el Día 5. Lo importante es la consistencia.</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div id="guide-carbs-view" class="hidden space-y-4 text-gray-700">
+                    <div><h3 class="text-2xl text-pink-600 mb-2">Fuentes de Carbohidratos Complejos</h3><p class="text-sm mb-2">Ideales para energía sostenida durante el día.</p><ul class="list-disc list-inside space-y-1"><li>Avena</li><li>Arroz integral / Quinoa</li><li>Papas / Camote (Batata)</li><li>Legumbres (lentejas, garbanzos)</li><li>Pan integral o de masa madre</li></ul></div>
+                    <div><h3 class="text-2xl text-pink-600 mb-2">Fuentes de Carbohidratos Simples</h3><p class="text-sm mb-2">Excelentes para reponer energía rápidamente después de entrenar.</p><ul class="list-disc list-inside space-y-1"><li>Frutas (plátano, manzana, berries)</li><li>Arroz blanco</li><li>Miel</li></ul></div>
+                    <div class="pt-4"><button id="back-to-guide-btn" class="text-blue-600 hover:underline font-semibold">&larr; Volver a la guía</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="theory-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="theory-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+                    <h2 class="text-4xl text-gray-900">Nomenclatura del Entrenamiento</h2>
+                    <button id="close-theory-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+                </div>
+                <div class="space-y-6 text-gray-700">
+                    <div>
+                        <h3 class="text-2xl text-pink-600 mb-2">RIR (Reps in Reserve / Reps en Recámara)</h3>
+                        <p>Es el número de repeticiones que <strong>podrías haber hecho</strong> al final de una serie antes de llegar al fallo muscular total. Un <strong>RIR 2</strong> significa que paraste la serie, pero podrías haber hecho 2 repeticiones más con buena técnica.</p>
+                    </div>
+                     <div>
+                        <h3 class="text-2xl text-pink-600 mb-2">RPE (Rate of Perceived Exertion / Escala de Esfuerzo Percibido)</h3>
+                        <p>Es una escala del 1 al 10 que mide qué tan dura se sintió una serie. Es la inversa del RIR. Un <strong>RPE 8</strong> es lo mismo que un <strong>RIR 2</strong> (te quedaban 2 reps). Un <strong>RPE 10</strong> es el fallo absoluto (RIR 0).</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl text-pink-600 mb-2">TEMPO (4010)</h3>
+                        <p>Indica la velocidad de cada fase de una repetición. Se lee así:</p>
+                        <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                            <li><strong>4:</strong> Segundos de la fase excéntrica (cuando el músculo se alarga, ej: bajar en una sentadilla).</li>
+                            <li><strong>0:</strong> Segundos de pausa en la posición de estiramiento (abajo del todo).</li>
+                            <li><strong>1:</strong> Segundos de la fase concéntrica (cuando el músculo se acorta, ej: subir en la sentadilla).</li>
+                            <li><strong>0:</strong> Segundos de pausa en la posición de contracción (arriba del todo).</li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 class="text-2xl text-pink-600 mb-2">ROM (Range of Motion / Rango de Movimiento)</h3>
+                        <p>Se refiere a la trayectoria completa de un ejercicio, desde el estiramiento máximo hasta la contracción máxima. Siempre buscamos un <strong>ROM completo y controlado</strong> para maximizar el estímulo en el músculo.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl text-pink-600 mb-2">Sobrecarga Progresiva (Las Reglas)</h3>
+                        <p>Para que tus músculos crezcan, debes forzarlos a hacer más trabajo del que están acostumbrados. Sigue esta regla de oro:</p>
+                        <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                            <li><strong>Si completas todas las series y repeticiones</strong> de un ejercicio cumpliendo el RIR (ej. RIR 2) y con buena técnica: la próxima semana, <strong>aumenta el peso</strong> (el mínimo posible, ej. 1.25kg o 2.5kg).</li>
+                            <li><strong>Si no lograste completar las repeticiones</strong> o llegaste al fallo (RIR 0) antes de tiempo: la próxima semana, <strong>mantén el mismo peso</strong> e intenta sacar al menos una repetición más que la vez anterior.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- PILAR 2: DATOS DE CALENTAMIENTO Y VUELTA A LA CALMA ---
+    const calentamientoGeneral = {
+        name: 'Calentamiento General (5-7 min)',
+        exercises: [
+            { name: 'Cardio Ligero (Bici, Elíptica, Trote)', sets: 1, reps: '3-5 min', tempo: 'N/A' },
+            { name: 'Círculos de Cadera', sets: 1, reps: '10 c/lado', tempo: 'N/A' },
+            { name: 'Balanceos de Pierna (Frontal y Lateral)', sets: 1, reps: '10 c/lado', tempo: 'N/A' }
+        ]
+    };
+    const vueltaALaCalmaGeneral = {
+        name: 'Vuelta a la Calma (5 min)',
+        exercises: [
+            { name: 'Estiramiento de Piramidal (Figura 4)', sets: 1, reps: '30-45s c/lado', tempo: 'N/A' },
+            { name: 'Estiramiento de Isquiotibiales (sentado)', sets: 1, reps: '30-45s c/lado', tempo: 'N/A' },
+            { name: 'Postura del Niño (Child\'s Pose)', sets: 1, reps: '60s', tempo: 'N/A' }
+        ]
+    };
+
+    // #############################################################
+    // ### INICIO: DATOS DEL PROGRAMA (NIVEL 4)
+    // #############################################################
+
+    const programData = {
+        gluteos: {
+            levels: {
+                4: { // DATOS COMPLETAMENTE NUEVOS PARA EL NIVEL 4
+                    levelName: "Nivel 4: Definición y Rendimiento",
+                    intro: "Nivel 4: ¡El desafío final! Aquí combinamos fuerza, potencia y resistencia extrema para revelar la máxima definición y construir un físico atlético. Prepárate para circuitos metabólicos (MetCon) y técnicas de shock para llevar tu cuerpo al límite.",
+                    title: 'Glúteos: Nivel 4<br><span class="text-2xl font-normal text-gray-500 tracking-wider">Definición y Rendimiento</span>',
+                    weeks: {
+                        1: { 
+                            focus: "Semana 1: Circuitos MetCon", 
+                            days: ['Día 1: Full Body MetCon A', 'Día 2: Descanso', 'Día 3: Full Body MetCon B', 'Día 4: Descanso', 'Día 5: Full Body MetCon C'], 
+                            workouts: {
+                                '0': {
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Pliométrica (2 Rondas)',exercises:[
+                                            {name:'Sentadilla con Salto (Squat Jump)',sets:1,reps:'12', tempo: 'X0X0'},
+                                            {name:'Puentes de glúteo explosivos (sin peso)',sets:1,reps:'20', tempo: '10X0'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (4 Rondas)', tip:'AMRAP 15 min (Tantas Rondas Como Sea Posible en 15 minutos). Descansa lo mínimo necesario.', exercises:[
+                                                {name:'A. Hip Thrust con Barra (Pesado)', isGiantSet: true, sets:1,reps:'10', tempo: '10X1', rir:'1'},
+                                                {name:'B. Zancadas caminando con mancuernas', isGiantSet: true, sets:1,reps:'10 c/p', tempo: 'N/A', rir:'1'},
+                                                {name:'C. Push Press con mancuernas', isGiantSet: true, sets:1,reps:'12', tempo: '10X0', rir:'1'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito MetCon B (3 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 60s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Goblet', isGiantSet: true, sets:3,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Remo con mancuerna (unilateral)', isGiantSet: true, sets:3,reps:'12 c/lado', tempo: '2011', rir:'1'},
+                                                {name:'C. Saltos al cajón (Box Jumps)', isGiantSet: true, sets:3,reps:'10', tempo: 'X0X0', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Abducción (Doble Drop Set)',exercises:[{name:'Abducción en máquina',sets:3,reps:'12 + Drop + Drop',rest:'60s',rir:'0', tempo: '1011'}]},
+                                        core:{name:'Core Final (AMRAP 5 min)',exercises:[
+                                            {name:'A. 15 Toques de hombro en plancha (c/lado)', tempo: 'N/A'},
+                                            {name:'B. 20 Crunches bicicleta (c/lado)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Pliométrica (2 Rondas)',exercises:[
+                                            {name:'Sentadilla con Salto (Squat Jump)',sets:1,reps:'12', tempo: 'X0X0'},
+                                            {name:'Puentes de glúteo explosivos (sin peso)',sets:1,reps:'20', tempo: '10X0'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (4 Rondas)', tip:'AMRAP 15 min (Tantas Rondas Como Sea Posible en 15 minutos). Descansa lo mínimo necesario.', exercises:[
+                                                {name:'A. Hip Thrust con Mancuerna (Pesado)', isGiantSet: true, sets:1,reps:'15', tempo: '10X1', rir:'1'},
+                                                {name:'B. Zancadas caminando con mancuernas', isGiantSet: true, sets:1,reps:'10 c/p', tempo: 'N/A', rir:'1'},
+                                                {name:'C. Push Press con mancuernas', isGiantSet: true, sets:1,reps:'12', tempo: '10X0', rir:'1'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito MetCon B (3 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 60s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Goblet', isGiantSet: true, sets:3,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Remo con mancuerna (unilateral)', isGiantSet: true, sets:3,reps:'12 c/lado', tempo: '2011', rir:'1'},
+                                                {name:'C. Broad Jumps (Salto largo)', isGiantSet: true, sets:3,reps:'10', tempo: 'X0X0', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Abducción (Doble Drop Set)',exercises:[{name:'Abducción tumbado con banda (Doble Drop)',sets:3,reps:'20 + Drop + Drop',rest:'60s',rir:'0', tempo: '1011', tip:'Usa 3 bandas (pesada>media>ligera).'}]},
+                                        core:{name:'Core Final (AMRAP 5 min)',exercises:[
+                                            {name:'A. 15 Toques de hombro en plancha (c/lado)', tempo: 'N/A'},
+                                            {name:'B. 20 Crunches bicicleta (c/lado)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                },
+                                '2':{
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Hinge (2 Rondas)',exercises:[
+                                            {name:'Swings con Kettlebell (ligero)',sets:1,reps:'20', tempo: 'X0X0'},
+                                            {name:'Buenos días con banda',sets:1,reps:'20', tempo: '2010'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'single', header: 'Ejercicio Principal de Fuerza', exercises: [
+                                                {name:'Peso Muerto Rumano (RDL) con barra',sets:5,reps:'8-10',rest:'75s',rir:'1', tempo: '4010'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito de Tracción (4 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 90s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Búlgara (con mancuernas)', isGiantSet: true, sets:4,reps:'10-12 c/p', tempo: '3010', rir:'1'},
+                                                {name:'B. Jalón al pecho (Polea)', isGiantSet: true, sets:4,reps:'12-15', tempo: '3011', rir:'1', tip:'<span class="variant-box"><strong>Variante:</strong> Dominadas Asistidas o con Banda.</span>'},
+                                                {name:'C. Hiperextensiones (foco glúteo)', isGiantSet: true, sets:4,reps:'15-20', tempo: '2111', rir:'1'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Isquios (Rest-Pause)',exercises:[{name:'Curl Femoral Tumbado',sets:3,reps:'(Fallo + 15s Pausa + Fallo)',rest:'60s',rir:'0', tempo: '3011'}]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Landmine Rotations (Pesado)',sets:1,reps:'10 c/lado', tempo: '2020', tip:'<span class="variant-box"><strong>Variante:</strong> Giros rusos con disco pesado.</span>'},
+                                            {name:'B. Plancha (con peso)',sets:1,reps:'Al fallo (max 90s)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Hinge (2 Rondas)',exercises:[
+                                            {name:'Swings con Mancuerna (ligero)',sets:1,reps:'20', tempo: 'X0X0'},
+                                            {name:'Buenos días con banda',sets:1,reps:'20', tempo: '2010'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'single', header: 'Ejercicio Principal de Fuerza', exercises: [
+                                                {name:'Peso Muerto Rumano (RDL) con Mancuernas',sets:5,reps:'12-15',rest:'75s',rir:'1', tempo: '4010'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito de Tracción (4 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 90s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Búlgara (con mancuernas)', isGiantSet: true, sets:4,reps:'10-12 c/p', tempo: '3010', rir:'1'},
+                                                {name:'B. Remo con banda (sentado)', isGiantSet: true, sets:4,reps:'15-20', tempo: '3011', rir:'1'},
+                                                {name:'C. Hiperextensiones Inversas (en suelo)', isGiantSet: true, sets:4,reps:'20-25', tempo: '2111', rir:'1'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Isquios (Rest-Pause)',exercises:[{name:'Curl Femoral con Banda (tumbado)',sets:3,reps:'(Fallo + 15s Pausa + Fallo)',rest:'60s',rir:'0', tempo: '3011'}]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Giros rusos con mancuerna (Pesado)',sets:1,reps:'15 c/lado', tempo: 'N/A'},
+                                            {name:'B. Plancha (con peso si es posible)',sets:1,reps:'Al fallo (max 90s)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                },
+                                '4':{
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Total (2 Rondas)',exercises:[
+                                            {name:'Sentadilla Goblet (ligero)',sets:1,reps:'15', tempo: '2010'},
+                                            {name:'Puentes con banda',sets:1,reps:'20', tempo: '1111'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (5 Rondas)', tip:'Completa A, B, C, D con 0 descanso. Descansa 90s entre rondas.', exercises:[
+                                                {name:'A. Prensa de Piernas (pies altos)', isGiantSet: true, sets:5,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Press de Banca con mancuernas', isGiantSet: true, sets:5,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'C. Patada de Glúteo en Polea', isGiantSet: true, sets:5,reps:'12 c/p', tempo: '2011', rir:'1'},
+                                                {name:'D. Burpees', isGiantSet: true, sets:5,reps:'10', tempo: 'N/A', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: AMRAP 7 min', tip:'AMRAP = Tantas Rondas Como Sea Posible en 7 minutos.', exercises:[
+                                            {name:'A. 10 Swings con Kettlebell', isGiantSet: true, sets:1,reps:'10', tempo: 'X0X0'},
+                                            {name:'B. 10 Zancadas con Salto (c/pierna)', isGiantSet: true, sets:1,reps:'10 c/p', tempo: 'X0X0'},
+                                            {name:'C. 10 Flexiones de brazo (Push-ups)', isGiantSet: true, sets:1,reps:'10', tempo: 'N/A'}
+                                        ]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Crunch en polea alta',sets:1,reps:'15-20', tempo: '2111', tip:'<span class="variant-box"><strong>Variante:</strong> Crunches con banda.</span>'},
+                                            {name:'B. Plancha lateral con crunch',sets:1,reps:'15 c/lado', tempo: '2121'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Total (2 Rondas)',exercises:[
+                                            {name:'Sentadilla Goblet (ligero)',sets:1,reps:'15', tempo: '2010'},
+                                            {name:'Puentes con banda',sets:1,reps:'20', tempo: '1111'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (5 Rondas)', tip:'Completa A, B, C, D con 0 descanso. Descansa 90s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Goblet (Pesada)', isGiantSet: true, sets:5,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Flexiones de brazo (Push-ups)', isGiantSet: true, sets:5,reps:'Al fallo', tempo: '2010', rir:'1'},
+                                                {name:'C. Patada de glúteo con banda', isGiantSet: true, sets:5,reps:'15 c/p', tempo: '2011', rir:'1'},
+                                                {name:'D. Burpees', isGiantSet: true, sets:5,reps:'10', tempo: 'N/A', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: AMRAP 7 min', tip:'AMRAP = Tantas Rondas Como Sea Posible en 7 minutos.', exercises:[
+                                            {name:'A. 10 Swings con Mancuerna', isGiantSet: true, sets:1,reps:'10', tempo: 'X0X0'},
+                                            {name:'B. 10 Zancadas con Salto (c/pierna)', isGiantSet: true, sets:1,reps:'10 c/p', tempo: 'X0X0'},
+                                            {name:'C. 10 Flexiones "Pike" (Pike Push-ups)', isGiantSet: true, sets:1,reps:'10', tempo: 'N/A'}
+                                        ]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Crunches con banda (anclaje alto)',sets:1,reps:'15-20', tempo: '2111'},
+                                            {name:'B. Plancha lateral con crunch',sets:1,reps:'15 c/lado', tempo: '2121'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                }
+                            }
+                        },
+                        2: { 
+                            focus: "Semana 2: Intensificación MetCon", 
+                            days: ['Día 1: Full Body MetCon A', 'Día 2: Descanso', 'Día 3: Full Body MetCon B', 'Día 4: Descanso', 'Día 5: Full Body MetCon C'], 
+                            workouts: {
+                                '0': {
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Pliométrica (2 Rondas)',exercises:[
+                                            {name:'Sentadilla con Salto (Squat Jump)',sets:1,reps:'15', tempo: 'X0X0'},
+                                            {name:'Puentes de glúteo explosivos (sin peso)',sets:1,reps:'25', tempo: '10X0'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (5 Rondas)', tip:'AMRAP 20 min (Tantas Rondas Como Sea Posible en 20 minutos). Descansa lo mínimo necesario.', exercises:[
+                                                {name:'A. Hip Thrust con Barra (Pesado)', isGiantSet: true, sets:1,reps:'10', tempo: '10X1', rir:'1'},
+                                                {name:'B. Zancadas caminando con mancuernas', isGiantSet: true, sets:1,reps:'12 c/p', tempo: 'N/A', rir:'1'},
+                                                {name:'C. Push Press con mancuernas', isGiantSet: true, sets:1,reps:'12', tempo: '10X0', rir:'1'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito MetCon B (4 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 60s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Goblet', isGiantSet: true, sets:4,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Remo con mancuerna (unilateral)', isGiantSet: true, sets:4,reps:'12 c/lado', tempo: '2011', rir:'1'},
+                                                {name:'C. Saltos al cajón (Box Jumps)', isGiantSet: true, sets:4,reps:'12', tempo: 'X0X0', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Abducción (Triple Drop Set)',exercises:[{name:'Abducción en máquina',sets:3,reps:'12 + Drop + Drop',rest:'60s',rir:'0', tempo: '1011'}]},
+                                        core:{name:'Core Final (AMRAP 6 min)',exercises:[
+                                            {name:'A. 15 Toques de hombro en plancha (c/lado)', tempo: 'N/A'},
+                                            {name:'B. 20 Crunches bicicleta (c/lado)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Pliométrica (2 Rondas)',exercises:[
+                                            {name:'Sentadilla con Salto (Squat Jump)',sets:1,reps:'15', tempo: 'X0X0'},
+                                            {name:'Puentes de glúteo explosivos (sin peso)',sets:1,reps:'25', tempo: '10X0'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (5 Rondas)', tip:'AMRAP 20 min (Tantas Rondas Como Sea Posible en 20 minutos). Descansa lo mínimo necesario.', exercises:[
+                                                {name:'A. Hip Thrust con Mancuerna (Pesado)', isGiantSet: true, sets:1,reps:'15', tempo: '10X1', rir:'1'},
+                                                {name:'B. Zancadas caminando con mancuernas', isGiantSet: true, sets:1,reps:'12 c/p', tempo: 'N/A', rir:'1'},
+                                                {name:'C. Push Press con mancuernas', isGiantSet: true, sets:1,reps:'12', tempo: '10X0', rir:'1'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito MetCon B (4 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 60s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Goblet', isGiantSet: true, sets:4,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Remo con mancuerna (unilateral)', isGiantSet: true, sets:4,reps:'12 c/lado', tempo: '2011', rir:'1'},
+                                                {name:'C. Broad Jumps (Salto largo)', isGiantSet: true, sets:4,reps:'12', tempo: 'X0X0', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Abducción (Triple Drop Set)',exercises:[{name:'Abducción tumbado con banda (Triple Drop)',sets:3,reps:'20 + Drop + Drop',rest:'60s',rir:'0', tempo: '1011', tip:'Usa 3 bandas (pesada>media>ligera).'}]},
+                                        core:{name:'Core Final (AMRAP 6 min)',exercises:[
+                                            {name:'A. 15 Toques de hombro en plancha (c/lado)', tempo: 'N/A'},
+                                            {name:'B. 20 Crunches bicicleta (c/lado)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                },
+                                '2':{
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Hinge (2 Rondas)',exercises:[
+                                            {name:'Swings con Kettlebell (ligero)',sets:1,reps:'25', tempo: 'X0X0'},
+                                            {name:'Buenos días con banda',sets:1,reps:'25', tempo: '2010'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'single', header: 'Ejercicio Principal de Fuerza', exercises: [
+                                                {name:'Peso Muerto Rumano (RDL) con barra',sets:5,reps:'10-12',rest:'75s',rir:'1', tempo: '4010'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito de Tracción (5 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 75s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Búlgara (con mancuernas)', isGiantSet: true, sets:5,reps:'10-12 c/p', tempo: '3010', rir:'1'},
+                                                {name:'B. Jalón al pecho (Polea)', isGiantSet: true, sets:5,reps:'12-15', tempo: '3011', rir:'1', tip:'<span class="variant-box"><strong>Variante:</strong> Dominadas Asistidas o con Banda.</span>'},
+                                                {name:'C. Hiperextensiones (foco glúteo)', isGiantSet: true, sets:5,reps:'15-20', tempo: '2111', rir:'1'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Isquios (Rest-Pause)',exercises:[{name:'Curl Femoral Tumbado',sets:4,reps:'(Fallo + 15s Pausa + Fallo)',rest:'60s',rir:'0', tempo: '3011'}]},
+                                        core:{name:'Core Final (4 Rondas)',exercises:[
+                                            {name:'A. Landmine Rotations (Pesado)',sets:1,reps:'10 c/lado', tempo: '2020', tip:'<span class="variant-box"><strong>Variante:</strong> Giros rusos con disco pesado.</span>'},
+                                            {name:'B. Plancha (con peso)',sets:1,reps:'Al fallo (max 90s)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Hinge (2 Rondas)',exercises:[
+                                            {name:'Swings con Mancuerna (ligero)',sets:1,reps:'25', tempo: 'X0X0'},
+                                            {name:'Buenos días con banda',sets:1,reps:'25', tempo: '2010'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'single', header: 'Ejercicio Principal de Fuerza', exercises: [
+                                                {name:'Peso Muerto Rumano (RDL) con Mancuernas',sets:5,reps:'12-15',rest:'75s',rir:'1', tempo: '4010'}
+                                            ]},
+                                            { type: 'giantset', header: 'Circuito de Tracción (5 Rondas)', tip:'Completa A, B, y C con 0 descanso. Descansa 75s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Búlgara (con mancuernas)', isGiantSet: true, sets:5,reps:'10-12 c/p', tempo: '3010', rir:'1'},
+                                                {name:'B. Remo con banda (sentado)', isGiantSet: true, sets:5,reps:'15-20', tempo: '3011', rir:'1'},
+                                                {name:'C. Hiperextensiones Inversas (en suelo)', isGiantSet: true, sets:5,reps:'20-25', tempo: '2111', rir:'1'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Isquios (Rest-Pause)',exercises:[{name:'Curl Femoral con Banda (tumbado)',sets:4,reps:'(Fallo + 15s Pausa + Fallo)',rest:'60s',rir:'0', tempo: '3011'}]},
+                                        core:{name:'Core Final (4 Rondas)',exercises:[
+                                            {name:'A. Giros rusos con mancuerna (Pesado)',sets:1,reps:'15 c/lado', tempo: 'N/A'},
+                                            {name:'B. Plancha (con peso si es posible)',sets:1,reps:'Al fallo (max 90s)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                },
+                                '4':{
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Total (2 Rondas)',exercises:[
+                                            {name:'Sentadilla Goblet (ligero)',sets:1,reps:'20', tempo: '2010'},
+                                            {name:'Puentes con banda',sets:1,reps:'25', tempo: '1111'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (5 Rondas)', tip:'Completa A, B, C, D con 0 descanso. Descansa 75s entre rondas.', exercises:[
+                                                {name:'A. Prensa de Piernas (pies altos)', isGiantSet: true, sets:5,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Press de Banca con mancuernas', isGiantSet: true, sets:5,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'C. Patada de Glúteo en Polea', isGiantSet: true, sets:5,reps:'12 c/p', tempo: '2011', rir:'1'},
+                                                {name:'D. Burpees', isGiantSet: true, sets:5,reps:'12', tempo: 'N/A', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: AMRAP 10 min', tip:'AMRAP = Tantas Rondas Como Sea Posible en 10 minutos.', exercises:[
+                                            {name:'A. 10 Swings con Kettlebell', isGiantSet: true, sets:1,reps:'10', tempo: 'X0X0'},
+                                            {name:'B. 10 Zancadas con Salto (c/pierna)', isGiantSet: true, sets:1,reps:'10 c/p', tempo: 'X0X0'},
+                                            {name:'C. 10 Flexiones de brazo (Push-ups)', isGiantSet: true, sets:1,reps:'10', tempo: 'N/A'}
+                                        ]},
+                                        core:{name:'Core Final (4 Rondas)',exercises:[
+                                            {name:'A. Crunch en polea alta',sets:1,reps:'15-20', tempo: '2111', tip:'<span class="variant-box"><strong>Variante:</strong> Crunches con banda.</span>'},
+                                            {name:'B. Plancha lateral con crunch',sets:1,reps:'15 c/lado', tempo: '2121'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Total (2 Rondas)',exercises:[
+                                            {name:'Sentadilla Goblet (ligero)',sets:1,reps:'20', tempo: '2010'},
+                                            {name:'Puentes con banda',sets:1,reps:'25', tempo: '1111'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Circuito MetCon A (5 Rondas)', tip:'Completa A, B, C, D con 0 descanso. Descansa 75s entre rondas.', exercises:[
+                                                {name:'A. Sentadilla Goblet (Pesada)', isGiantSet: true, sets:5,reps:'15', tempo: '2010', rir:'1'},
+                                                {name:'B. Flexiones de brazo (Push-ups)', isGiantSet: true, sets:5,reps:'Al fallo', tempo: '2010', rir:'1'},
+                                                {name:'C. Patada de glúteo con banda', isGiantSet: true, sets:5,reps:'15 c/p', tempo: '2011', rir:'1'},
+                                                {name:'D. Burpees', isGiantSet: true, sets:5,reps:'12', tempo: 'N/A', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: AMRAP 10 min', tip:'AMRAP = Tantas Rondas Como Sea Posible en 10 minutos.', exercises:[
+                                            {name:'A. 10 Swings con Mancuerna', isGiantSet: true, sets:1,reps:'10', tempo: 'X0X0'},
+                                            {name:'B. 10 Zancadas con Salto (c/pierna)', isGiantSet: true, sets:1,reps:'10 c/p', tempo: 'X0X0'},
+                                            {name:'C. 10 Flexiones "Pike" (Pike Push-ups)', isGiantSet: true, sets:1,reps:'10', tempo: 'N/A'}
+                                        ]},
+                                        core:{name:'Core Final (4 Rondas)',exercises:[
+                                            {name:'A. Crunches con banda (anclaje alto)',sets:1,reps:'15-20', tempo: '2111'},
+                                            {name:'B. Plancha lateral con crunch',sets:1,reps:'15 c/lado', tempo: '2121'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                }
+                            }
+                        },
+                        3: { 
+                            focus: "Semana 3: Shock y Pliometría", 
+                            days: ['Día 1: Full Body Pliometría', 'Día 2: Descanso', 'Día 3: Full Body Shock', 'Día 4: Descanso', 'Día 5: Full Body Test (The Gauntlet)'], 
+                            workouts: {
+                                '0': {
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Pliométrica (3 Rondas)',exercises:[
+                                            {name:'Saltos al cajón (Box Jumps)',sets:1,reps:'10', tempo: 'X0X0'},
+                                            {name:'Puentes de glúteo explosivos (con disco ligero)',sets:1,reps:'15', tempo: '10X0'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'superset', header: 'Superserie PAP 1 (4 Rondas)', tip:'Haz A (pesado) e inmediatamente B (explosivo). Descansa 90s.', exercises:[
+                                                {name:'A. Hip Thrust con Barra (Pesado)', isGiantSet: true, sets:4,reps:'6-8', tempo: '10X1', rir:'1'},
+                                                {name:'B. Broad Jumps (Salto largo)', isGiantSet: true, sets:4,reps:'8', tempo: 'X0X0', rir:'N/A'}
+                                            ]},
+                                            { type: 'superset', header: 'Superserie PAP 2 (4 Rondas)', tip:'Haz A (pesado) e inmediatamente B (explosivo). Descansa 90s.', exercises:[
+                                                {name:'A. Sentadilla Goblet (Pesada)', isGiantSet: true, sets:4,reps:'8-10', tempo: '2010', rir:'1'},
+                                                {name:'B. Zancadas con Salto (c/pierna)', isGiantSet: true, sets:4,reps:'8 c/p', tempo: 'X0X0', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: 100 Reps Challenge',exercises:[{name:'Abducción en máquina (Serie de 100 reps)',sets:1,reps:'100',rest:'N/A',rir:'0', tempo: '1010', tip:'Peso ligero. Haz mini-pausas (max 10s) para llegar a 100.'}]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Elevación de piernas a la barra (Toes-to-bar)',sets:1,reps:'Al fallo', tempo: '2010'},
+                                            {name:'B. Plancha lateral con crunch y peso',sets:1,reps:'15 c/lado', tempo: '2121'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Pliométrica (3 Rondas)',exercises:[
+                                            {name:'Sentadilla con Salto (Squat Jump)',sets:1,reps:'15', tempo: 'X0X0'},
+                                            {name:'Puentes de glúteo explosivos (con mancuerna)',sets:1,reps:'15', tempo: '10X0'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'superset', header: 'Superserie PAP 1 (4 Rondas)', tip:'Haz A (pesado) e inmediatamente B (explosivo). Descansa 90s.', exercises:[
+                                                {name:'A. Hip Thrust con Mancuerna (Pesado)', isGiantSet: true, sets:4,reps:'10-12', tempo: '10X1', rir:'1'},
+                                                {name:'B. Broad Jumps (Salto largo)', isGiantSet: true, sets:4,reps:'8', tempo: 'X0X0', rir:'N/A'}
+                                            ]},
+                                            { type: 'superset', header: 'Superserie PAP 2 (4 Rondas)', tip:'Haz A (pesado) e inmediatamente B (explosivo). Descansa 90s.', exercises:[
+                                                {name:'A. Sentadilla Goblet (Pesada)', isGiantSet: true, sets:4,reps:'10-12', tempo: '2010', rir:'1'},
+                                                {name:'B. Zancadas con Salto (c/pierna)', isGiantSet: true, sets:4,reps:'8 c/p', tempo: 'X0X0', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: 100 Reps Challenge',exercises:[{name:'Abducción tumbado con banda (Serie de 100 reps)',sets:1,reps:'100 c/lado',rest:'N/A',rir:'0', tempo: '1010', tip:'Banda ligera. Haz mini-pausas (max 10s) para llegar a 100.'}]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Elevación de piernas en V (V-ups)',sets:1,reps:'Al fallo', tempo: '2010'},
+                                            {name:'B. Plancha lateral con crunch y peso',sets:1,reps:'15 c/lado', tempo: '2121'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                },
+                                '2':{
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Hinge (3 Rondas)',exercises:[
+                                            {name:'Swings con Kettlebell (ligero)',sets:1,reps:'25', tempo: 'X0X0'},
+                                            {name:'Buenos días con banda',sets:1,reps:'25', tempo: '2010'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'single', header: 'Ejercicio Principal de Shock (Drop Set)', exercises: [
+                                                {name:'Peso Muerto Rumano (RDL) con barra (Drop Set)',sets:4,reps:'8-10 + Drop',rest:'90s',rir:'0', tempo: '4010', tip:'Haz 8-10 reps pesadas, baja el peso un 30% y sigue al fallo.'}
+                                            ]},
+                                            { type: 'superset', header: 'Superserie de Shock (4 Rondas)', tip:'Haz A y B sin descanso. Descansa 75s al final.', exercises:[
+                                                {name:'A. Sentadilla Búlgara (con déficit y mancuernas)', isGiantSet: true, sets:4,reps:'Al Fallo (8-12 reps)', tempo: '3110', rir:'0'},
+                                                {name:'B. Puentes a una pierna (con pausa 3s)', isGiantSet: true, sets:4,reps:'Al Fallo c/p', tempo: '2311', rir:'0'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Isquios (Triple Drop Set)',exercises:[{name:'Curl Femoral Tumbado',sets:2,reps:'10 + Drop + Drop',rest:'75s',rir:'0', tempo: '3011'}]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Dragon Flag Negatives',sets:1,reps:'Al fallo', tempo: '5010'},
+                                            {name:'B. Plancha (con peso)',sets:1,reps:'Al fallo (max 2 min)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación Hinge (3 Rondas)',exercises:[
+                                            {name:'Swings con Mancuerna (ligero)',sets:1,reps:'25', tempo: 'X0X0'},
+                                            {name:'Buenos días con banda',sets:1,reps:'25', tempo: '2010'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'single', header: 'Ejercicio Principal de Shock (Drop Set)', exercises: [
+                                                {name:'Peso Muerto Rumano (RDL) con Mancuernas (Drop Set)',sets:4,reps:'10-12 + Drop',rest:'90s',rir:'0', tempo: '4010', tip:'Haz 10-12 reps pesadas, toma mancuernas más ligeras y sigue al fallo.'}
+                                            ]},
+                                            { type: 'superset', header: 'Superserie de Shock (4 Rondas)', tip:'Haz A y B sin descanso. Descansa 75s al final.', exercises:[
+                                                {name:'A. Sentadilla Búlgara (con déficit y mancuernas)', isGiantSet: true, sets:4,reps:'Al Fallo (10-15 reps)', tempo: '3110', rir:'0'},
+                                                {name:'B. Puentes a una pierna con mancuerna (pausa 3s)', isGiantSet: true, sets:4,reps:'Al Fallo c/p', tempo: '2311', rir:'0'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Isquios (Triple Drop Set)',exercises:[{name:'Curl Femoral con Banda (Triple Drop)',sets:2,reps:'15 + Drop + Drop',rest:'75s',rir:'0', tempo: '3011', tip:'Usa 3 bandas (pesada>media>ligera).'}]},
+                                        core:{name:'Core Final (3 Rondas)',exercises:[
+                                            {name:'A. Dragon Flag Negatives (en suelo)',sets:1,reps:'Al fallo', tempo: '5010'},
+                                            {name:'B. Plancha (con peso si es posible)',sets:1,reps:'Al fallo (max 2 min)', tempo: 'N/A'}
+                                        ]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                },
+                                '4':{
+                                    gimnasio: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación "The Gauntlet" (1 Ronda)',exercises:[
+                                            {name:'Sentadilla Goblet (ligero)',sets:1,reps:'20', tempo: '2010'},
+                                            {name:'Puentes con banda',sets:1,reps:'20', tempo: '1111'},
+                                            {name:'Burpees',sets:1,reps:'10', tempo: 'N/A'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Test "The Gauntlet" (1 Ronda)', tip:'POR TIEMPO: Completa todos los ejercicios en orden lo más rápido posible. Anota tu tiempo.', exercises:[
+                                                {name:'A. 50 Saltos al Cajón (Box Jumps)', isGiantSet: true, sets:1,reps:'50', tempo: 'N/A', rir:'N/A'},
+                                                {name:'B. 40 Swings con Kettlebell (Pesado)', isGiantSet: true, sets:1,reps:'40', tempo: 'N/A', rir:'N/A'},
+                                                {name:'C. 30 Sentadillas Goblet (con peso)', isGiantSet: true, sets:1,reps:'30', tempo: 'N/A', rir:'N/A'},
+                                                {name:'D. 20 Push Press con mancuernas', isGiantSet: true, sets:1,reps:'20', tempo: 'N/A', rir:'N/A'},
+                                                {name:'E. 10 Burpees', isGiantSet: true, sets:1,reps:'10', tempo: 'N/A', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Opcional',exercises:[{name:'10-15 min Cardio Ligero (Vuelta a la calma)',sets:1,reps:'10-15 min', tempo: 'N/A'}]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    },
+                                    casa: {
+                                        calentamiento: calentamientoGeneral,
+                                        activation:{name:'Activación "The Gauntlet" (1 Ronda)',exercises:[
+                                            {name:'Sentadilla Goblet (ligero)',sets:1,reps:'20', tempo: '2010'},
+                                            {name:'Puentes con banda',sets:1,reps:'20', tempo: '1111'},
+                                            {name:'Burpees',sets:1,reps:'10', tempo: 'N/A'}
+                                        ]},
+                                        main_workout: [
+                                            { type: 'giantset', header: 'Test "The Gauntlet" (1 Ronda)', tip:'POR TIEMPO: Completa todos los ejercicios en orden lo más rápido posible. Anota tu tiempo.', exercises:[
+                                                {name:'A. 50 Sentadillas con Salto (Squat Jumps)', isGiantSet: true, sets:1,reps:'50', tempo: 'N/A', rir:'N/A'},
+                                                {name:'B. 40 Swings con Mancuerna (Pesado)', isGiantSet: true, sets:1,reps:'40', tempo: 'N/A', rir:'N/A'},
+                                                {name:'C. 30 Sentadillas Goblet (con peso)', isGiantSet: true, sets:1,reps:'30', tempo: 'N/A', rir:'N/A'},
+                                                {name:'D. 20 Push Press con mancuernas', isGiantSet: true, sets:1,reps:'20', tempo: 'N/A', rir:'N/A'},
+                                                {name:'E. 10 Burpees', isGiantSet: true, sets:1,reps:'10', tempo: 'N/A', rir:'N/A'}
+                                            ]}
+                                        ],
+                                        finisher:{name:'Finisher: Opcional',exercises:[{name:'10-15 min Cardio Ligero (Vuelta a la calma)',sets:1,reps:'10-15 min', tempo: 'N/A'}]},
+                                        vuelta_a_la_calma: vueltaALaCalmaGeneral
+                                    }
+                                }
+                            }
+                        },
+                        4: { 
+                            focus: "Semana 4: Descarga Activa", 
+                            // DATOS DE DESCARGA (Copiados de Nivel 2/3, son universales)
+                            days: ['Día 1: Circuito Ligero', 'Día 2: Descanso', 'Día 3: Circuito Ligero', 'Día 4: Descanso', 'Día 5: Descanso Activo'], 
+                            workouts: {
+                                '0':{
+                                    gimnasio: {
+                                        name: 'Circuito de Recuperación (3 Rondas)', exercises:[
+                                            {name:'Puentes de glúteo sin peso',sets:1,reps:'25', tempo: '2012'},
+                                            {name:'Sentadilla Goblet (muy ligero)',sets:1,reps:'20', tempo: '3010'},
+                                            {name:'Abducción de cadera de pie con banda',sets:1,reps:'20 c/lado', tempo: '2011'},
+                                            {name:'Plancha',sets:1,reps:'60s', tempo: 'N/A'}
+                                        ], tip: 'Descansa 90s entre rondas. Enfócate en la técnica.'
+                                    },
+                                    casa: {
+                                        name: 'Circuito de Recuperación (3 Rondas)', exercises:[
+                                            {name:'Puentes de glúteo sin peso',sets:1,reps:'25', tempo: '2012'},
+                                            {name:'Sentadilla Goblet (muy ligero)',sets:1,reps:'20', tempo: '3010'},
+                                            {name:'Abducción de cadera de pie con banda',sets:1,reps:'20 c/lado', tempo: '2011'},
+                                            {name:'Plancha',sets:1,reps:'60s', tempo: 'N/A'}
+                                        ], tip: 'Descansa 90s entre rondas. Enfócate en la técnica.'
+                                    }
+                                },
+                                '2':{
+                                    gimnasio: {
+                                        name: 'Movilidad y Flujo Sanguíneo (3 Rondas)', exercises:[
+                                            {name:'Sentadilla profunda isométrica (sin peso)',sets:1,reps:'45s', tempo: 'N/A'},
+                                            {name:'Buenos días con pica',sets:1,reps:'20', tempo: '3010'},
+                                            {name:'Caminata de oso',sets:1,reps:'20m', tempo: 'N/A'},
+                                            {name:'Estiramiento de piramidal',sets:1,reps:'30s c/lado', tempo: 'N/A'}
+                                        ]
+                                    },
+                                    casa: {
+                                        name: 'Movilidad y Flujo Sanguíneo (3 Rondas)', exercises:[
+                                            {name:'Sentadilla profunda isométrica (sin peso)',sets:1,reps:'45s', tempo: 'N/A'},
+                                            {name:'Buenos días con pica',sets:1,reps:'20', tempo: '3010'},
+                                            {name:'Caminata de oso',sets:1,reps:'20m', tempo: 'N/A'},
+                                            {name:'Estiramiento de piramidal',sets:1,reps:'30s c/lado', tempo: 'N/A'}
+                                        ]
+                                    }
+                                },
+                                '4':{
+                                    gimnasio: {cardio:"30-40 min de cardio de baja intensidad (caminata en inclinación, elíptica) + Foam Roller + Estiramientos."},
+                                    casa: {cardio:"30-40 min de cardio de baja intensidad (caminata, trote suave) + Foam Roller + Estiramientos."}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    // #############################################################
+    // ### FIN: DATOS DEL PROGRAMA (NIVEL 4)
+    // #############################################################
+
+
+    let currentCategory = 'gluteos';
+    let currentLevel = '4'; // Carga Nivel 4 por defecto
+    let currentWeek = 1;
+    let currentView = 'gimnasio'; 
+    let currentDayIndex = 0; 
+
+    const workoutTitle = document.getElementById('workout-title');
+    const introTextContainer = document.getElementById('level-intro-text');
+    const weekTabsContainer = document.getElementById('week-tabs');
+    const dayTabsContainer = document.getElementById('day-tabs');
+    const workoutsContainer = document.getElementById('workouts-container');
+    const calendarContainer = document.querySelector('#calendario .flex');
+    
+    const openGuideBtn = document.getElementById('open-guide-btn');
+    const closeGuideBtn = document.getElementById('close-guide-btn');
+    const guideModal = document.getElementById('guide-modal');
+    const openTheoryBtn = document.getElementById('open-theory-btn');
+    const closeTheoryBtn = document.getElementById('close-theory-btn');
+    const theoryModal = document.getElementById('theory-modal');
+    const guideModalTitle = document.getElementById('guide-modal-title');
+    const guideMainView = document.getElementById('guide-main-view');
+    const guideCarbsView = document.getElementById('guide-carbs-view');
+    const showCarbsBtn = document.getElementById('show-carbs-btn');
+    const backToGuideBtn = document.getElementById('back-to-guide-btn');
+
+    const btnGimnasio = document.getElementById('btn-gimnasio');
+    const btnCasa = document.getElementById('btn-casa');
+    const viewToggle = document.getElementById('view-toggle');
+
+    function showWorkoutView(category, level) {
+        const levelData = programData[category].levels[level];
+        document.querySelector('p.text-lg.text-gray-600.mt-4').textContent = `Nivel ${level}: ${levelData.levelName.split(': ')[1]}`;
+        workoutTitle.innerHTML = levelData.title;
+        introTextContainer.textContent = levelData.intro;
+        generateWeekTabs(Object.keys(levelData.weeks));
+        showWeek(Object.keys(levelData.weeks)[0]);
+    }
+
+    function generateWeekTabs(weeks) {
+        weekTabsContainer.innerHTML = '';
+        weeks.forEach(weekNumber => {
+            const weekData = programData[currentCategory].levels[currentLevel].weeks[weekNumber];
+            const tab = document.createElement('button');
+            tab.className = `week-tab py-2 px-4 font-bebas text-lg rounded-t-lg transition-colors duration-200`;
+            tab.innerHTML = `Semana ${weekNumber}<br><span class="text-xs font-normal">${weekData.focus}</span>`;
+            tab.dataset.week = weekNumber;
+            tab.onclick = () => showWeek(weekNumber);
+            weekTabsContainer.appendChild(tab);
+        });
+    }
+
+    function showWeek(weekNumber) {
+        currentWeek = weekNumber;
+        document.querySelectorAll('.week-tab').forEach(tab => {
+            tab.classList.toggle('week-tab-active', tab.dataset.week == weekNumber);
+            tab.classList.toggle('week-tab-inactive', tab.dataset.week != weekNumber);
+        });
+        const weekData = programData[currentCategory].levels[currentLevel].weeks[weekNumber];
+        generateDayTabs(weekData.days, weekNumber);
+        generateCalendar(weekData.days, weekNumber);
+        if(weekData.days.length > 0) {
+            const firstWorkoutDayIndex = Object.keys(weekData.workouts)[0] || 0;
+            showWorkout(firstWorkoutDayIndex, weekNumber);
+        } else {
+             workoutsContainer.innerHTML = '';
+        }
+        updateViewToggle();
+    }
+    
+    function generateDayTabs(days, weekNumber) {
+        dayTabsContainer.innerHTML = '';
+        days.forEach((day, index) => {
+            const workoutData = programData.gluteos.levels[currentLevel].weeks[weekNumber].workouts[index];
+            if (day.includes("Descanso") && !workoutData) return;
+
+            const tab = document.createElement('button');
+            tab.className = `day-tab py-2 px-4 font-bebas text-md rounded-lg m-1 transition-colors duration-200`;
+            tab.textContent = day;
+            tab.dataset.dayIndex = index;
+            tab.onclick = () => showWorkout(index, weekNumber);
+            dayTabsContainer.appendChild(tab);
+        });
+    }
+
+    function createExerciseCard(ex, dayIndex, weekNumber, isFinisher = false, isCore = false, isWarmup = false) {
+        const isSetComponent = ex.isGiantSet || false;
+        // ID único para Nivel 4
+        const uniqueId = `prog-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}-${currentView}-${ex.name.replace(/\s+/g, '-')}`;
+        let setsCheckboxes = '';
+        
+        // No mostrar checkboxes para "The Gauntlet" (Semana 3, Día 4)
+        const isGauntlet = (weekNumber == 3 && dayIndex == 4);
+
+        if (ex.sets && !isWarmup && !isGauntlet) { 
+            setsCheckboxes = Array.from({ length: ex.sets }, (_, i) => `<div class="flex items-center"><input type="checkbox" id="set-${uniqueId}-${i}" class="set-checkbox h-4 w-4 rounded bg-gray-100 border-gray-300 text-pink-500 focus:ring-pink-400"><label for="set-${uniqueId}-${i}" class="ml-2 text-sm text-gray-600">Serie ${i + 1}</label></div>`).join('');
+        }
+        
+        const card = document.createElement('div');
+        const cardBg = isSetComponent ? 'bg-purple-50 border-purple-200' : 'bg-white border-gray-200';
+        card.className = `${cardBg} border p-5 rounded-lg shadow-sm`;
+        card.innerHTML = `
+            <div class="flex justify-between items-start flex-wrap gap-4">
+                <div class="flex-1 flex items-center">
+                    
+                    <div class="flex-1">
+                        <h4 class="text-2xl text-gray-900 flex items-center">${ex.name}</h4>
+                        <p class="text-pink-600 font-semibold text-sm mt-1">${ex.sets || ''} series x ${ex.reps || ''} reps</p>
+                        <p class="text-gray-600 text-xs mt-1">
+                            ${ex.rest ? `Desc: ${ex.rest}` : ''} 
+                            ${ex.rir !== undefined ? `| RIR: ${ex.rir}` : ''}
+                            ${ex.tempo ? `| Tempo: ${ex.tempo}` : ''}
+                        </p>
+                        ${!isFinisher && !isSetComponent && !isCore && !isWarmup && !isGauntlet ? `<div class="mt-2 flex items-center gap-2"><label for="weight-${uniqueId}" class="text-sm font-semibold text-gray-500">Peso:</label><input type="text" id="weight-${uniqueId}" class="weight-input w-24 rounded-md border-gray-300 shadow-sm text-sm focus:ring-pink-500 focus:border-pink-500" placeholder="ej: 50kg"></div>` : ''}
+                        ${isGauntlet ? `<div class="mt-2 flex items-center gap-2"><label for="time-${uniqueId}" class="text-sm font-semibold text-gray-500">Mi Tiempo:</label><input type="text" id="time-${uniqueId}" class="weight-input w-32 rounded-md border-gray-300 shadow-sm text-sm focus:ring-pink-500 focus:border-pink-500" placeholder="ej: 18:30 min"></div>` : ''}
+                    </div>
+                </div>
+                <div class="flex space-x-3 self-center">${setsCheckboxes}</div>
+            </div>
+            ${ex.tip ? `<p class="text-sm mt-3 pt-3 border-t ${isSetComponent ? 'border-purple-300' : 'border-gray-200'} text-gray-600"><strong>Técnica Clave:</strong> ${ex.tip}</p>` : ''}`;
+        return card;
+    }
+
+
+    function createSectionHeader(title) {
+        const header = document.createElement('div');
+        header.className = "pb-2 mb-4 border-b-2 border-pink-200";
+        header.innerHTML = `<h3 class="text-3xl text-gray-800 font-bebas">${title}</h3>`;
+        return header;
+    }
+
+    function showWorkout(dayIndex, weekNumber) {
+        currentDayIndex = dayIndex; 
+        currentLevel = '4'; // Asegurarse de que el nivel 4 esté activo
+        document.querySelectorAll('.day-tab').forEach((tab, i) => {
+            tab.classList.toggle('day-tab-active', tab.dataset.dayIndex == dayIndex);
+            tab.classList.toggle('day-tab-inactive', tab.dataset.dayIndex != dayIndex);
+        });
+        
+        const workoutDay = programData[currentCategory].levels[currentLevel].weeks[weekNumber].workouts[dayIndex];
+        const workoutData = workoutDay ? workoutDay[currentView] : null; 
+        
+        workoutsContainer.innerHTML = '';
+
+        if (!workoutData) {
+            workoutsContainer.innerHTML = `<div class="text-center p-8 bg-white rounded-lg shadow-md border"><h3 class="text-2xl text-gray-800">Día de Descanso</h3><p class="text-gray-600 mt-2">¡Aprovecha para recuperarte! El descanso es clave para crecer.</p></div>`;
+            viewToggle.classList.add('hidden'); 
+            return;
+        }
+        
+        viewToggle.classList.remove('hidden'); 
+        
+        if (weekNumber == 4 && workoutData && (workoutData.name || workoutData.cardio)) {
+             if (workoutData.name) {
+                workoutsContainer.appendChild(createSectionHeader(workoutData.name));
+                if(workoutData.tip) {
+                    const tipCard = document.createElement('div');
+                    tipCard.className = 'bg-teal-100 text-teal-800 p-4 rounded-lg text-sm mb-4';
+                    tipCard.innerHTML = `<strong>Instrucciones:</strong> ${workoutData.tip}`;
+                    workoutsContainer.appendChild(tipCard);
+                }
+                workoutData.exercises.forEach(ex => workoutsContainer.appendChild(createExerciseCard(ex, dayIndex, weekNumber, true, false, true))); 
+             }
+             if (workoutData.cardio) {
+                const cardioCard = `<div class="bg-white border-2 border-dashed border-pink-400 p-5 rounded-lg"><div class="flex items-center gap-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-pink-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg><div><h4 class="text-2xl text-gray-900">Cardio y Recuperación</h4><p class="text-gray-700 mt-1">${workoutData.cardio}</p></div></div></div>`;
+                workoutsContainer.insertAdjacentHTML('beforeend', cardioCard);
+             }
+
+        } else if (workoutData && (workoutData.calentamiento || workoutData.activation || workoutData.main_workout || workoutData.finisher || workoutData.core || workoutData.vuelta_a_la_calma || workoutData.cardio)) {
+            
+            if (workoutData.calentamiento) {
+                workoutsContainer.appendChild(createSectionHeader(workoutData.calentamiento.name));
+                workoutData.calentamiento.exercises.forEach(ex => workoutsContainer.appendChild(createExerciseCard(ex, dayIndex, weekNumber, false, false, true)));
+            }
+
+             if (workoutData.activation) {
+                workoutsContainer.appendChild(createSectionHeader(workoutData.activation.name));
+                workoutData.activation.exercises.forEach(ex => workoutsContainer.appendChild(createExerciseCard(ex, dayIndex, weekNumber, false, false, true)));
+            }
+
+            if (workoutData.main_workout) {
+                workoutData.main_workout.forEach(block => {
+                    workoutsContainer.appendChild(createSectionHeader(block.header));
+                    if(block.tip) {
+                        const tipCard = document.createElement('div');
+                        let tipColorClass = 'bg-purple-100 text-purple-800'; 
+                        if(block.type === 'giantset') tipColorClass = 'bg-red-100 text-red-800'; 
+                        tipCard.className = `${tipColorClass} p-4 rounded-lg text-sm mb-4`;
+                        tipCard.innerHTML = `<strong>Instrucciones:</strong> ${block.tip}`;
+                        workoutsContainer.appendChild(tipCard);
+                    }
+                    block.exercises.forEach(ex => {
+                        if(block.type !== 'single') ex.isGiantSet = true; 
+                        workoutsContainer.appendChild(createExerciseCard(ex, dayIndex, weekNumber, false, false, false));
+                    });
+                });
+            }
+
+            if (workoutData.finisher) {
+                workoutsContainer.appendChild(createSectionHeader(workoutData.finisher.name));
+                 if(workoutData.finisher.tip) {
+                    const tipCard = document.createElement('div');
+                    tipCard.className = 'bg-red-100 text-red-800 p-4 rounded-lg text-sm mb-4';
+                    tipCard.innerHTML = `<strong>Instrucciones:</strong> ${workoutData.finisher.tip}`;
+                    workoutsContainer.appendChild(tipCard);
+                }
+                workoutData.finisher.exercises.forEach(ex => workoutsContainer.appendChild(createExerciseCard(ex, dayIndex, weekNumber, true)));
+            }
+            
+            if (workoutData.core) {
+                workoutsContainer.appendChild(createSectionHeader(workoutData.core.name));
+                const coreTipCard = document.createElement('div');
+                coreTipCard.className = 'bg-purple-100 text-purple-800 p-4 rounded-lg text-sm mb-4';
+                if (workoutData.core.name.includes('AMRAP')) {
+                     coreTipCard.innerHTML = `<strong>Instrucciones:</strong> AMRAP = Tantas Rondas Como Sea Posible. Completa A, B, C en orden y repite el circuito durante el tiempo indicado.`;
+                } else {
+                     coreTipCard.innerHTML = `<strong>Instrucciones:</strong> Realiza los ejercicios A y B como una superserie (uno tras otro sin descanso). Descansa 60s y repite las rondas indicadas.`;
+                }
+                workoutsContainer.appendChild(coreTipCard);
+                workoutData.core.exercises.forEach(ex => workoutsContainer.appendChild(createExerciseCard(ex, dayIndex, weekNumber, false, true)));
+            }
+
+            if (workoutData.vuelta_a_la_calma) {
+                workoutsContainer.appendChild(createSectionHeader(workoutData.vuelta_a_la_calma.name));
+                workoutData.vuelta_a_la_calma.exercises.forEach(ex => workoutsContainer.appendChild(createExerciseCard(ex, dayIndex, weekNumber, false, false, true)));
+            }
+        }
+        else {
+             workoutsContainer.innerHTML = `<div class="text-center p-8 bg-white rounded-lg shadow-md border"><h3 class="text-2xl text-gray-800">Día de Descanso</h3><p class="text-gray-600 mt-2">¡Aprovecha para recuperarte! El descanso es clave para crecer.</p></div>`;
+        }
+        
+        loadAndSaveProgress(dayIndex, weekNumber);
+    }
+    
+    function generateCalendar(days, weekNumber) {
+        calendarContainer.innerHTML = '';
+        const weekGrid = document.createElement('div');
+        weekGrid.className = 'grid grid-cols-3 sm:grid-cols-3 gap-2 text-center';
+        days.forEach((day, dayIndex) => {
+            const dayEl = document.createElement('div');
+            let dayName = day.split(':')[0].replace('Día ', 'D');
+             if (weekNumber == 4 && (dayIndex == 0 || dayIndex == 2 || dayIndex == 4)) {
+                 dayName = `D ${dayIndex + 1}`;
+             } else if (weekNumber == 4 && (dayIndex == 1 || dayIndex == 3)) {
+                 dayName = 'Descanso';
+             }
+
+            const dayId = `cal-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}`;
+            dayEl.id = dayId;
+            dayEl.className = 'calendar-day bg-gray-200 p-3 rounded-md border-2 border-transparent transition-all font-semibold';
+            if (dayName === 'Descanso') {
+                dayEl.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+            dayEl.textContent = dayName;
+            weekGrid.appendChild(dayEl);
+        });
+        calendarContainer.appendChild(weekGrid);
+        updateAllCalendarDayStatuses(weekNumber);
+    }
+    
+    function getAllSetsForDay(dayIndex, weekNumber) {
+        const workoutDay = programData[currentCategory].levels[currentLevel].weeks[weekNumber].workouts[dayIndex];
+        const workoutData = workoutDay ? workoutDay[currentView] : null; 
+        let allSets = [];
+        if (!workoutData) return allSets;
+
+        const processExercises = (exercises) => {
+            if (!exercises) return;
+            exercises.forEach(ex => {
+                if (ex.sets) {
+                    for (let i = 0; i < ex.sets; i++) {
+                        const uniqueId = `prog-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}-${currentView}-${ex.name.replace(/\s+/g, '-')}`;
+                        allSets.push(`set-${uniqueId}-${i}`);
+                    }
+                }
+            });
+        };
+        
+        // No rastrear sets para "The Gauntlet" (Semana 3, Día 4)
+        if (weekNumber == 3 && dayIndex == 4) {
+             return allSets;
+        }
+
+        if (weekNumber == 4) {
+            // No se rastrean sets en la semana de descarga
+        } else {
+            processExercises(workoutData.activation?.exercises);
+            if (workoutData.main_workout) {
+                workoutData.main_workout.forEach(block => {
+                    processExercises(block.exercises);
+                });
+            }
+            processExercises(workoutData.finisher?.exercises);
+            processExercises(workoutData.core?.exercises);
+        }
+        
+        return allSets;
+    }
+
+    function updateAllCalendarDayStatuses(weekNumber) {
+        const weekData = programData[currentCategory].levels[currentLevel].weeks[weekNumber];
+        weekData.days.forEach((day, dayIndex) => {
+            if (day.includes("Descanso") && !weekData.workouts[dayIndex]) return; 
+
+            const allSets = getAllSetsForDay(dayIndex, weekNumber); 
+            const totalSets = allSets.length;
+            
+             // Manejar días sin sets rastreables (ej. Descarga, Gauntlet)
+             if (totalSets === 0) {
+                 const dayId = `cal-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}`;
+                 const calendarDayEl = document.getElementById(dayId);
+                 if (calendarDayEl && (weekNumber == 3 && dayIndex == 4)) {
+                     // Checkear si "The Gauntlet" tiene un tiempo guardado
+                     const gauntletId = `time-prog-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}-${currentView}-Test "The Gauntlet" (1 Ronda)-A. 50 Saltos al Cajón (Box Jumps)`; // Un ID representativo
+                     if(localStorage.getItem(gauntletId)) {
+                          calendarDayEl.classList.add('day-completed');
+                     }
+                 }
+                 return; 
+             }
+
+
+            const checkedSets = allSets.filter(id => localStorage.getItem(id) === 'true').length;
+            const dayId = `cal-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}`;
+            const calendarDayEl = document.getElementById(dayId);
+
+            if (calendarDayEl) {
+                calendarDayEl.classList.remove('day-completed', 'day-in-progress');
+                if (checkedSets === totalSets) {
+                    calendarDayEl.classList.add('day-completed');
+                } else if (checkedSets > 0) {
+                    calendarDayEl.classList.add('day-in-progress');
+                }
+            }
+        });
+    }
+
+    function loadAndSaveProgress(dayIndex, weekNumber){
+        document.querySelectorAll('.set-checkbox').forEach(checkbox => {
+            if(localStorage.getItem(checkbox.id) === 'true') checkbox.checked = true;
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+                updateAllCalendarDayStatuses(weekNumber);
+            });
+        });
+        document.querySelectorAll('.weight-input').forEach(input => {
+            input.value = localStorage.getItem(input.id) || '';
+            input.addEventListener('input', () => {
+                localStorage.setItem(input.id, input.value)
+                // Si es el input de tiempo de "The Gauntlet", actualizar calendario
+                if (weekNumber == 3 && dayIndex == 4) {
+                    updateAllCalendarDayStatuses(weekNumber);
+                }
+            });
+        });
+    }
+
+    function openModal(modal){
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+        setTimeout(() => { modal.querySelector('.z-10')?.classList.remove('opacity-0', 'scale-95'); }, 10);
+    }
+
+    function closeModal(modal){
+        modal.querySelector('.z-10')?.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+    }
+    
+    function updateViewToggle() {
+        btnGimnasio.classList.toggle('view-toggle-active', currentView === 'gimnasio');
+        btnCasa.classList.toggle('view-toggle-active', currentView === 'casa');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showWorkoutView('gluteos', '4'); // Carga Nivel 4 por defecto
+        
+        btnGimnasio.addEventListener('click', () => {
+            currentView = 'gimnasio';
+            updateViewToggle();
+            showWorkout(currentDayIndex, currentWeek); 
+        });
+        
+        btnCasa.addEventListener('click', () => {
+            currentView = 'casa';
+            updateViewToggle();
+            showWorkout(currentDayIndex, currentWeek); 
+        });
+
+        openGuideBtn.addEventListener('click', () => { openModal(guideModal); });
+        closeGuideBtn.addEventListener('click', () => closeModal(guideModal));
+        guideModal.querySelector('#guide-modal-overlay').addEventListener('click', () => closeModal(guideModal));
+        
+        openTheoryBtn.addEventListener('click', () => openModal(theoryModal));
+        closeTheoryBtn.addEventListener('click', () => closeModal(theoryModal));
+        theoryModal.querySelector('#theory-modal-overlay').addEventListener('click', () => closeModal(theoryModal));
+        
+        showCarbsBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Fuentes de Carbohidratos';
+            guideMainView.classList.add('hidden'); guideCarbsView.classList.remove('hidden');
+        });
+        backToGuideBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Guía Esencial de Recomposición';
+            guideCarbsView.classList.add('hidden'); guideMainView.classList.remove('hidden');
+        });
+    });
+</script>
+</body>
+</html>

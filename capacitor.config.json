@@ -1,0 +1,9 @@
+{
+  "appId": "com.marco.entrenamiento",
+  "appName": "Entrenamiento Marco",
+  "webDir": "dist",
+  "server": {
+    "url": "https://repeticiomaxima.netlify.app/",
+    "cleartext": true
+  }
+}

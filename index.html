@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REPETICIÓN MÁXIMA | Entrenamiento Personal por Marco</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary-dark': '#1F2937',
+            'color-black' : '#000000',
+            'accent-vibrant': '#FF4500',
+            'light-gray'   : '#F9FAFB',
+            'base-white'   : '#FFFFFF',
+            'programs-bg'  : '#E8EEF5',
+            'tools-bg'     : '#EEF2FF',
+            'info-soft'    : '#E0F2FE',
+            'info-soft-text':'#075985'
+          },
+          fontFamily: {
+            sans: ['Inter','sans-serif'],
+            oswald: ['Oswald','sans-serif'],
+            montserrat: ['Montserrat','sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <meta name="description" content="Coaching asistido por IA + 12 años de experiencia real. Fuerza, hipertrofia y recomposición corporal. Programas por niveles con progresión inteligente.">
+  <meta name="robots" content="index,follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="REPETICIÓN MÁXIMA | Entrenamiento Personal por Marco" />
+  <meta property="og:description" content="Transforma tu potencial con programas por niveles, asesoría y consultoría estratégica + IA aplicada." />
+  <meta property="og:image" content="https://placehold.co/1200x630/000000/FF4500?text=REPETICION+MAXIMA" />
+  <meta property="og:locale" content="es_CL" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // === CONFIGURA AQUÍ ===
+    const SUPABASE_URL = "https://arwxqomdfquhkneufnnh.supabase.co"; // tu proyecto
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyd3hxb21kZnF1aGtuZXVmbm5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyODc3MjUsImV4cCI6MjA3Nzg2MzcyNX0.ts0LsML3MBHAEptN9xmUdsFZDX7wETbbWvAVhtrtcqc";
+    const STORAGE_BUCKET = "programa"; // bucket público en Storage
+    const TABLES = { purchases:"purchases", plans:"plans", profiles:"profiles" };
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+
+</head>
+
+<body class="bg-base-white text-primary-dark font-sans">
+  <div id="beta-banner" class="sticky top-0 z-[60] w-full bg-yellow-300 text-black">
+    <div class="max-w-7xl mx-auto px-4 py-2 text-sm flex items-center justify-between gap-3">
+      <span class="font-semibold">La página aún no está lista por completo.</span>
+      <span class="hidden sm:inline">¿Dudas? WhatsApp.</span>
+      <div class="flex items-center gap-2">
+        <a href="https://wa.me/56948505747?text=Hola%20Marco%2C%20tengo%20una%20duda%20sobre%20tu%20sitio" target="_blank" rel="noopener" class="px-3 py-1 rounded-md bg-black text-yellow-300 font-bold">WhatsApp</a>
+        <button aria-label="Cerrar aviso" onclick="document.getElementById('beta-banner').remove()" class="px-2 py-1 rounded-md hover:bg-yellow-200">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="header-placeholder"></div>
+
+  <div class="w-full bg-accent-vibrant text-black text-center py-2 text-sm font-semibold tracking-wide">
+    Coaching asistido por Inteligencia Artificial · Planificación adaptativa · Resultados medibles
+  </div>
+
+  <section id="inicio" class="relative bg-black text-white text-center py-24 px-6">
+    <div class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm ring-1 ring-white/20 mb-5 mx-auto">
+      <span class="text-xs font-bold uppercase tracking-widest text-accent-vibrant">Inteligencia Artificial</span>
+      <span class="text-xs text-gray-300">Aplicada a periodización, carga y progreso real.</span>
+    </div>
+
+    <h1 class="text-5xl sm:text-6xl md:text-7xl font-oswald font-extrabold mb-1 tracking-wide">REPETICIÓN MÁXIMA</h1>
+    <p class="text-accent-vibrant font-montserrat font-extrabold tracking-wide mb-3">Prof. Marco Flores</p>
+    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Recomposición corporal con método, planificación y constancia. 12 años guiando cuerpos y mentes fuertes.</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="#programas" class="cta-button inline-flex items-center justify-center px-8 py-4 border-2 border-accent-vibrant rounded-xl text-xl font-oswald font-bold bg-base-white text-color-black hover:bg-gray-100 uppercase">Ver Programas</a>
+      <a href="https://wa.me/56948505747?text=Hola%20Marco%2C%20quiero%20una%20evaluaci%C3%B3n%20personalizada" target="_blank" rel="noopener" class="cta-button inline-flex items-center justify-center px-8 py-4 rounded-xl text-xl font-oswald font-bold bg-accent-vibrant text-color-black hover:opacity-90 uppercase">Agenda Evaluación</a>
+    </div>
+  </section>
+
+  <section id="servicios" class="py-16 sm:py-24 bg-base-white border-t">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold text-primary-dark sm:text-5xl">Servicios de Coaching</h2>
+        <p class="mt-4 text-lg text-gray-600">Elige el formato que mejor calce contigo. Seriedad, ciencia y buena onda.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 items-stretch">
+        <article class="relative rounded-2xl shadow-xl overflow-hidden bg-color-black text-base-white flex flex-col">
+          <span class="ribbon">$45.000</span>
+          <div class="p-8 border-t-4 border-accent-vibrant flex flex-col h-full">
+            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-vibrant text-base-white mb-4">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-3.866 0-7 2.239-7 5v1h9.5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 14l-3 3-1.5-1.5"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Asesoría Individual</h3>
+            <p class="text-gray-300 mb-4">Para quienes necesitan guía en cada sesión. Foco en entrenamiento.</p>
+            <ul class="text-sm text-gray-200 space-y-2 mb-6">
+              <li><span class="text-accent-vibrant font-bold">•</span> Duración: 1 mes</li>
+              <li><span class="text-accent-vibrant font-bold">•</span> Ajustes sesión a sesión</li>
+              <li><span class="text-accent-vibrant font-bold">•</span> Comunicación directa</li>
+            </ul>
+            <div class="card-actions">
+              <a href="https://wa.me/56948505747?text=Quiero%20la%20asesor%C3%ADa%20individual%20de%2045.000" target="_blank" rel="noopener" class="text-center py-3 px-4 rounded-lg text-white font-semibold bg-green-500 hover:bg-green-600 transition uppercase font-oswald cta-button cta-boost">Postular</a>
+              <a href="#faq" class="text-center py-3 px-4 rounded-lg text-base-white font-semibold bg-primary-dark hover:bg-gray-700 transition uppercase font-oswald">Ver detalles</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="relative rounded-2xl shadow-xl overflow-hidden bg-base-white text-primary-dark flex flex-col border">
+          <span class="ribbon">$50.000</span>
+          <div class="p-8 border-t-4 border-accent-vibrant flex flex-col h-full">
+            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-vibrant text-base-white mb-4">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h3m12 0h3M9 8v8m6-8v8M6 10v4m12-4v4"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Programa de Entrenamiento</h3>
+            <p class="text-gray-700 mb-4">Programación planificada con periodización por bloques. <strong>Te queda para siempre.</strong></p>
+            <ul class="text-sm text-gray-700 space-y-2 mb-6">
+              <li><span class="text-accent-vibrant font-bold">•</span> Progresión clara (RPE/RIR, SPW)</li>
+              <li><span class="text-accent-vibrant font-bold">•</span> Guía semanal paso a paso</li>
+              <li><span class="text-accent-vibrant font-bold">•</span> Versiones Casa y Gimnasio</li>
+            </ul>
+            <div class="card-actions">
+              <a href="https://wa.me/56948505747?text=Quiero%20comprar%20el%20programa%20planificado%20de%2050.000" target="_blank" rel="noopener" class="text-center py-3 px-4 rounded-lg text-white font-semibold bg-green-500 hover:bg-green-600 transition uppercase font-oswald cta-button cta-boost">Comprar</a>
+              <a href="#faq" class="text-center py-3 px-4 rounded-lg text-base-white font-semibold bg-primary-dark hover:bg-gray-700 transition uppercase font-oswald">Ver detalles</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="relative rounded-2xl shadow-xl overflow-hidden bg-color-black text-base-white flex flex-col">
+          <span class="ribbon">$35.000</span>
+          <div class="p-8 border-t-4 border-accent-vibrant flex flex-col h-full">
+            <div class="flex items-center justify-center w-12 h-12 rounded-full bg-accent-vibrant text-base-white mb-4">
+              <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="7"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3l2 2"/></svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Consultoría Estratégica (50 min)</h3>
+            <p class="text-gray-300 mb-4">Carga, técnica, horarios y tácticas. Sales con un plan de 7 días.</p>
+            <ul class="text-sm text-gray-200 space-y-2 mb-6">
+              <li><span class="text-accent-vibrant font-bold">•</span> Auditoría precisa</li>
+              <li><span class="text-accent-vibrant font-bold">•</span> Recomendaciones claras</li>
+              <li><span class="text-accent-vibrant font-bold">•</span> Acción inmediata</li>
+            </ul>
+            <div class="card-actions">
+              <a href="https://wa.me/56948505747?text=Quiero%20agendar%20consultor%C3%ADa%20de%2035.000" target="_blank" rel="noopener" class="text-center py-3 px-4 rounded-lg text-white font-semibold bg-green-500 hover:bg-green-600 transition uppercase font-oswald cta-button cta-boost">Agendar</a>
+              <a href="#faq" class="text-center py-3 px-4 rounded-lg text-base-white font-semibold bg-primary-dark hover:bg-gray-700 transition uppercase font-oswald">Ver detalles</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="max-w-6xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+        <div class="p-4 rounded-xl border bg-info-soft text-info-soft-text font-semibold flex items-center justify-center gap-2">
+          <span>🔒</span> <span>Pago Seguro · Mercado Pago</span>
+        </div>
+        <div class="p-4 rounded-xl border bg-info-soft text-info-soft-text font-semibold flex items-center justify-center gap-2">
+          <span>⚡</span> <span>Envío Inmediato tras el pago</span>
+        </div>
+        <div class="p-4 rounded-xl border bg-info-soft text-info-soft-text font-semibold flex items-center justify-center gap-2">
+          <span>💬</span> <span>Soporte por WhatsApp</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="programas" class="py-16 sm:py-24 bg-programs-bg border-t border-slate-300/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold text-primary-dark sm:text-5xl">Programas Exclusivos</h2>
+        <p class="mt-4 text-lg text-gray-600">Programas de 12 niveles con asesoría, o programas únicos de pago singular.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="exclusive-program-card group bg-white border border-gray-200 lg:col-span-3">
+          <div class="flex items-center gap-3 mb-2">
+            <h3 class="text-3xl font-extrabold font-oswald uppercase text-sky-600">GÉNESIS</h3>
+            <span class="px-2 py-1 text-xs rounded bg-sky-100 text-sky-700 font-semibold">DEMO</span>
+          </div>
+          <p class="text-sm text-gray-700 mb-5 text-center max-w-2xl">Programa de prueba para principiantes. Lo más básico para conocer el formato y la estructura.</p>
+          <div class="flex flex-col sm:flex-row gap-3 w-full justify-center">
+            <a href="https://wa.me/56948505747?text=Quiero%20acceso%20GRATIS%20al%20programa%20G%C3%89NESIS%20de%20prueba" target="_blank" rel="noopener" class="cta-button neon neon-sky cta-boost inline-flex justify-center items-center px-6 py-3 rounded-xl bg-white text-sky-700 font-extrabold font-oswald ring-2 ring-sky-400 hover:bg-sky-50">Acceso de PRUEBA — $0</a>
+          </div>
+        </div>
+
+        <div class="exclusive-program-card bg-white border border-gray-200 group">
+          <div class="flex items-center justify-between w-full mb-1">
+            <h3 class="text-3xl font-extrabold font-oswald uppercase text-yellow-500">MILON</h3>
+            <span class="badge-price bg-yellow-100 text-yellow-700">Desde $40.000</span>
+          </div>
+          <p class="text-sm text-gray-700 mb-4 text-center max-w-md">Fuerza y rendimiento general. Progresión de 12 niveles con asesoría.</p>
+          <div class="flex flex-col sm:flex-row gap-2 w-full">
+            <a href="https://mpago.la/1cEUhDy" target="_blank" rel="noopener" class="cta-button neon neon-ylw cta-boost flex-1 text-center px-6 py-3 rounded-xl bg-yellow-400 text-black font-extrabold font-oswald">Comprar Nivel 1 — $40.000</a>
+            <button class="levels-toggle cta-button px-4 py-3 rounded-xl border text-sm font-semibold" data-target="#levels-milon" aria-expanded="false">Ver Packs</button>
+          </div>
+          <div id="levels-milon" class="levels-panel">
+            <div class="grid gap-2 text-center">
+              <span class="p-2 text-sm font-semibold text-gray-800">Nivel 1: Fundamentos ($40.000)</span>
+              <span class="p-2 text-sm text-gray-500">Niveles 2-12: Progresión continua</span>
+              <a href="#mpago-milon-6" target="_blank" rel="noopener" class="cta-button cta-boost mt-1 inline-block px-6 py-3 rounded-xl bg-yellow-400 text-black font-extrabold font-oswald">PACK 6 NIVELES — $200.000</a>
+              <a href="https://mpago.la/2128ayL" target="_blank" rel="noopener" class="cta-button cta-boost mt-1 inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-extrabold font-oswald ring-2 ring-yellow-300">PACK 12 NIVELES — $320.000</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="exclusive-program-card bg-white border border-gray-200 group">
+          <div class="flex items-center justify-between w-full mb-1">
+            <h3 class="text-3xl font-extrabold font-oswald uppercase text-pink-500">AFRODITA</h3>
+            <span class="badge-price bg-pink-100 text-pink-700">Desde $40.000</span>
+          </div>
+          <p class="text-sm text-gray-700 mb-4 text-center max-w-md">Hipertrofia de glúteos. Progresión de 12 niveles con asesoría.</p>
+          <div class="flex flex-col sm:flex-row gap-2 w-full">
+            <a href="https://mpago.la/1EFXCca" target="_blank" rel="noopener" class="cta-button neon neon-pink cta-boost flex-1 text-center px-6 py-3 rounded-xl bg-pink-500 text-black font-extrabold font-oswald">Comprar Nivel 1 — $40.000</a>
+            <button class="levels-toggle cta-button px-4 py-3 rounded-xl border text-sm font-semibold" data-target="#levels-afrodita" aria-expanded="false">Ver Packs</button>
+          </div>
+          <div id="levels-afrodita" class="levels-panel">
+            <div class="grid gap-2 text-center">
+              <span class="p-2 text-sm font-semibold text-gray-800">Nivel 1: Activación ($40.000)</span>
+              <span class="p-2 text-sm text-gray-500">Niveles 2-12: Progresión continua</span>
+              <a href="#mpago-afrodita-6" target="_blank" rel="noopener" class="cta-button cta-boost mt-1 inline-block px-6 py-3 rounded-xl bg-pink-500 text-black font-extrabold font-oswald">PACK 6 NIVELES — $200.000</a>
+              <a href="https://mpago.la/1re5o83" target="_blank" rel="noopener" class="cta-button cta-boost mt-1 inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 text-white font-extrabold font-oswald ring-2 ring-pink-300">PACK 12 NIVELES — $320.000</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="exclusive-program-card bg-white border border-gray-200">
+          <div class="flex items-center justify-between w-full mb-1">
+            <h3 class="text-3xl font-extrabold font-oswald uppercase text-green-600">HÉRCULES</h3>
+            <span class="badge-price bg-green-100 text-green-700">$50.000</span>
+          </div>
+          <p class="text-sm text-gray-700 mb-5 text-center max-w-md">Fuerza máxima. Periodización avanzada. (Pago único)</p>
+          <a href="https://mpago.li/2xEfF4C" target="_blank" rel="noopener" class="inline-block w-full px-6 py-3 rounded-xl bg-gradient-to-r from-green-600 to-green-700 text-white font-extrabold font-oswald ring-2 ring-green-300 cta-button neon neon-green cta-boost text-center">Comprar — $50.000</a>
+        </div>
+        
+        <div class="exclusive-program-card bg-white border border-gray-200">
+          <div class="flex items-center justify-between w-full mb-1">
+            <h3 class="text-3xl font-extrabold font-oswald uppercase text-slate-600">KRONOS</h3>
+            <span class="badge-price bg-slate-100 text-slate-700">$40.000</span>
+          </div>
+          <p class="text-sm text-gray-700 mb-5 text-center max-w-md">Para 60+ años. Funcional con materiales básicos. (Pago único)</p>
+          <a href="#mpago-kronos" target="_blank" rel="noopener" class="inline-block w-full px-6 py-3 rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 text-white font-extrabold font-oswald ring-2 ring-slate-300 cta-button neon neon-slate cta-boost text-center">Comprar — $40.000</a>
+        </div>
+        
+        <div class="exclusive-program-card bg-white border border-gray-200">
+          <div class="flex items-center justify-between w-full mb-1">
+            <h3 class="text-3xl font-extrabold font-oswald uppercase text-cyan-600">HERMES</h3>
+            <span class="badge-price bg-cyan-100 text-cyan-700">$15.000</span>
+          </div>
+          <p class="text-sm text-gray-700 mb-5 text-center max-w-md">Express. Rutinas de 30-40 min, poco tiempo. (Pago único)</p>
+          <a href="#mpago-hermes" target="_blank" rel="noopener" class="inline-block w-full px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-cyan-700 text-white font-extrabold font-oswald ring-2 ring-cyan-300 cta-button neon neon-cyan cta-boost text-center">Comprar — $15.000</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="herramientas" class="py-16 sm:py-24 bg-tools-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold text-primary-dark sm:text-5xl">Herramientas</h2>
+        <p class="mt-4 text-lg text-gray-700">Calcula tu 1RM o accede a la bitácora de seguimiento profesional.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        
+        <div class="rounded-2xl border bg-light-gray p-6">
+          <h3 class="text-xl font-bold mb-3">Calculadora 1RM (Gratuita)</h3>
+          <p class="text-sm text-gray-600 mb-3">Estima tu Repetición Máxima (1RM) usando la fórmula Epley. Útil para planificar tus cargas.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="text-sm">Peso (kg)
+              <input id="rm-peso" type="number" step="0.5" class="w-full px-3 py-2 border rounded-lg" />
+            </label>
+            <label class="text-sm">Reps
+              <input id="rm-reps" type="number" min="1" max="12" class="w-full px-3 py-2 border rounded-lg" />
+            </label>
+          </div>
+          <button class="mt-3 cta-button px-4 py-2 rounded-lg bg-accent-vibrant text-black font-bold" onclick="calc1RM()">Calcular</button>
+          <div id="rm-res" class="mt-4 text-sm text-gray-700"></div>
+          <p class="mt-4 text-xs text-gray-500 border-t pt-2">Método: <strong>Epley (1985)</strong>. 1RM ≈ peso × (1 + reps/30). Estimación orientativa.</p>
+        </div>
+
+        <div class="rounded-2xl border bg-primary-dark text-white p-6 relative">
+          <span class="absolute top-4 right-4 px-3 py-1 rounded-full bg-accent-vibrant text-black text-xs font-bold">$9.900 / mes</span>
+          <h3 class="text-xl font-bold mb-3">Bitácora del Profesor</h3>
+          <p class="text-sm text-gray-300 mb-4">Servicio premium para entrenadores. Gestiona y monitorea el progreso de todos tus alumnos en un solo lugar.</p>
+          
+          <ul class="text-sm text-gray-200 space-y-2 mb-6 list-disc list-inside">
+            <li>Monitoreo de volumen semanal.</li>
+            <li>Registro de RPE y RIR por sesión.</li>
+            <li>Base de datos de alumnos.</li>
+            <li>Acceso a métricas y reportes.</li>
+          </ul>
+
+          <p class="text-sm text-gray-400 mb-4">Esta herramienta requiere una suscripción activa para acceder al panel de profesor.</p>
+
+          <button class="cta-button px-4 py-2 rounded-lg bg-accent-vibrant text-black font-bold" onclick="openAuthModal()">
+            Acceder al Panel
+          </button>
+        </div>
+
+      </div>
+
+      <div class="rounded-2xl border bg-light-gray p-6 mt-8 max-w-6xl mx-auto">
+        <h3 class="text-xl font-bold mb-3">Generador de Rutina Rápida</h3>
+        <p class="text-sm text-gray-600 mb-3">
+          Obtén una rutina de muestra inspirada en los principios de grandes autores del entrenamiento (Meadows, Rippetoe, Simmons, Trudel, etc.).
+        </p>
+        <button class="mt-3 cta-button px-4 py-2 rounded-lg bg-accent-vibrant text-black font-bold" onclick="generateQuickRoutine()">
+          Generar Rutina
+        </button>
+        
+        <div id="routine-res" class="mt-4 text-sm text-gray-700"></div>
+
+        <p class="mt-4 text-xs text-gray-500 border-t pt-2">
+          <strong>Advertencia:</strong> Esto es solo un ejemplo ilustrativo y aleatorio. No reemplaza una planificación profesional ni constituye un programa completo.
+        </p>
+      </div>
+      </div>
+  </section>
+
+  <section id="mis-programas" class="py-16 sm:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl sm:text-4xl font-extrabold">Mis Programas</h2>
+        <span class="auth-no text-sm text-gray-600 hidden">Inicia sesión para ver tus compras.</span>
+      </div>
+      <div id="mis-programas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <section id="testimonios" class="py-16 sm:py-24 bg-color-black text-base-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold sm:text-5xl">Resultados de Alumnos</h2>
+        <p class="mt-4 text-xl text-gray-400">Evidencia, no promesas. Cambios reales con metodología clara.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <figure class="bg-gray-800 rounded-2xl p-6 shadow-xl">
+          <div class="flex items-center gap-3 mb-3"><span class="w-10 h-10 rounded-full bg-accent-vibrant flex items-center justify-center font-bold text-black">A</span><figcaption><p class="font-bold">Ana R.</p><p class="text-xs text-gray-400">Bajó 6 kg · + 20% fuerza</p></figcaption></div>
+          <blockquote class="text-gray-200 text-sm">“Nunca había seguido un plan tan claro. Los niveles del programa me ordenaron la cabeza. Volví a disfrutar entrenar.”</blockquote>
+        </figure>
+        <figure class="bg-gray-800 rounded-2xl p-6 shadow-xl">
+          <div class="flex items-center gap-3 mb-3"><span class="w-10 h-10 rounded-full bg-accent-vibrant flex items-center justify-center font-bold text-black">M</span><figcaption><p class="font-bold">Matías V.</p><p class="text-xs text-gray-400">1RM sentadilla +25 kg</p></figcaption></div>
+          <blockquote class="text-gray-200 text-sm">“El enfoque en SPW y el control del RIR me hicieron progresar sin lesionarme. Marco es serio y directo.”</blockquote>
+        </figure>
+        <figure class="bg-gray-800 rounded-2xl p-6 shadow-xl">
+          <div class="flex items-center gap-3 mb-3"><span class="w-10 h-10 rounded-full bg-accent-vibrant flex items-center justify-center font-bold text-black">C</span><figcaption><p class="font-bold">Carolina M.</p><p class="text-xs text-gray-400">Glúteos · visiblemente más tono</p></figcaption></div>
+          <blockquote class="text-gray-200 text-sm">“Afrodita me encantó. Los videos y la progresión por niveles me mantuvieron motivada. Vale cada peso.”</blockquote>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="py-16 sm:py-24 bg-base-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-extrabold text-primary-dark sm:text-5xl">Preguntas Frecuentes</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <details class="p-5 rounded-xl border">
+          <summary class="font-bold cursor-pointer">¿El programa queda para siempre?</summary>
+          <p class="mt-2 text-gray-700 text-sm">Sí. Al comprar un programa de pago único (Hércules, Kronos, Hermes) o un Pack (Milón, Afrodita), <strong>te quedas con el material PDF para siempre</strong>.</p>
+        </details>
+        <details class="p-5 rounded-xl border">
+          <summary class="font-bold cursor-pointer">¿Qué incluye la "asesoría" de Milón y Afrodita?</summary>
+          <p class="mt-2 text-gray-700 text-sm">La asesoría de los programas por niveles ($40.000) dura <strong>1 mes</strong>. Incluye seguimiento por WhatsApp, revisión de técnica por video y ajustes de carga semanales.</p>
+        </details>
+        <details class="p-5 rounded-xl border">
+          <summary class="font-bold cursor-pointer">¿Casa o gimnasio?</summary>
+          <p class="mt-2 text-gray-700 text-sm">Ambos. Para entrenar en casa el material es <strong>básico</strong>: <em>mat</em>, banda elástica y mancuernas. Con eso cubres el mínimo del plan.</p>
+        </details>
+        <details class="p-5 rounded-xl border">
+          <summary class="font-bold cursor-pointer">¿Cómo compro los niveles 2 al 12?</summary>
+          <p class="mt-2 text-gray-700 text-sm">Actualmente, puedes comprar el Nivel 1, el Pack de 6 o el Pack de 12. La compra de niveles intermedios se gestiona directamente por WhatsApp una vez que eres alumno.</p>
+        </details>
+        <details class="p-5 rounded-xl border">
+          <summary class="font-bold cursor-pointer">¿Qué es la Bitácora del Profesor?</summary>
+          <p class="mt-2 text-gray-700 text-sm">Es un servicio de suscripción <strong>para entrenadores</strong> ($9.900/mes) que les permite gestionar a sus propios alumnos usando esta plataforma. No es necesario para comprar programas.</p>
+        </details>
+        <details class="p-5 rounded-xl border">
+          <summary class="font-bold cursor-pointer">¿Cómo recibo el contenido?</summary>
+          <p class="mt-2 text-gray-700 text-sm">Tras el pago por Mercado Pago, debes crear tu cuenta en el sitio (si no lo has hecho) y escribirnos por WhatsApp para la activación manual. Una vez activado, aparecerá en "Mis Programas".</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="py-16 sm:py-24 bg-light-gray">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-10 items-start">
+        <div>
+          <h2 class="text-4xl font-extrabold text-primary-dark sm:text-5xl mb-3">¿Listo para empezar?</h2>
+          <p class="text-lg text-gray-600 mb-6">Cuéntame tu objetivo y te guío al mejor camino.</p>
+
+          <div class="bg-base-white p-6 rounded-xl shadow border-l-4 border-accent-vibrant mb-6">
+            <h3 class="font-bold text-lg mb-2">Prof. Marco Flores · Entrenador Personal</h3>
+            <p class="text-sm text-gray-700">12 años de experiencia. Ciudad Deportiva, Youtopia, consultoría y formación continua.</p>
+          </div>
+
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-accent-vibrant" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> <a href="mailto:edfmarcoflores@gmail.com" class="underline">edfmarcoflores@gmail.com</a></li>
+            <li class="flex items-center gap-3"><svg class="w-5 h-5 text-accent-vibrant" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> <a href="tel:+56948505747" class="underline">+56 9 4850 5747</a></li>
+          </ul>
+        </div>
+
+        <div class="bg-base-white p-8 rounded-2xl shadow-xl border-t-4 border-accent-vibrant">
+          <form id="contactForm" onsubmit="handleFormSubmit(event)">
+            <div class="space-y-5">
+              <div>
+                <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                <input id="nombre" required class="block w-full px-4 py-3 border rounded-lg focus:ring-accent-vibrant focus:border-accent-vibrant" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input id="email" type="email" required class="block w-full px-4 py-3 border rounded-lg focus:ring-accent-vibrant focus:border-accent-vibrant" />
+              </div>
+              <div>
+                <label for="interes" class="block text-sm font-medium text-gray-700 mb-1">Estoy interesado en</label>
+                <select id="interes" required class="block w-full px-4 py-3 border rounded-lg focus:ring-accent-vibrant focus:border-accent-vibrant">
+                  <option value="">Selecciona</option>
+                  <option>Asesoría Individual</option>
+                  <option>Programa Planificado</option>
+                  <option>Consultoría Estratégica</option>
+                  <option>Programas (Milón, Afrodita, etc.)</option>
+                  <option>Bitácora de Profesor</option>
+                </select>
+              </div>
+              <div>
+                <label for="mensaje" class="block text-sm font-medium text-gray-700 mb-1">Cuéntame tus metas</label>
+                <textarea id="mensaje" rows="4" required class="block w-full px-4 py-3 border rounded-lg focus:ring-accent-vibrant focus:border-accent-vibrant"></textarea>
+              </div>
+              <button type="submit" class="cta-button w-full px-6 py-3 rounded-lg bg-accent-vibrant text-black font-bold">Enviar y Empezar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-placeholder"></div>
+
+  <div id="modal-placeholder"></div>
+  
+  <div id="dock-placeholder"></div>
+
+</body>
+</html>

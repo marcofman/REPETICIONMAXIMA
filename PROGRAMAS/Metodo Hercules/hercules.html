@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método Hércules (Interactivo)</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M20 50 L40 70 L80 30' stroke='%2322c55e' stroke-width='10' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1F2937',
+                        'color-black' : '#000000',
+                        'accent-vibrant': '#FF4500',
+                        'light-gray'    : '#F9FAFB',
+                        'base-white'    : '#FFFFFF',
+                        'programs-bg'   : '#E9EEF5',
+                        'tools-bg'      : '#EEF2FF'
+                    },
+                    fontFamily: {
+                        sans: ['Inter','sans-serif'],
+                        oswald: ['Oswald','sans-serif'],
+                        montserrat: ['Montserrat','sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Manrope', sans-serif; 
+            background-color: #f8fafc; /* bg-slate-50 */
+            color: #1e293b; /* bg-slate-800 */
+        }
+        h1, h2, h3, h4, .font-bebas { 
+            font-family: 'Bebas Neue', sans-serif; 
+            letter-spacing: 0.05em; 
+        }
+        /* Gradiente de texto verde */
+        .gradient-text { 
+            background: linear-gradient(to right, #22c55e, #15803d); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        /* Estilos para las tablas */
+        th {
+            background-color: #f1f5f9; /* bg-slate-100 */
+            color: #0f172a; /* bg-slate-900 */
+            padding: 12px 16px;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            text-align: left;
+        }
+        td {
+            padding: 12px 16px;
+            border-top: 1px solid #e2e8f0; /* border-slate-200 */
+        }
+        tr:nth-child(even) td {
+            background-color: #fdfdfd;
+        }
+        .week-row td {
+            border-top: 4px solid #166534 !important; /* Borde verde grueso para nueva semana */
+            background-color: #f0fdf4 !important; /* bg-green-50 */
+            font-weight: 600;
+            color: #15803d; /* text-green-800 */
+        }
+        .week-row:first-child td {
+            border-top: 1px solid #e2e8f0 !important; /* Quitar borde superior extra */
+        }
+        /* Estilos para el split */
+        .day-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 1px solid #e2e8f0; /* border-slate-200 */
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+        }
+        .day-card h3 {
+            color: #166534; /* text-green-800 */
+            font-size: 1.5rem; /* text-2xl */
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #a7f3d0; /* border-green-200 */
+        }
+        .day-card ul { list-style-type: none; padding-left: 0; }
+        .day-card li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: #334155; /* text-slate-700 */
+        }
+        .day-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: #22c55e; /* text-green-500 */
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .day-card li strong { color: #1e293b; /* text-slate-800 */ }
+        .hidden { display: none; }
+
+        /* NUEVOS Estilos para Pestañas de Días */
+        .day-tab {
+            transition: all 0.3s ease;
+            flex-grow: 1; /* Para que las pestañas llenen el espacio */
+            text-align: center;
+        }
+        .day-tab-active {
+            background-color: #166534; /* text-green-800 */
+            color: #ffffff;
+            border-color: #166534;
+        }
+        .day-tab-inactive {
+            background-color: #f1f5f9; /* bg-slate-100 */
+            color: #334155; /* text-slate-700 */
+            border-color: transparent;
+        }
+        .day-tab-inactive:hover {
+            background-color: #e2e8f0; /* bg-slate-200 */
+        }
+        .day-content {
+            display: none; /* Oculto por defecto */
+        }
+        .day-content.active {
+            display: block; /* Visible si está activo */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-10 max-w-5xl">
+
+        <header class="text-center mb-10">
+            <h1 class="text-6xl md:text-7xl font-extrabold gradient-text">MÉTODO HÉRCULES</h1>
+            <h2 class="text-xl md:text-2xl text-gray-800 font-semibold mt-2 font-bebas">POR PROFE MARCO</h2>
+        </header>
+
+        <div class="text-center mb-12 space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="open-guide-btn" class="bg-gray-800 text-green-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">
+                GUÍA ESENCIAL DE FUERZA
+            </button>
+        </div>
+
+        <main class="space-y-10">
+
+            <div class="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg mb-8 text-center shadow">
+                ¡Bienvenido al Método Hércules! Este es un bloque de 5 semanas enfocado 100% en fuerza bruta. Introduce tus 1RM, sigue la pauta, y prepárate para mover pesos serios. ¡Vamos!
+            </div>
+
+            <section class="bg-green-50 p-6 rounded-xl border border-green-200">
+                <h2 class="font-bebas text-3xl text-green-900 border-b border-green-300 pb-2 mb-4">1. Genera tu Pauta de Progresión</h2>
+                <p class="text-slate-800 mb-4">
+                    Introduce tu <strong class="text-green-800">1RM REAL (Máximo a 1 Rep)</strong> en KILOGRAMOS. La pauta se calculará automáticamente usando tu <strong class="text-green-800">Training Max (90%)</strong>.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+                    <div class="sm:col-span-1">
+                        <label for="rm-squat" class="block text-sm font-medium text-slate-700 mb-1">1RM Sentadilla (kg)</label>
+                        <input type="number" id="rm-squat" class="w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500" placeholder="Ej: 130">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="rm-bench" class="block text-sm font-medium text-slate-700 mb-1">1RM Press Banca (kg)</label>
+                        <input type="number" id="rm-bench" class="w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500" placeholder="Ej: 125">
+                    </div>
+                    <div class="sm:col-span-1">
+                        <label for="rm-deadlift" class="block text-sm font-medium text-slate-700 mb-1">1RM Peso Muerto (kg)</label>
+                        <input type="number" id="rm-deadlift" class="w-full p-2 border border-slate-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500" placeholder="Ej: 190">
+                    </div>
+                    <button id="calcular-pauta" class="w-full bg-green-600 text-white font-bebas text-xl px-6 py-2 rounded-md shadow-md hover:bg-green-700 transition-all sm:col-span-1">
+                        Generar Pauta
+                    </button>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="font-bebas text-3xl text-gray-900 mb-4">2. Tu Pauta de Entrenamiento (5 Semanas)</h2>
+                
+                <div id="pauta-placeholder" class="text-center p-10 bg-white border-2 border-dashed border-slate-300 rounded-lg">
+                    <p class="text-slate-500 font-semibold">Introduce tus 1RM en la sección anterior y presiona "Generar Pauta" para ver tu plan de 5 semanas aquí.</p>
+                </div>
+
+                <div id="pauta-tabla-container" class="overflow-x-auto rounded-lg shadow-md border border-slate-200 hidden">
+                    <table class="w-full text-left">
+                        <thead class="text-xs uppercase tracking-wider">
+                            <tr>
+                                <th>Semana</th>
+                                <th>Levantamiento</th>
+                                <th>Progresión (Series x Reps)</th>
+                                <th>Peso a Levantar</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-700" id="pauta-tbody">
+                                                                </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="font-bebas text-3xl text-gray-900 mb-5">3. El Split Semanal (Ejercicios Accesorios)</h2>
+                
+                <div class="flex flex-wrap border-b border-slate-300 mb-4">
+                    <button class="day-tab day-tab-active font-bebas text-lg py-2 px-4 border-b-4" onclick="changeDay(1)">Día 1: Inferior</button>
+                    <button class="day-tab day-tab-inactive font-bebas text-lg py-2 px-4 border-b-4" onclick="changeDay(2)">Día 2: Superior</button>
+                    <button class="day-tab day-tab-inactive font-bebas text-lg py-2 px-4 border-b-4" onclick="changeDay(3)">Día 3: Descanso</button>
+                    <button class="day-tab day-tab-inactive font-bebas text-lg py-2 px-4 border-b-4" onclick="changeDay(4)">Día 4: Inferior</button>
+                    <button class="day-tab day-tab-inactive font-bebas text-lg py-2 px-4 border-b-4" onclick="changeDay(5)">Día 5: Superior</button>
+                    <button class="day-tab day-tab-inactive font-bebas text-lg py-2 px-4 border-b-4" onclick="changeDay(6)">Días 6-7</button>
+                </div>
+
+                <div class="bg-white p-6 rounded-b-lg rounded-r-lg shadow-md border border-slate-200 min-h-[250px]">
+                    
+                                        <div id="day-1" class="day-content active">
+                        <h3 class="font-bebas text-2xl text-green-800 mb-4">Día 1: Inferior (Enfoque Sentadilla)</h3>
+                        <ul class="day-card list-none p-0">
+                            <li><strong>Sentadilla:</strong> <span class="text-green-700 font-semibold">Ver Pauta (Sección 2)</span></li>
+                            <li><strong>Peso Muerto Rumano (RDL):</strong> 3 series x 8-10 reps (RIR 2)</li>
+                            <li><strong>Prensa de Piernas:</strong> 3 series x 10-12 reps (RIR 1-2)</li>
+                            <li><strong>Elevación de Talones:</strong> 4 series x 12-15 reps (RIR 1)</li>
+                            <li><strong>Abdominales (Plancha con peso):</strong> 3 series x 45-60 seg.</li>
+                        </ul>
+                    </div>
+
+                                        <div id="day-2" class="day-content">
+                        <h3 class="font-bebas text-2xl text-green-800 mb-4">Día 2: Superior (Enfoque Press de Banca)</h3>
+                        <ul class="day-card list-none p-0">
+                            <li><strong>Press de Banca:</strong> <span class="text-green-700 font-semibold">Ver Pauta (Sección 2)</span></li>
+                            <li><strong>Remo con Barra (Pendlay o Yates):</strong> 4 series x 6-8 reps (RIR 2)</li>
+                            <li><strong>Press Militar (de pie con barra):</strong> 3 series x 5-8 reps (RIR 2)</li>
+                            <li><strong>Dominadas (o Jalón al Pecho):</strong> 3 series x 8-10 reps (RIR 1-2)</li>
+                            <li><strong>Extensiones de Tríceps (Polea):</strong> 3 series x 10-12 reps (RIR 1)</li>
+                        </ul>
+                    </div>
+                    
+                                        <div id="day-3" class="day-content">
+                             <h3 class="font-bebas text-2xl text-slate-600 mb-4">Día 3: Descanso</h3>
+                             <p class="text-slate-600">Recuperación activa ligera (caminata) o descanso total. Come, duerme.</p>
+                        </div>
+
+                                        <div id="day-4" class="day-content">
+                        <h3 class="font-bebas text-2xl text-green-800 mb-4">Día 4: Inferior (Enfoque Peso Muerto)</h3>
+                        <ul class="day-card list-none p-0">
+                            <li><strong>Peso Muerto:</strong> <span class="text-green-700 font-semibold">Ver Pauta (Sección 2)</span></li>
+                            <li><strong>Sentadilla Frontal (o Hack Squat):</strong> 3 series x 6-8 reps (RIR 2-3)</li>
+                            <li><strong>Extensiones de Cuádirceps:</strong> 3 series x 12-15 reps (RIR 1)</li>
+                            <li><strong>Curl Femoral:</strong> 3 series x 12-15 reps (RIR 1)</li>
+                            <li><strong>Abdominales (Colgando):</strong> 3 series al fallo (RIR 1)</li>
+                        </ul>
+                    </div>
+
+                                        <div id="day-5" class="day-content">
+                        <h3 class="font-bebas text-2xl text-green-800 mb-4">Día 5: Superior (Accesorios y Volumen)</h3>
+                        <ul class="day-card list-none p-0">
+                            <li><strong>Press de Banca Inclinado (Mancuernas):</strong> 3 series x 8-10 reps (RIR 2)</li>
+                            <li><strong>Remo con Mancuerna (a 1 mano):</strong> 4 series x 8-10 reps (RIR 2)</li>
+                            <li><strong>Press de Banca (agarre cerrado):</strong> 3 series x 6-8 reps (RIR 2)</li>
+                            <li><strong>Elevaciones Laterales (Hombros):</strong> 4 series x 12-15 reps (RIR 1)</li>
+                            <li><strong>Curl de Bíceps (con barra):</strong> 3 series x 8-10 reps (RIR 1)</li>
+                        </ul>
+                    </div>
+                    
+                                        <div id="day-6" class="day-content">
+                        <h3 class="font-bebas text-2xl text-slate-600 mb-4">Días 6 y 7: Descanso</h3>
+                        <p class="text-slate-600">Descanso total. Maximiza la recuperación para la siguiente semana.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-gray-800 text-white p-6 rounded-xl shadow-lg">
+                <h2 class="font-bebas text-3xl text-green-400 border-b border-gray-600 pb-2 mb-4">4. ¿Qué hacer después de la Semana 5?</h2>
+                <p class="text-gray-200 mb-4">
+                    Al final de la Semana 5 (Descarga), estarás recuperado. En la "Semana 6", que sería el inicio de tu segundo mesociclo:
+                </p>
+                <ol class="list-decimal list-inside space-y-3">
+                    <li>
+                        <strong>Añade peso a tus 1RM *originales* y recalcula:</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2 text-gray-300">
+                            <li>Añade <strong class="text-white">5-10 kg</strong> a tu 1RM de Sentadilla y Peso Muerto.</li>
+                            <li>Añade <strong class="text-white">2.5-5 kg</strong> a tu 1RM de Press de Banca.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Vuelve a la Sección 1</strong>, introduce tus *nuevos* 1RM y genera una nueva pauta de 5 semanas.
+                    </li>
+                </ol>
+                <p class="mt-5 text-center font-bebas text-2xl text-white tracking-wider bg-green-600 p-3 rounded-lg">
+                    ¡Paciencia, come, duerme y a por esos 250 kg!
+                </p>
+            </section>
+
+            <section class="bg-slate-100 p-8 rounded-2xl mt-12">
+                <div class="text-center">
+                    <h3 class="text-3xl text-gray-900">Unas palabras de tu Coach</h3>
+                    <p class="text-green-600 font-semibold mt-1">Prof. Marco Flores</p>
+                    <p class="text-gray-700 mt-4 max-w-xl mx-auto">
+                        Estás entrando en un bloque de fuerza real. El "Método Hércules" no se trata de fatiga, se trata de INTENSIDAD. Respeta los descansos largos, enfócate en mover cada repetición con la máxima velocidad posible y come como un atleta. Aquí es donde se forja la fuerza bruta. ¡No falles!
+                    </p>
+                    <blockquote class="mt-6 italic text-gray-600 border-l-4 border-green-300 pl-4 inline-block text-left">
+                        “El músculo es la armadura del cuerpo. La fuerza es el arma que empuña.”
+                    </blockquote>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t border-slate-300">
+            <p class="text-sm text-slate-500">Método Hércules | Plan de Fuerza Personalizado</p>
+        </footer>
+    </div>
+    
+    <div id="guide-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="guide-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+                    <h2 id="guide-modal-title" class="text-4xl text-gray-900">Guía Esencial de Fuerza</h2>
+                    <button id="close-guide-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+                </div>
+
+                <div class="space-y-6 text-gray-700">
+                    <div>
+                        <h3 class="text-2xl text-green-600 mb-2">Pilar 1: Intensidad y Calidad</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>El Peso es el Estímulo:</strong> El objetivo es mover cargas pesadas (80-90%+) en rangos de 3-5 reps. Cada serie cuenta.</li>
+                            <li><strong>Intención de Velocidad:</strong> Aunque el peso sea alto, *intenta* mover la barra lo más rápido posible. Esto recluta más fibras musculares.</li>
+                            <li><strong>El 90% (TM):</strong> Calculamos sobre el 90% de tu máximo para poder progresar semana a semana sin quemarte. Confía en el proceso.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl text-green-600 mb-2">Pilar 2: Descanso = Potencia</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>3-5 Minutos NO es opcional:</strong> Para levantar tu máximo potencial en cada serie, tu ATP (energía) debe regenerarse. Descansar 90 segundos no es suficiente.</li>
+                            <li><strong>No midas por "sensación":</strong> No buscamos estar "congestionados" o "sudando". Buscamos estar 100% listos para la siguiente serie pesada.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl text-green-600 mb-2">Pilar 3: Combustible y Recuperación</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Come en Superávit:</strong> Es muy difícil construir fuerza máxima en un déficit calórico. Apunta a mantenimiento o un ligero superávit.</li>
+                            <li><strong>Duerme 8+ Horas:</strong> El sistema nervioso central (SNC) se fatiga mucho con el entrenamiento pesado. El sueño es la principal herramienta de reparación del SNC.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Lógica de la Calculadora de Pauta ---
+            document.getElementById('calcular-pauta').addEventListener('click', function() {
+                // 1. Obtener 1RMs
+                const rmSquat = parseFloat(document.getElementById('rm-squat').value) || 0;
+                const rmBench = parseFloat(document.getElementById('rm-bench').value) || 0;
+                const rmDeadlift = parseFloat(document.getElementById('rm-deadlift').value) || 0;
+
+                if (rmSquat === 0 || rmBench === 0 || rmDeadlift === 0) {
+                    // Usar un modal custom en lugar de alert
+                    openModal(guideModal); // Abre el modal de guía como ejemplo, idealmente sería un modal de error
+                    document.getElementById('guide-modal-title').textContent = "Error de Cálculo";
+                    document.querySelector('#guide-modal .space-y-6').innerHTML = '<p class="text-red-600 font-semibold">Por favor, introduce un 1RM válido (mayor a 0) para los tres levantamientos.</p>';
+                    return;
+                }
+
+                // 2. Calcular Training Max (TM)
+                const tmSquat = rmSquat * 0.9;
+                const tmBench = rmBench * 0.9;
+                const tmDeadlift = rmDeadlift * 0.9;
+
+                // 3. Contenedores de la tabla
+                const tbody = document.getElementById('pauta-tbody');
+                const placeholder = document.getElementById('pauta-placeholder');
+                const tablaContainer = document.getElementById('pauta-tabla-container');
+                
+                tbody.innerHTML = ''; // Limpiar tabla anterior
+
+                // 4. Función para redondear al 2.5 más cercano
+                function roundToNearest(value, increment = 2.5) {
+                    return Math.round(value / increment) * increment;
+                }
+
+                // 5. Definir la progresión
+                const progresion = [
+                    { week: 1, label: 'BASE (75%)', percent: 0.75, reps: '5 series x 5 reps' },
+                    { week: 2, label: 'VOLUMEN (80%)', percent: 0.80, reps: '4 series x 5 reps' },
+                    { week: 3, label: 'INTENSIDAD (85%)', percent: 0.85, reps: '3 series x 3 reps' },
+                    { week: 4, label: 'PICO (90%)', percent: 0.90, percent_backoff: 0.85, reps: '1x3 @ 90%, 2x3 @ 85%' },
+                    { week: 5, label: 'DESCARGA (60%)', percent: 0.60, reps: '3 series x 5 reps' }
+                ];
+
+                // 6. Generar filas de la tabla
+                progresion.forEach((semana, index) => {
+                    const isFirstRowOfWeek = true; // Se mantiene para compatibilidad con CSS si se ajustara en el futuro
+                    
+                    // Pesos de la semana
+                    let pesoSquat, pesoBench, pesoDeadlift;
+
+                    if (semana.week === 4) {
+                        // Semana 4 (Pico) es especial
+                        const squatPeak = roundToNearest(tmSquat * semana.percent);
+                        const squatBackoff = roundToNearest(tmSquat * semana.percent_backoff);
+                        pesoSquat = `1x3 @ ${squatPeak} kg, 2x3 @ ${squatBackoff} kg`;
+
+                        const benchPeak = roundToNearest(tmBench * semana.percent);
+                        const benchBackoff = roundToNearest(tmBench * semana.percent_backoff);
+                        pesoBench = `1x3 @ ${benchPeak} kg, 2x3 @ ${benchBackoff} kg`;
+
+                        const deadliftPeak = roundToNearest(tmDeadlift * semana.percent);
+                        const deadliftBackoff = roundToNearest(tmDeadlift * semana.percent_backoff);
+                        pesoDeadlift = `1x3 @ ${deadliftPeak} kg, 2x3 @ ${deadliftBackoff} kg`;
+                        
+                    } else {
+                        // Semanas normales
+                        pesoSquat = `${roundToNearest(tmSquat * semana.percent)} kg`;
+                        pesoBench = `${roundToNearest(tmBench * semana.percent)} kg`;
+                        pesoDeadlift = `${roundToNearest(tmDeadlift * semana.percent)} kg`;
+                    }
+
+                    const semanaLabel = `Semana ${semana.week}<br><span class="text-xs font-medium uppercase text-slate-600">${semana.label}</span>`;
+
+                    // Fila de Sentadilla
+                    tbody.innerHTML += `
+                        <tr class="week-row">
+                            <td rowspan="3">${semanaLabel}</td>
+                            <td>Sentadilla</td>
+                            <td>${semana.reps}</td>
+                            <td class="font-bold text-lg text-green-700">${pesoSquat}</td>
+                        </tr>
+                        <tr>
+                            <td>Press de Banca</td>
+                            <td>${semana.reps}</td>
+                            <td class="font-bold text-lg text-green-700">${pesoBench}</td>
+                        </tr>
+                        <tr>
+                            <td>Peso Muerto</td>
+                            <td>${semana.reps}</td>
+                            <td class="font-bold text-lg text-green-700">${pesoDeadlift}</td>
+                        </tr>
+                        `;
+                });
+
+                // 7. Mostrar la tabla y ocultar el placeholder
+                placeholder.classList.add('hidden');
+                tablaContainer.classList.remove('hidden');
+            });
+
+            // --- Lógica del Modal (NUEVA) ---
+            const guideModal = document.getElementById('guide-modal');
+            const openGuideBtn = document.getElementById('open-guide-btn');
+            const closeGuideBtn = document.getElementById('close-guide-btn');
+            const guideModalOverlay = document.getElementById('guide-modal-overlay');
+
+            function openModal(modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => modal.querySelector('.bg-black').classList.remove('opacity-0'), 10);
+                setTimeout(() => modal.querySelector('.transform').classList.remove('scale-95'), 10);
+                
+                // Restaurar contenido original de la guía si fue un error
+                const title = document.getElementById('guide-modal-title');
+                const content = document.querySelector('#guide-modal .space-y-6');
+                if (title.textContent === "Error de Cálculo") {
+                    title.textContent = "Guía Esencial de Fuerza";
+                    content.innerHTML = `
+                        <div>
+                            <h3 class="text-2xl text-green-600 mb-2">Pilar 1: Intensidad y Calidad</h3>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>El Peso es el Estímulo:</strong> El objetivo es mover cargas pesadas (80-90%+) en rangos de 3-5 reps. Cada serie cuenta.</li>
+                                <li><strong>Intención de Velocidad:</strong> Aunque el peso sea alto, *intenta* mover la barra lo más rápido posible. Esto recluta más fibras musculares.</li>
+                                <li><strong>El 90% (TM):</strong> Calculamos sobre el 90% de tu máximo para poder progresar semana a semana sin quemarte. Confía en el proceso.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl text-green-600 mb-2">Pilar 2: Descanso = Potencia</h3>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>3-5 Minutos NO es opcional:</strong> Para levantar tu máximo potencial en cada serie, tu ATP (energía) debe regenerarse. Descansar 90 segundos no es suficiente.</li>
+                                <li><strong>No midas por "sensación":</strong> No buscamos estar "congestionados" o "sudando". Buscamos estar 100% listos para la siguiente serie pesada.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl text-green-600 mb-2">Pilar 3: Combustible y Recuperación</h3>
+                            <ul class="list-disc list-inside space-y-2">
+                                <li><strong>Come en Superávit:</strong> Es muy difícil construir fuerza máxima en un déficit calórico. Apunta a mantenimiento o un ligero superávit.</li>
+                                <li><strong>Duerme 8+ Horas:</strong> El sistema nervioso central (SNC) se fatiga mucho con el entrenamiento pesado. El sueño es la principal herramienta de reparación del SNC.</li>
+                            </ul>
+                        </div>
+                    `;
+                }
+            }
+
+            function closeModal(modal) {
+                modal.querySelector('.transform').classList.add('scale-95');
+                modal.querySelector('.bg-black').classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+
+            openGuideBtn.addEventListener('click', () => openModal(guideModal));
+            closeGuideBtn.addEventListener('click', () => closeModal(guideModal));
+            guideModalOverlay.addEventListener('click', () => closeModal(guideModal));
+
+            // --- Lógica para Pestañas de Días (NUEVA) ---
+            window.changeDay = function(dayNumber) {
+                // Ocultar todo el contenido de los días
+                document.querySelectorAll('.day-content').forEach(function(content) {
+                    content.classList.remove('active');
+                    content.classList.add('hidden'); // Asegurar que esté oculto
+                });
+
+                // Quitar clase activa a todas las pestañas de días
+                document.querySelectorAll('.day-tab').forEach(function(tab) {
+                    tab.classList.remove('day-tab-active');
+                    tab.classList.add('day-tab-inactive');
+                });
+
+                // Mostrar contenido del día seleccionado
+                const activeContent = document.getElementById('day-' + dayNumber);
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                    activeContent.classList.remove('hidden');
+                }
+
+                // Poner clase activa a la pestaña seleccionada
+                const activeTab = document.querySelector(`.day-tab[onclick="changeDay(${dayNumber})"]`);
+                if (activeTab) {
+                    activeTab.classList.add('day-tab-active');
+                    activeTab.classList.remove('day-tab-inactive');
+                }
+            }
+
+            // Activar el Día 1 por defecto al cargar
+            changeDay(1);
+
+        });
+    </script>
+
+</body>
+</html>

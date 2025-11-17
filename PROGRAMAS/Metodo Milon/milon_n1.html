@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método Milón: Nivel 1</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='35' width='25' height='30' rx='5' fill='%23f59e0b'/><rect x='65' y='35' width='25' height='30' rx='5' fill='%23f59e0b'/><rect x='30' y='45' width='40' height='10' rx='5' fill='%23f59e0b'/></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4, .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+        .gradient-text { background: linear-gradient(to right, #f59e0b, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .week-tab-active, .day-tab-active { background-color: #f59e0b; color: #ffffff; }
+        .week-tab-inactive, .day-tab-inactive { background-color: #e5e7eb; color: #4b5563; }
+        .day-checked { background-color: #f59e0b !important; color: #ffffff !important; border-color: #f59e0b !important; }
+        .set-checkbox:checked + label { text-decoration: line-through; color: #9ca3af; }
+        .hidden { display: none; }
+        /* Estilos para el toggle Gym/Casa */
+        .mode-toggle-bg { background-color: #e5e7eb; }
+        .mode-toggle-btn {
+            background-color: #ffffff;
+            color: #f59e0b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .mode-toggle-btn.active {
+            background-color: #f59e0b;
+            color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .mode-toggle-btn.gym.active { transform: translateX(0%); }
+        .mode-toggle-btn.casa.active { transform: translateX(100%); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+
+        <header class="text-center mb-10">
+            <h1 class="text-6xl md:text-7xl font-extrabold gradient-text">MÉTODO MILÓN</h1>
+            <h2 class="text-xl md:text-2xl text-gray-800 font-semibold mt-2 font-bebas">POR PROF. MARCO FLORES</h2>
+            <p class="text-lg text-gray-600 mt-2">Nivel 1: Cimientos de Acero</p>
+        </header>
+        
+        <div class="text-center mb-12 space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="open-guide-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">
+                GUÍA ESENCIAL
+            </button>
+            <button id="open-theory-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">
+                LA TEORÍA DE MILÓN
+            </button>
+        </div>
+
+        <main>
+            <section id="workout-view">
+                 <div id="level-intro-text" class="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg mb-8 text-center"></div>
+                
+                <div id="rutinas">
+                    <h2 id="workout-title" class="text-4xl text-gray-900 mb-6 text-center"></h2>
+                    
+                    <div id="week-tabs" class="flex justify-center mb-2 border-b-2 border-gray-300"></div>
+                    <div id="day-tabs" class="flex flex-wrap justify-center mb-6"></div>
+
+                    <!-- Selector de Modo Gym/Casa Unificado -->
+                    <div class="flex justify-center mb-6">
+                        <div class="relative w-64 p-1 rounded-lg mode-toggle-bg grid grid-cols-2 gap-1">
+                            <button id="mode-btn-gym" class="mode-toggle-btn gym relative z-10 w-full py-2 px-4 rounded-md font-bebas text-lg">
+                                GIMNASIO
+                            </button>
+                            <button id="mode-btn-casa" class="mode-toggle-btn casa relative z-10 w-full py-2 px-4 rounded-md font-bebas text-lg">
+                                CASA
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="workouts-container" class="space-y-6"></div>
+                </div>
+                
+                <div id="calendario" class="mt-12">
+                    <h2 class="text-4xl text-gray-900 mb-6 text-center">Calendario de Seguimiento Semanal</h2>
+                    <div class="flex justify-center"></div>
+                </div>
+            </section>
+        </main>
+
+        <section id="coach-profile" class="bg-gray-100 p-8 rounded-2xl mt-12">
+            <div class="text-center">
+                <h3 class="text-3xl text-gray-900">Unas palabras de tu Coach</h3>
+                <p class="text-amber-600 font-semibold mt-1">Prof. Marco Flores</p>
+                <p class="text-gray-700 mt-4 max-w-xl mx-auto">
+                    ¡Hola! Soy Marco. Llevo más de 12 años dedicado a guiar transformaciones físicas. Este Nivel 1 es el más importante: construiremos los cimientos de tu nuevo físico. Concéntrate en la técnica y la constancia. ¡Vamos con todo!
+                </p>
+                <blockquote class="mt-6 italic text-gray-600 border-l-4 border-amber-300 pl-4 inline-block text-left">
+                    “La fuerza no se hereda. Se construye, carga a carga.”
+                </blockquote>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 py-6 border-t border-gray-300">
+            <h3 class="text-3xl text-gray-900 font-bebas mb-4">¿Listo para el Siguiente Nivel?</h3>
+            <h4 class="text-xl font-bebas text-gray-900">Método Milón | Creado por Prof. Marco Flores</h4>
+            <p class="text-sm text-gray-600 mb-6">Tu Coach de Recomposición Corporal</p>
+            <a href="httpsis.gd/milon2" target="_blank" class="bg-amber-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-amber-600 transition-all duration-300 transform hover:scale-105 font-bebas text-xl inline-flex items-center gap-2">
+                <span>¡QUIERO EL NIVEL 2!</span>
+            </a>
+        </footer>
+    </div>
+    
+    <!-- Modales (Guía y Teoría) -->
+    <div id="guide-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="guide-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+                    <h2 id="guide-modal-title" class="text-4xl text-gray-900">Guía Esencial de Recomposición</h2>
+                    <button id="close-guide-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+                </div>
+
+                <div id="guide-main-view" class="space-y-6 text-gray-700">
+                    <div>
+                        <h3 class="text-2xl text-amber-600 mb-2">Pilar 1: Nutrición Inteligente</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Proteína es REY:</strong> Apunta a consumir <strong>1.6-2.2 gramos de proteína por kg de tu peso</strong>.</li>
+                            <li><strong>Calorías de Recomposición:</strong> Apunta a tu mantenimiento o un déficit/superávit muy ligero (± 200-300 kcal). La magia ocurre cerca del mantenimiento.</li>
+                            <li>
+                                <strong>Carbohidratos para Rendir:</strong> Úsalos estratégicamente alrededor de tus entrenamientos. 
+                                <button id="show-carbs-btn" class="text-blue-600 hover:underline text-sm font-semibold">(Ver ejemplos)</button>
+                            </li>
+                            <li><strong>Grasas para la Salud:</strong> Son cruciales para tus hormonas. Prioriza fuentes saludables (palta/aguacate, nueces, aceite de oliva).</li>
+                        </ul>
+                    </div>
+                    <div><h3 class="text-2xl text-amber-600 mb-2">Pilar 2: El RIR (Repeticiones en Reserva)</h3><ul class="list-disc list-inside space-y-2"><li><strong>RIR 3-4 (Adaptación):</strong> Semana 1. Terminas la serie sabiendo que podrías haber hecho 3 o 4 repeticiones más. Es para aprender la técnica.</li><li><strong>RIR 1-2 (Hipertrofia):</strong> Semanas 2-3. El punto dulce. Terminas la serie sabiendo que solo te quedaban 1 o 2 reps en el tanque. Esfuerzo alto y efectivo.</li><li><strong>RIR 0 (Fallo):</strong> Reservado para ejercicios de aislamiento o semanas de peak. Es el fallo muscular total.</li></ul></div>
+                    <div><h3 class="text-2xl text-amber-600 mb-2">Pilar 3: Descanso y Recuperación</h3><ul class="list-disc list-inside space-y-2"><li><strong>Fábrica de Músculo Nocturna:</strong> Apunta a <strong>7-9 horas de sueño de calidad</strong> por noche.</li><li><strong>Días Libres son Días de Crecimiento:</strong> El músculo crece cuando descansas, no cuando entrenas.</li></ul></div>
+                </div>
+
+                <div id="guide-carbs-view" class="hidden space-y-4 text-gray-700">
+                    <div>
+                        <h3 class="text-2xl text-amber-600 mb-2">Fuentes de Carbohidratos Complejos</h3>
+                        <p class="text-sm mb-2">Ideales para energía sostenida durante el día.</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Avena</li>
+                            <li>Arroz integral / Quinoa</li>
+                            <li>Papas / Camote (Batata)</li>
+                            <li>Legumbres (lentejas, garbanzos)</li>
+                            <li>Pan integral o de masa madre</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl text-amber-600 mb-2">Fuentes de Carbohidratos Simples</h3>
+                        <p class="text-sm mb-2">Excelentes para reponer energía rápidamente después de entrenar.</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Frutas (plátano, manzana, berries)</li>
+                            <li>Arroz blanco</li>
+                            <li>Miel</li>
+                        </ul>
+                    </div>
+                    <div class="pt-4">
+                        <button id="back-to-guide-btn" class="text-blue-600 hover:underline font-semibold">&larr; Volver a la guía</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="theory-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="theory-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6"><h2 class="text-4xl text-gray-900">¿Por qué "Milón"?</h2><button id="close-theory-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button></div>
+                <div class="space-y-4 text-gray-700">
+                    <p>El nombre del método se inspira en <strong>Milón de Crotona</strong>, una leyenda de la antigua Grecia y uno de los atletas más grandes de la historia.</p>
+                    <p>La historia cuenta que Milón desarrolló su increíble fuerza levantando un ternero recién nacido sobre sus hombros cada día. A medida que el ternero crecía y se convertía en un toro, la fuerza de Milón crecía con él, hasta que fue capaz de levantar al animal adulto.</p>
+                    <p class="font-bold text-amber-800">Esta leyenda es la encarnación perfecta del principio de <strong>sobrecarga progresiva</strong>, el pilar fundamental de este programa. Tu progreso, al igual que la fuerza de Milón, se construirá día a día, carga a carga, repetición a repetición.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const programData = {
+        nivel: 1,
+        titulo: 'Nivel 1: Cimientos de Acero',
+        intro: "¡Bienvenido al Nivel 1! Aquí sentaremos las bases de tu transformación. Concéntrate en la técnica y la constancia para construir esos cimientos de acero. Una vez que domines estas 4 semanas, ¡estaremos listos para el desafío del Nivel 2!",
+        semanas: {
+            1: {
+                focus: "Semana 1: Adaptación y Técnica",
+                dias: ['Día 1: Torso', 'Día 2: Pierna', 'Día 3: Descanso Activo', 'Día 4: Torso', 'Día 5: Pierna'],
+                workouts: {
+                    // DÍA 1
+                    0: {
+                        gym: {
+                            exercises: [
+                                { name: 'Press de Banca Plano (con barra o mancuernas)', sets: 3, reps: '8-12', rest: '90s', rir: '3-4', tip: 'Manos al ancho de los hombros. Abdomen contraído. Codos a 45 grados del torso.' },
+                                { name: 'Remo con Mancuerna (o en polea baja)', sets: 3, reps: '10-12 c/u', rest: '75s', rir: '3-4', tip: 'Espalda totalmente plana. Tira de la mancuerna hacia tu cadera, liderando con el codo.' },
+                                { name: 'Press de Hombro (Sentado con mancuernas)', sets: 3, reps: '10-12', rest: '75s', rir: '3-4', tip: 'Espalda recta y apoyada. Empuja verticalmente hasta casi bloquear los codos.' },
+                                { name: 'Jalón al Pecho (o Dominadas Asistidas)', sets: 3, reps: '10-12', rest: '75s', rir: '3-4', tip: 'Saca pecho. Tira de la barra hacia la parte alta del pecho, contrayendo la espalda.' },
+                                { name: 'Extensiones de Tríceps en Polea', sets: 2, reps: '12-15', rest: '60s', rir: '2-3', tip: 'Codos pegados al cuerpo. Extiende completamente los brazos.' },
+                                { name: 'Curl de Bíceps con Mancuernas', sets: 2, reps: '12-15', rest: '60s', rir: '2-3', tip: 'Codos pegados a los costados. Rota la muñeca en la subida (supinación).' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Flexiones (o de rodillas)', sets: 3, reps: '10-15', rest: '90s', rir: '1-2', tip: 'Cuerpo en línea recta. Baja hasta que el pecho casi toque el suelo.' },
+                                { name: 'Remo Invertido (bajo una mesa)', sets: 3, reps: '10-15', rest: '75s', rir: '1-2', tip: 'Tira de tu pecho hacia el borde de la mesa. Aprieta la espalda.' },
+                                { name: 'Pike Push-ups (Flexiones en Pica)', sets: 3, reps: '8-12', rest: '75s', rir: '2-3', tip: 'Cadera alta. La cabeza baja en ángulo, formando un trípode con las manos.' },
+                                { name: 'Fondos en Banco o Silla', sets: 3, reps: '10-15', rest: '75s', rir: '1-2', tip: 'Mantén la espalda cerca del banco. Baja hasta 90 grados en los codos.' },
+                                { name: 'Curl de Bíceps con Bandas (o mochila)', sets: 2, reps: '15-20', rest: '60s', rir: '1-2', tip: 'Aprieta el bíceps en la subida, controla la bajada.' },
+                            ]
+                        }
+                    },
+                    // DÍA 2
+                    1: {
+                        gym: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet', sets: 3, reps: '10-12', rest: '90s', rir: '3-4', tip: 'Mancuerna contra tu pecho. Cadera hacia atrás y abajo, rompiendo la paralela.' },
+                                { name: 'Peso Muerto Rumano (con mancuernas)', sets: 3, reps: '10-12', rest: '90s', rir: '3-4', tip: 'Rodillas casi rectas. Baja el torso empujando la cadera hacia atrás.' },
+                                { name: 'Prensa (Inclinada)', sets: 3, reps: '12-15', rest: '75s', rir: '2-3', tip: 'Rango de movimiento completo. No bloquees las rodillas.' },
+                                { name: 'Curl Femoral (Sentado o Tumbado)', sets: 3, reps: '12-15', rest: '75s', rir: '2-3', tip: 'Contrae fuerte los femorales en cada repetición.' },
+                                { name: 'Elevación de Talones (de pie)', sets: 3, reps: '15-20', rest: '60s', rir: '2-3', tip: 'En un escalón para mayor rango. Sube lo más alto posible.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet (con mochila o garrafa)', sets: 3, reps: '15-20', rest: '90s', rir: '1-2', tip: 'Usa peso. Baja profundo, manteniendo el pecho erguido.' },
+                                { name: 'Peso Muerto a 1 Pierna (con peso)', sets: 3, reps: '10-12 c/u', rest: '75s', rir: '1-2', tip: 'Mantén la cadera cuadrada. Foco en el equilibrio y el femoral.' },
+                                { name: 'Sentadilla Búlgara (pie en silla)', sets: 3, reps: '10-12 c/u', rest: '75s', rir: '1-2', tip: 'Torso recto y baja controlado. Quema mucho.' },
+                                { name: 'Puente de Glúteos (con peso en cadera)', sets: 3, reps: '15-20', rest: '60s', rir: '1-2', tip: 'Empuja la cadera hacia el techo, contrayendo los glúteos fuertemente.' },
+                                { name: 'Elevación de Talones a 1 Pierna', sets: 3, reps: '15-20 c/u', rest: '45s', rir: '1-2', tip: 'Sube explosivo, aguanta 1s, y baja lentamente.' },
+                            ]
+                        }
+                    },
+                    // DÍA 3
+                    2: {
+                        gym: { cardio: "Cardio LISS (Baja intensidad) 25-35 min o caminata." },
+                        casa: { cardio: "Cardio LISS (Baja intensidad) 25-35 min o caminata." }
+                    },
+                    // DÍA 4
+                    3: {
+                        gym: {
+                            exercises: [
+                                { name: 'Press Inclinado con Mancuernas', sets: 3, reps: '10-12', rest: '90s', rir: '3-4', tip: 'Estira bien el pecho en la bajada, junta las mancuernas arriba.' },
+                                { name: 'Remo en Punta T (o similar)', sets: 3, reps: '10-12', rest: '75s', rir: '3-4', tip: 'Espalda recta. Tira con los codos, aprieta la espalda media.' },
+                                { name: 'Elevaciones Laterales con Mancuernas', sets: 3, reps: '12-15', rest: '60s', rir: '2-3', tip: 'Codos ligeramente flexionados. Sube hasta la altura del hombro.' },
+                                { name: 'Face Pulls (en polea alta)', sets: 2, reps: '15-20', rest: '60s', rir: '2-3', tip: 'Esencial para la salud del hombro. Tira de la cuerda hacia tu cara.' },
+                                { name: 'Fondos en Paralelas (o máquina)', sets: 2, reps: '10-12', rest: '75s', rir: '2-3', tip: 'Baja hasta 90 grados en los codos. Empuja con los tríceps.' },
+                                { name: 'Curl de Bíceps (en polea baja)', sets: 2, reps: '12-15', rest: '60s', rir: '2-3', tip: 'Tensión constante. Aprieta el bíceps arriba.' },
+                            ]
+                        },
+                        casa: {
+                             exercises: [
+                                { name: 'Flexiones Declinadas (pies en silla)', sets: 3, reps: '8-12', rest: '90s', rir: '1-2', tip: 'Más énfasis en el pectoral superior. Cuerpo recto.' },
+                                { name: 'Remo Invertido (agarre supino/inverso)', sets: 3, reps: '10-15', rest: '75s', rir: '1-2', tip: 'Palmas hacia ti. Tira llevando los codos hacia atrás.' },
+                                { name: 'Pike Push-ups (Tempo 3-1-1)', sets: 3, reps: '8-10', rest: '75s', rir: '1-2', tip: 'Baja en 3 seg, pausa 1 seg, sube en 1 seg. Controlado.' },
+                                { name: 'Fondos en Banco (Pies elevados)', sets: 3, reps: '10-12', rest: '75s', rir: '1-2', tip: 'Coloca una mochila en tus piernas para más peso.' },
+                                { name: 'Face Pulls con Bandas', sets: 2, reps: '20-25', rest: '60s', rir: '1-2', tip: 'Rota externamente los hombros al final.' },
+                            ]
+                        }
+                    },
+                    // DÍA 5
+                    4: {
+                        gym: {
+                            exercises: [
+                                { name: 'Sentadilla Hack (o Prensa)', sets: 3, reps: '10-12', rest: '90s', rir: '3-4', tip: 'Enfoque en los cuádriceps. Baja profundo.' },
+                                { name: 'Peso Muerto Rumano (con barra)', sets: 3, reps: '10-12', rest: '90s', rir: '3-4', tip: 'La barra roza tus piernas. Siente el estiramiento.' },
+                                { name: 'Extensiones de Cuádriceps', sets: 3, reps: '12-15', rest: '75s', rir: '2-3', tip: 'Aprieta 1 segundo en la extensión máxima.' },
+                                { name: 'Curl Femoral (Tumbado)', sets: 3, reps: '12-15', rest: '75s', rir: '2-3', tip: 'Controla la fase excéntrica (bajada).' },
+                                { name: 'Elevación de Talones (Sentado)', sets: 3, reps: '15-20', rest: '60s', rir: '2-3', tip: 'Foco en el sóleo. Rango de movimiento completo.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Sentadilla Búlgara (con mochila)', sets: 3, reps: '10-12 c/u', rest: '90s', rir: '1-2', tip: 'Carga esa mochila. Este es tu ejercicio principal de cuádriceps.' },
+                                { name: 'Puente de Glúteos a 1 Pierna', sets: 3, reps: '12-15 c/u', rest: '75s', rir: '1-2', tip: 'Empuja la cadera al techo. Foco en el glúteo.' },
+                                { name: 'Curl Nórdico (o negativas)', sets: 3, reps: '5-8', rest: '90s', rir: '1-2', tip: 'Baja lo más lento que puedas. Usa tus brazos para subir.' },
+                                { name: 'Sentadilla Isométrica (en pared)', sets: 3, reps: '45-60 seg', rest: '60s', rir: '1', tip: 'Rodillas a 90 grados. Aguanta el dolor.' },
+                                { name: 'Elevación de Talones (con mochila)', sets: 3, reps: '20-25', rest: '60s', rir: '1-2', tip: 'Busca el fallo muscular. Rango completo.' },
+                            ]
+                        }
+                    }
+                }
+            },
+            2: {
+                focus: "Semana 2: Sobrecarga de Volumen",
+                dias: ['Día 1: Torso', 'Día 2: Pierna', 'Día 3: Descanso Activo', 'Día 4: Torso', 'Día 5: Pierna'],
+                workouts: {
+                    // DÍA 1
+                    0: {
+                        gym: {
+                            exercises: [
+                                { name: 'Press de Banca Plano', sets: 4, reps: '8-12', rest: '90s', rir: '2-3', tip: 'Añadimos una serie. Intenta mantener el peso de la semana 1.' },
+                                { name: 'Remo con Mancuerna', sets: 4, reps: '10-12 c/u', rest: '75s', rir: '2-3', tip: 'Más volumen para construir más espalda.' },
+                                { name: 'Press de Hombro (Sentado)', sets: 4, reps: '10-12', rest: '75s', rir: '2-3', tip: 'Una serie extra para añadir más trabajo a los hombros.' },
+                                { name: 'Jalón al Pecho', sets: 4, reps: '10-12', rest: '75s', rir: '2-3', tip: 'Añadimos una serie. Controla la negativa.' },
+                                { name: 'Extensiones de Tríceps en Polea', sets: 3, reps: '12-15', rest: '60s', rir: '2', tip: 'Aumenta el peso o las reps. RIR 2.' },
+                                { name: 'Curl de Bíceps con Mancuernas', sets: 3, reps: '12-15', rest: '60s', rir: '2', tip: 'Intenta sacar 1-2 reps más que la semana pasada.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Flexiones', sets: 4, reps: '10-15', rest: '90s', rir: '1-2', tip: 'Una serie más. Si es fácil, añade una mochila.' },
+                                { name: 'Remo Invertido', sets: 4, reps: '10-15', rest: '75s', rir: '1-2', tip: 'Más volumen para la espalda.' },
+                                { name: 'Pike Push-ups', sets: 4, reps: '8-12', rest: '75s', rir: '2-3', tip: 'Añadimos una serie. Siente el trabajo en los hombros.' },
+                                { name: 'Fondos en Banco o Silla', sets: 4, reps: '10-15', rest: '75s', rir: '1-2', tip: 'Más volumen. Carga peso si es necesario.' },
+                                { name: 'Curl de Bíceps con Bandas', sets: 3, reps: '15-20', rest: '60s', rir: '1-2', tip: 'Más tensión en la banda o más reps.' },
+                            ]
+                        }
+                    },
+                    // DÍA 2
+                    1: {
+                        gym: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet', sets: 4, reps: '10-12', rest: '90s', rir: '2-3', tip: 'Aumentamos a 4 series. ¡Aquí se construye la fuerza!' },
+                                { name: 'Peso Muerto Rumano (Mancuernas)', sets: 4, reps: '10-12', rest: '90s', rir: '2-3', tip: 'Una serie más para un estímulo superior.' },
+                                { name: 'Prensa (Inclinada)', sets: 4, reps: '12-15', rest: '75s', rir: '2', tip: 'Añadimos una serie. Cerca del fallo.' },
+                                { name: 'Curl Femoral', sets: 4, reps: '12-15', rest: '75s', rir: '2', tip: 'Más volumen para los femorales.' },
+                                { name: 'Elevación de Talones (de pie)', sets: 4, reps: '15-20', rest: '60s', rir: '2', tip: 'Una serie extra. Que quemen.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet (con peso)', sets: 4, reps: '15-20', rest: '90s', rir: '1-2', tip: 'Añadimos una serie. Sube el peso si puedes.' },
+                                { name: 'Peso Muerto a 1 Pierna (con peso)', sets: 4, reps: '10-12 c/u', rest: '75s', rir: '1-2', tip: 'Más volumen. El equilibrio será un reto.' },
+                                { name: 'Sentadilla Búlgara', sets: 4, reps: '10-12 c/u', rest: '75s', rir: '1-2', tip: 'Una serie más de este ejercicio clave.' },
+                                { name: 'Puente de Glúteos (con peso)', sets: 4, reps: '15-20', rest: '60s', rir: '1-2', tip: 'Más volumen para fortalecer y redondear los glúteos.' },
+                                { name: 'Elevación de Talones a 1 Pierna', sets: 4, reps: '15-20 c/u', rest: '45s', rir: '1-2', tip: 'Una serie más.' },
+                            ]
+                        }
+                    },
+                    // DÍA 3
+                    2: {
+                        gym: { cardio: "Cardio LISS (Baja intensidad) 25-35 min o caminata." },
+                        casa: { cardio: "Cardio LISS (Baja intensidad) 25-35 min o caminata." }
+                    },
+                    // DÍA 4
+                    3: {
+                        gym: {
+                            exercises: [
+                                { name: 'Press Inclinado con Mancuernas', sets: 4, reps: '10-12', rest: '90s', rir: '2-3', tip: 'Una serie más para el pecho superior.' },
+                                { name: 'Remo en Punta T', sets: 4, reps: '10-12', rest: '75s', rir: '2-3', tip: 'Más volumen de remo.' },
+                                { name: 'Elevaciones Laterales con Mancuernas', sets: 4, reps: '12-15', rest: '60s', rir: '2', tip: 'Añadimos una serie para hombros más anchos.' },
+                                { name: 'Face Pulls', sets: 3, reps: '15-20', rest: '60s', rir: '2', tip: 'Aumenta el peso o las reps.' },
+                                { name: 'Fondos en Paralelas', sets: 3, reps: '10-12', rest: '75s', rir: '2', tip: 'Más reps o añade un poco de lastre.' },
+                                { name: 'Curl de Bíceps (en polea baja)', sets: 3, reps: '12-15', rest: '60s', rir: '2', tip: 'Lleva los bíceps al RIR 2.' },
+                            ]
+                        },
+                        casa: {
+                             exercises: [
+                                { name: 'Flexiones Declinadas', sets: 4, reps: '8-12', rest: '90s', rir: '1-2', tip: 'Una serie más. Carga peso si es necesario.' },
+                                { name: 'Remo Invertido (agarre supino)', sets: 4, reps: '10-15', rest: '75s', rir: '1-2', tip: 'Más volumen.' },
+                                { name: 'Pike Push-ups (Tempo 3-1-1)', sets: 4, reps: '8-10', rest: '75s', rir: '1-2', tip: 'Una serie más con tempo. Doloroso.' },
+                                { name: 'Fondos en Banco (Pies elevados)', sets: 4, reps: '10-12', rest: '75s', rir: '1-2', tip: 'Más volumen para los tríceps.' },
+                                { name: 'Face Pulls con Bandas', sets: 3, reps: '20-25', rest: '60s', rir: '1-2', tip: 'Más reps o una banda más dura.' },
+                            ]
+                        }
+                    },
+                    // DÍA 5
+                    4: {
+                        gym: {
+                            exercises: [
+                                { name: 'Sentadilla Hack (o Prensa)', sets: 4, reps: '10-12', rest: '90s', rir: '2-3', tip: 'Añadimos una serie.' },
+                                { name: 'Peso Muerto Rumano (con barra)', sets: 4, reps: '10-12', rest: '90s', rir: '2-3', tip: 'Más volumen para la cadena posterior.' },
+                                { name: 'Extensiones de Cuádriceps', sets: 4, reps: '12-15', rest: '75s', rir: '2', tip: 'Una serie más. Aprieta arriba.' },
+                                { name: 'Curl Femoral (Tumbado)', sets: 4, reps: '12-15', rest: '75s', rir: '2', tip: 'Una serie más. Cerca del fallo.' },
+                                { name: 'Elevación de Talones (Sentado)', sets: 4, reps: '15-20', rest: '60s', rir: '2', tip: 'Más volumen para el sóleo.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Sentadilla Búlgara (con mochila)', sets: 4, reps: '10-12 c/u', rest: '90s', rir: '1-2', tip: 'Una serie más. Las piernas quemarán.' },
+                                { name: 'Puente de Glúteos a 1 Pierna', sets: 4, reps: '12-15 c/u', rest: '75s', rir: '1-2', tip: 'Más volumen de glúteos.' },
+                                { name: 'Curl Nórdico (o negativas)', sets: 4, reps: '5-8', rest: '90s', rir: '1-2', tip: 'Una serie más de este constructor de femorales.' },
+                                { name: 'Sentadilla Isométrica (en pared)', sets: 4, reps: '45-60 seg', rest: '60s', rir: '1', tip: 'Una serie más. Aguanta.' },
+                                { name: 'Elevación de Talones (con mochila)', sets: 4, reps: '20-25', rest: '60s', rir: '1-2', tip: 'Más volumen.' },
+                            ]
+                        }
+                    }
+                }
+            },
+            3: {
+                focus: "Semana 3: Pico de Intensidad",
+                dias: ['Día 1: Torso', 'Día 2: Pierna', 'Día 3: Descanso Activo', 'Día 4: Torso', 'Día 5: Pierna'],
+                workouts: {
+                    // DÍA 1
+                    0: {
+                        gym: {
+                            exercises: [
+                                { name: 'Press de Banca Plano', sets: 4, reps: '6-10', rest: '90s', rir: '1-2', tip: 'Sube el peso. El RIR baja a 1-2. ¡Esfuerzo real!' },
+                                { name: 'Remo con Mancuerna', sets: 4, reps: '8-10 c/u', rest: '75s', rir: '1-2', tip: 'Más peso. Tira con fuerza, controla la bajada.' },
+                                { name: 'Press de Hombro (Sentado)', sets: 4, reps: '8-10', rest: '75s', rir: '1-2', tip: 'Aumenta la carga. Cerca del fallo.' },
+                                { name: 'Jalón al Pecho', sets: 4, reps: '8-10', rest: '75s', rir: '1-2', tip: 'Más peso. RIR 1-2.' },
+                                { name: 'Extensiones de Tríceps en Polea', sets: 3, reps: '10-12', rest: '60s', rir: '1', tip: 'Llega al fallo técnico, RIR 1.' },
+                                { name: 'Curl de Bíceps con Mancuernas', sets: 3, reps: '10-12', rest: '60s', rir: '1', tip: 'Sube el peso. Al fallo (RIR 1).' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Flexiones (con mochila)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '90s', rir: '1', tip: 'Carga la mochila. Tienes que llegar al fallo.' },
+                                { name: 'Remo Invertido (Pies elevados)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Añade peso en el pecho si es necesario.' },
+                                { name: 'Pike Push-ups (Tempo 3-1-1)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Con tempo y al fallo. Brutal.' },
+                                { name: 'Fondos en Banco (Pies elevados + Peso)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Llega al fallo técnico.' },
+                                { name: 'Curl de Bíceps con Bandas (con pausa)', sets: 3, reps: '15-20', rest: '60s', rir: '1', tip: 'Pausa de 2 seg en la contracción máxima.' },
+                            ]
+                        }
+                    },
+                    // DÍA 2
+                    1: {
+                        gym: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet', sets: 4, reps: '8-10', rest: '90s', rir: '1-2', tip: 'Incrementa la carga. Cada repetición debe costar.' },
+                                { name: 'Peso Muerto Rumano (Mancuernas)', sets: 4, reps: '8-10', rest: '90s', rir: '1-2', tip: 'Más peso. Siente la tensión.' },
+                                { name: 'Prensa (Inclinada)', sets: 4, reps: '10-12', rest: '75s', rir: '1', tip: 'Llega al RIR 1. Sube el peso.' },
+                                { name: 'Curl Femoral', sets: 4, reps: '10-12', rest: '75s', rir: '1', tip: 'Al fallo (RIR 1).' },
+                                { name: 'Elevación de Talones (de pie)', sets: 4, reps: '12-15', rest: '60s', rir: '1', tip: 'Más peso, RIR 1.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet (con peso)', sets: 4, reps: '15-20', rest: '90s', rir: '1', tip: 'Más peso en la mochila. RIR 1.' },
+                                { name: 'Peso Muerto a 1 Pierna (con peso)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Llega al fallo con buena técnica.' },
+                                { name: 'Sentadilla Búlgara', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Al fallo. Carga peso.' },
+                                { name: 'Puente de Glúteos (con peso)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '60s', rir: '1', tip: 'Más peso, más reps. RIR 1.' },
+                                { name: 'Elevación de Talones a 1 Pierna', sets: 4, reps: 'Al fallo (RIR 1)', rest: '45s', rir: '1', tip: 'Hasta que no puedas más.' },
+                            ]
+                        }
+                    },
+                    // DÍA 3
+                    2: {
+                        gym: { cardio: "Cardio LISS (Baja intensidad) 25-35 min o caminata." },
+                        casa: { cardio: "Cardio LISS (Baja intensidad) 25-35 min o caminata." }
+                    },
+                    // DÍA 4
+                    3: {
+                        gym: {
+                            exercises: [
+                                { name: 'Press Inclinado con Mancuernas', sets: 4, reps: '8-10', rest: '90s', rir: '1-2', tip: 'Sube el peso. RIR 1-2.' },
+                                { name: 'Remo en Punta T', sets: 4, reps: '8-10', rest: '75s', rir: '1-2', tip: 'Más peso. Rango de movimiento completo.' },
+                                { name: 'Elevaciones Laterales con Mancuernas', sets: 4, reps: '10-12', rest: '60s', rir: '1', tip: 'Al fallo (RIR 1). Controla la negativa.' },
+                                { name: 'Face Pulls', sets: 3, reps: '12-15', rest: '60s', rir: '1', tip: 'Al fallo (RIR 1).' },
+                                { name: 'Fondos en Paralelas', sets: 3, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Añade lastre y llega al fallo.' },
+                                { name: 'Curl de Bíceps (en polea baja)', sets: 3, reps: '10-12', rest: '60s', rir: '1', tip: 'Al fallo (RIR 1).' },
+                            ]
+                        },
+                        casa: {
+                             exercises: [
+                                { name: 'Flexiones Declinadas', sets: 4, reps: 'Al fallo (RIR 1)', rest: '90s', rir: '1', tip: 'Carga peso. Al fallo.' },
+                                { name: 'Remo Invertido (agarre supino)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Al fallo. Añade peso.' },
+                                { name: 'Pike Push-ups (Tempo 3-1-1)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Al fallo con tempo.' },
+                                { name: 'Fondos en Banco (Pies elevados + Peso)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Al fallo.' },
+                                { name: 'Face Pulls con Bandas', sets: 3, reps: 'Al fallo (RIR 1)', rest: '60s', rir: '1', tip: 'Al fallo.' },
+                            ]
+                        }
+                    },
+                    // DÍA 5
+                    4: {
+                        gym: {
+                            exercises: [
+                                { name: 'Sentadilla Hack (o Prensa)', sets: 4, reps: '8-10', rest: '90s', rir: '1-2', tip: 'Sube el peso. RIR 1-2.' },
+                                { name: 'Peso Muerto Rumano (con barra)', sets: 4, reps: '8-10', rest: '90s', rir: '1-2', tip: 'Más peso. RIR 1-2.' },
+                                { name: 'Extensiones de Cuádriceps', sets: 4, reps: '10-12', rest: '75s', rir: '1', tip: 'Al fallo (RIR 1).' },
+                                { name: 'Curl Femoral (Tumbado)', sets: 4, reps: '10-12', rest: '75s', rir: '1', tip: 'Al fallo (RIR 1).' },
+                                { name: 'Elevación de Talones (Sentado)', sets: 4, reps: '12-15', rest: '60s', rir: '1', tip: 'Al fallo (RIR 1).' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Sentadilla Búlgara (con mochila)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '90s', rir: '1', tip: 'Al fallo. Carga más peso.' },
+                                { name: 'Puente de Glúteos a 1 Pierna', sets: 4, reps: 'Al fallo (RIR 1)', rest: '75s', rir: '1', tip: 'Al fallo. Contrae duro.' },
+                                { name: 'Curl Nórdico (o negativas)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '90s', rir: '1', tip: 'Al fallo. Lento en la bajada.' },
+                                { name: 'Sentadilla Isométrica (en pared)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '60s', rir: '1', tip: 'Aguanta hasta que las piernas tiemblen.' },
+                                { name: 'Elevación de Talones (con mochila)', sets: 4, reps: 'Al fallo (RIR 1)', rest: '60s', rir: '1', tip: 'Al fallo total.' },
+                            ]
+                        }
+                    }
+                }
+            },
+            4: {
+                focus: "Semana 4: Descarga (Deload)",
+                dias: ['Día 1: Torso Ligero', 'Día 2: Pierna Ligero', 'Día 3: Descanso Total'],
+                workouts: {
+                    // DÍA 1
+                    0: {
+                        gym: {
+                            exercises: [
+                                { name: 'Press de Banca Plano', sets: 2, reps: '10-12', rest: '90s', rir: '4-5', tip: 'Peso ligero. 50-60% de la semana 3. Mueve la sangre.' },
+                                { name: 'Remo con Mancuerna', sets: 2, reps: '12-15 c/u', rest: '75s', rir: '4-5', tip: 'Peso muy ligero. Técnica perfecta y fluida.' },
+                                { name: 'Press de Hombro (Sentado)', sets: 2, reps: '15', rest: '75s', rir: '4-5', tip: 'Movimiento ligero para mantener la articulación activa.' },
+                                { name: 'Curl de Bíceps con Mancuernas', sets: 2, reps: '15', rest: '60s', rir: '4-5', tip: 'Bombeo ligero, sin estrés.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Flexiones (normales)', sets: 2, reps: '15-20', rest: '90s', rir: '4-5', tip: 'Sin peso, sin tempo. Movimiento fluido.' },
+                                { name: 'Remo Invertido (pies en suelo)', sets: 2, reps: '15-20', rest: '75s', rir: '4-5', tip: 'Fácil, solo para mover la espalda.' },
+                                { name: 'Pike Push-ups (pies en suelo)', sets: 2, reps: '12-15', rest: '75s', rir: '4-5', tip: 'Movimiento ligero.' },
+                                { name: 'Curl de Bíceps con Bandas (ligeras)', sets: 2, reps: '20', rest: '60s', rir: '4-5', tip: 'Bombeo muy suave.' },
+                            ]
+                        }
+                    },
+                    // DÍA 2
+                    1: {
+                        gym: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet', sets: 2, reps: '12-15', rest: '90s', rir: '4-5', tip: 'Peso muy ligero. Foco en la movilidad.' },
+                                { name: 'Peso Muerto Rumano (Mancuernas)', sets: 2, reps: '15', rest: '90s', rir: '4-5', tip: 'Peso muy ligero. Estiramiento dinámico.' },
+                                { name: 'Curl Femoral', sets: 2, reps: '15', rest: '75s', rir: '4-5', tip: 'Bombeo ligero.' },
+                                { name: 'Elevación de Talones', sets: 2, reps: '20', rest: '60s', rir: '4-5', tip: 'Bombeo ligero.' },
+                            ]
+                        },
+                        casa: {
+                            exercises: [
+                                { name: 'Sentadilla Goblet (con libro)', sets: 2, reps: '20', rest: '90s', rir: '4-5', tip: 'Peso simbólico. Foco en la movilidad.' },
+                                { name: 'Peso Muerto a 1 Pierna (sin peso)', sets: 2, reps: '15 c/u', rest: '75s', rir: '4-5', tip: 'Foco en el equilibrio y el estiramiento.' },
+                                { name: 'Puente de Glúteos', sets: 2, reps: '25', rest: '60s', rir: '4-5', tip: 'Activación ligera.' },
+                                { name: 'Elevación de Talones', sets: 2, reps: '25', rest: '45s', rir: '4-5', tip: 'Bombeo suave.' },
+                            ]
+                        }
+                    },
+                    // DÍA 3
+                    2: {
+                        gym: { cardio: "Descanso total. Duerme, come, recupérate." },
+                        casa: { cardio: "Descanso total. Duerme, come, recupérate." }
+                    }
+                }
+            }
+        }
+    };
+
+    let currentWeek = 1;
+    let currentMode = 'gym'; // 'gym' o 'casa'
+    const storageKeyBase = `milonNivel${programData.nivel}`;
+
+    const workoutTitle = document.getElementById('workout-title');
+    const introTextContainer = document.getElementById('level-intro-text');
+    const weekTabsContainer = document.getElementById('week-tabs');
+    const dayTabsContainer = document.getElementById('day-tabs');
+    const workoutsContainer = document.getElementById('workouts-container');
+    const calendarContainer = document.querySelector('#calendario .flex');
+    const openGuideBtn = document.getElementById('open-guide-btn');
+    const closeGuideBtn = document.getElementById('close-guide-btn');
+    const guideModal = document.getElementById('guide-modal');
+    const openTheoryBtn = document.getElementById('open-theory-btn');
+    const closeTheoryBtn = document.getElementById('close-theory-btn');
+    const theoryModal = document.getElementById('theory-modal');
+    const guideModalTitle = document.getElementById('guide-modal-title');
+    const guideMainView = document.getElementById('guide-main-view');
+    const guideCarbsView = document.getElementById('guide-carbs-view');
+    const showCarbsBtn = document.getElementById('show-carbs-btn');
+    const backToGuideBtn = document.getElementById('back-to-guide-btn');
+    const modeBtnGym = document.getElementById('mode-btn-gym');
+    const modeBtnCasa = document.getElementById('mode-btn-casa');
+    
+    let currentDayIndex = 0; // Para saber qué día mostrar al cambiar de modo
+
+    function setMainMode(mode, save = true) {
+        currentMode = mode;
+        if (save) {
+            localStorage.setItem(`${storageKeyBase}Mode`, mode);
+        }
+        updateModeButtons();
+        showWorkout(currentDayIndex); // Recargar la vista del día actual con el nuevo modo
+    }
+
+    function updateModeButtons() {
+        if (currentMode === 'gym') {
+            modeBtnGym.classList.add('active');
+            modeBtnCasa.classList.remove('active');
+        } else {
+            modeBtnCasa.classList.add('active');
+            modeBtnGym.classList.remove('active');
+        }
+    }
+
+    function loadMainMode() {
+        const savedMode = localStorage.getItem(`${storageKeyBase}Mode`);
+        if (savedMode) {
+            currentMode = savedMode;
+        }
+        updateModeButtons();
+    }
+    
+    function showWorkoutView() {
+        workoutTitle.innerHTML = programData.titulo;
+        introTextContainer.textContent = programData.intro;
+        generateWeekTabs(Object.keys(programData.semanas));
+        
+        const savedWeek = localStorage.getItem(`${storageKeyBase}Week`);
+        showWeek(savedWeek ? parseInt(savedWeek) : 1);
+    }
+
+    function generateWeekTabs(weeks) {
+        weekTabsContainer.innerHTML = '';
+        weeks.forEach(weekNumber => {
+            const weekData = programData.semanas[weekNumber];
+            const tab = document.createElement('button');
+            tab.className = `week-tab py-2 px-4 font-bebas text-lg rounded-t-lg week-tab-inactive`;
+            tab.innerHTML = `Semana ${weekNumber}<br><span class="text-xs font-normal">${weekData.focus}</span>`;
+            tab.onclick = () => showWeek(weekNumber);
+            weekTabsContainer.appendChild(tab);
+        });
+    }
+
+    function showWeek(weekNumber) {
+        currentWeek = weekNumber;
+        localStorage.setItem(`${storageKeyBase}Week`, weekNumber);
+        
+        document.querySelectorAll('.week-tab').forEach((tab, index) => {
+            tab.classList.toggle('week-tab-active', (index + 1) == weekNumber);
+            tab.classList.toggle('week-tab-inactive', (index + 1) != weekNumber);
+        });
+        
+        const weekData = programData.semanas[weekNumber];
+        generateDayTabs(weekData.dias);
+        generateCalendar(weekData.dias);
+        
+        const savedDay = localStorage.getItem(`${storageKeyBase}Day_w${currentWeek}`);
+        showWorkout(savedDay ? parseInt(savedDay) : 0);
+    }
+    
+    function generateDayTabs(days) {
+        dayTabsContainer.innerHTML = '';
+        days.forEach((day, index) => {
+            const tab = document.createElement('button');
+            tab.className = `day-tab py-2 px-4 font-bebas text-md rounded-lg m-1 day-tab-inactive`;
+            tab.textContent = day;
+            tab.onclick = () => showWorkout(index);
+            dayTabsContainer.appendChild(tab);
+        });
+    }
+
+    function showWorkout(dayIndex) {
+        currentDayIndex = dayIndex;
+        localStorage.setItem(`${storageKeyBase}Day_w${currentWeek}`, dayIndex);
+
+        document.querySelectorAll('.day-tab').forEach((tab, index) => {
+            tab.classList.toggle('day-tab-active', index === dayIndex);
+            tab.classList.toggle('day-tab-inactive', index !== dayIndex);
+        });
+        
+        const weekWorkouts = programData.semanas[currentWeek].workouts;
+        const dayData = weekWorkouts[dayIndex] ? weekWorkouts[dayIndex][currentMode] : null;
+
+        workoutsContainer.innerHTML = '';
+
+        if (!dayData || (!dayData.exercises && !dayData.cardio)) {
+            workoutsContainer.innerHTML = `<p class="text-center text-gray-500">No hay rutina para este modo o día.</p>`;
+            return;
+        }
+
+        if (dayData.exercises) {
+            dayData.exercises.forEach((ex, exIndex) => {
+                const uniqueId = `prog-${programData.nivel}-w${currentWeek}-d${dayIndex}-m${currentMode}-${exIndex}`;
+                const setsCheckboxes = Array.from({ length: ex.sets || 0 }, (_, i) => `
+                    <div class="flex items-center">
+                        <input type="checkbox" id="set-${uniqueId}-${i}" class="set-checkbox h-4 w-4 rounded bg-gray-100 border-gray-300 text-amber-500 focus:ring-amber-600">
+                        <label for="set-${uniqueId}-${i}" class="ml-2 text-sm text-gray-600">Serie ${i + 1}</label>
+                    </div>`).join('');
+                
+                const exerciseCard = document.createElement('div');
+                exerciseCard.className = "bg-white border border-gray-200 p-5 rounded-lg shadow-sm";
+                exerciseCard.innerHTML = `
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <h4 class="text-2xl text-gray-900">${ex.name}</h4>
+                            <p class="text-amber-600 font-semibold text-sm mt-1">${ex.sets || 'N/A'} series x ${ex.reps || 'N/A'} reps</p>
+                            <p class="text-gray-600 text-xs mt-1">
+                                ${ex.rest ? `Desc: ${ex.rest}` : ''} 
+                                ${ex.rir ? `| RIR: ${ex.rir}` : ''}
+                            </p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <label for="weight-${uniqueId}" class="text-sm font-semibold text-gray-500">Peso:</label>
+                                <input type="text" id="weight-${uniqueId}" class="weight-input w-24 rounded-md border-gray-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500" placeholder="ej: 10kg">
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">${setsCheckboxes}</div>
+                    </div>
+                    ${ex.tip ? `<p class="text-sm mt-3 pt-3 border-t border-gray-200 text-gray-600"><strong>Técnica Clave:</strong> ${ex.tip}</p>` : ''}`;
+                workoutsContainer.appendChild(exerciseCard);
+            });
+        }
+
+        if (dayData.cardio) {
+            const cardioCard = `
+                <div class="bg-white border-2 border-dashed border-amber-400 p-5 rounded-lg mt-6">
+                    <div class="flex items-center gap-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>
+                        <div>
+                            <h4 class="text-2xl text-gray-900">Cardio y Recuperación</h4>
+                            <p class="text-gray-700 mt-1">${dayData.cardio}</p>
+                        </div>
+                    </div>
+                </div>`;
+            workoutsContainer.innerHTML += cardioCard;
+        }
+
+        loadAndSaveProgress();
+    }
+    
+    function generateCalendar(days) {
+        calendarContainer.innerHTML = '';
+        const weekEl = document.createElement('div');
+        weekEl.className = 'bg-white border border-gray-200 p-4 rounded-lg w-full max-w-2xl';
+        weekEl.innerHTML = `<h3 class="text-xl text-gray-900 text-center mb-4">Progreso Semana ${currentWeek}</h3>`;
+        
+        const weekGrid = document.createElement('div');
+        weekGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-center';
+        
+        days.forEach((day, dayIndex) => {
+            const dayEl = document.createElement('div');
+            let dayName = day.split(':')[0];
+            const dayId = `cal-${storageKeyBase}-w${currentWeek}-d${dayIndex}`;
+            dayEl.id = dayId;
+            dayEl.className = 'calendar-day bg-gray-200 p-3 rounded-md cursor-pointer border-2 border-transparent hover:border-amber-500 transition-all font-semibold';
+            dayEl.textContent = dayName;
+            
+            if (localStorage.getItem(dayId) === 'true') {
+                dayEl.classList.add('day-checked');
+            }
+            
+            dayEl.addEventListener('click', () => {
+                dayEl.classList.toggle('day-checked');
+                localStorage.setItem(dayId, dayEl.classList.contains('day-checked'));
+            });
+            weekGrid.appendChild(dayEl);
+        });
+        
+        weekEl.appendChild(weekGrid);
+        calendarContainer.appendChild(weekEl);
+    }
+
+    function loadAndSaveProgress() {
+        document.querySelectorAll('.set-checkbox').forEach(checkbox => {
+            if (localStorage.getItem(checkbox.id) === 'true') {
+                checkbox.checked = true;
+            }
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        });
+        
+        document.querySelectorAll('.weight-input').forEach(input => {
+            input.value = localStorage.getItem(input.id) || '';
+            input.addEventListener('input', () => {
+                localStorage.setItem(input.id, input.value);
+            });
+        });
+    }
+
+    function openModal(modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => modal.querySelector('.bg-black').classList.remove('opacity-0'), 10);
+        setTimeout(() => modal.querySelector('.transform').classList.remove('scale-95'), 10);
+    }
+
+    function closeModal(modal) {
+        modal.querySelector('.transform').classList.add('scale-95');
+        modal.querySelector('.bg-black').classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        loadMainMode();
+        showWorkoutView();
+
+        modeBtnGym.addEventListener('click', () => setMainMode('gym'));
+        modeBtnCasa.addEventListener('click', () => setMainMode('casa'));
+
+        openGuideBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Guía Esencial de Recomposición';
+            guideMainView.classList.remove('hidden');
+            guideCarbsView.classList.add('hidden');
+            openModal(guideModal);
+        });
+        closeGuideBtn.addEventListener('click', () => closeModal(guideModal));
+        document.getElementById('guide-modal-overlay').addEventListener('click', () => closeModal(guideModal));
+        
+        openTheoryBtn.addEventListener('click', () => openModal(theoryModal));
+        closeTheoryBtn.addEventListener('click', () => closeModal(theoryModal));
+        document.getElementById('theory-modal-overlay').addEventListener('click', () => closeModal(theoryModal));
+
+        showCarbsBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Fuentes de Carbohidratos';
+            guideMainView.classList.add('hidden');
+            guideCarbsView.classList.remove('hidden');
+        });
+
+        backToGuideBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Guía Esencial de Recomposición';
+            guideCarbsView.classList.add('hidden');
+            guideMainView.classList.remove('hidden');
+        });
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,17 @@
+<header class="sticky top-0 z-50 bg-base-white shadow">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-oswald font-bold text-accent-vibrant">REPETICIÓN MÁXIMA</h1>
+    <nav class="hidden md:flex gap-4 font-semibold items-center">
+      <a href="#servicios" class="hover:text-accent-vibrant">Servicios</a>
+      <a href="#programas" class="hover:text-accent-vibrant">Programas</a>
+      <a href="#herramientas" class="hover:text-accent-vibrant">Herramientas</a>
+      <a href="#faq" class="hover:text-accent-vibrant">Dudas</a>
+      <button id="btn-login" class="auth-no bg-primary-dark text-white px-4 py-2 rounded-lg hover:bg-gray-800 hidden md:inline-block" onclick="openAuthModal()">Iniciar sesión</button>
+      <div class="auth-yes flex items-center gap-3 hidden text-sm">
+        <a href="#mis-programas" class="px-4 py-2 rounded-lg border hover:bg-gray-50">Mis programas</a>
+        <button id="btn-logout" class="bg-accent-vibrant text-black px-4 py-2 rounded-lg font-bold hover:opacity-90" onclick="logout()">Cerrar sesión</button>
+      </div>
+      <span id="session-pill" class="hidden md:inline-flex items-center text-xs px-3 py-1 rounded-full border ml-2"></span>
+    </nav>
+  </div>
+</header>

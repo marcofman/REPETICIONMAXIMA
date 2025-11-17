@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método Milón: Gimnasio - Nivel 1</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='10' y='35' width='25' height='30' rx='5' fill='%23f59e0b'/><rect x='65' y='35' width='25' height='30' rx='5' fill='%23f59e0b'/><rect x='30' y='45' width='40' height='10' rx='5' fill='%23f59e0b'/></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, h4, .font-bebas { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
+        .gradient-text { background: linear-gradient(to right, #f59e0b, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .week-tab-active, .day-tab-active { background-color: #f59e0b; color: #ffffff; }
+        .week-tab-inactive, .day-tab-inactive { background-color: #e5e7eb; color: #4b5563; }
+        .day-checked { background-color: #f59e0b !important; color: #ffffff !important; border-color: #f59e0b !important; }
+        .set-checkbox:checked + label { text-decoration: line-through; color: #9ca3af; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-5xl">
+
+        <header class="text-center mb-10">
+            <h1 class="text-6xl md:text-7xl font-extrabold gradient-text">MÉTODO MILÓN</h1>
+            <h2 class="text-xl md:text-2xl text-gray-800 font-semibold mt-2 font-bebas">POR PROF. MARCO FLORES</h2>
+            <p class="text-lg text-gray-600 mt-2">El Camino a tu Mejor Versión</p>
+        </header>
+        
+        <div class="text-center mb-12 space-y-4 sm:space-y-0 sm:space-x-4">
+            <button id="open-guide-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">
+                GUÍA ESENCIAL
+            </button>
+            <button id="open-theory-btn" class="bg-gray-800 text-amber-400 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-black transition-all duration-300 transform hover:scale-105 font-bebas text-xl">
+                LA TEORÍA DE MILÓN
+            </button>
+        </div>
+
+        <section class="mb-12 bg-white p-6 rounded-lg border border-gray-200">
+            <h3 class="text-2xl text-gray-900 font-bebas text-center mb-4">Equipo de Gimnasio</h3>
+            <ul class="list-disc list-inside text-gray-700 max-w-md mx-auto text-left">
+                <li>Acceso a un gimnasio estándar con:</li>
+                <li>Barras, discos y mancuernas</li>
+                <li>Bancos (plano, inclinado, declinado)</li>
+                <li>Jaula de sentadillas o rack</li>
+                <li>Máquinas de poleas</li>
+                <li>Máquinas básicas (prensa, extensiones, etc.)</li>
+            </ul>
+        </section>
+
+        <main>
+            <section id="workout-view">
+                 <div id="level-intro-text" class="bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-lg mb-8 text-center"></div>
+                <div id="rutinas">
+                    <h2 id="workout-title" class="text-4xl text-gray-900 mb-6 text-center"></h2>
+                    
+                    <div id="week-tabs" class="flex justify-center mb-2 border-b-2 border-gray-300"></div>
+                    <div id="day-tabs" class="flex flex-wrap justify-center mb-6"></div>
+
+                    <div id="workouts-container" class="space-y-6"></div>
+                </div>
+                
+                <div id="calendario" class="mt-12">
+                    <h2 class="text-4xl text-gray-900 mb-6 text-center">Calendario de Seguimiento Semanal</h2>
+                    <div class="flex justify-center"></div>
+                </div>
+            </section>
+        </main>
+
+        <section id="coach-profile" class="bg-gray-100 p-8 rounded-2xl mt-12">
+            <div class="text-center">
+                <h3 class="text-3xl text-gray-900">Unas palabras de tu Coach</h3>
+                <p class="text-amber-600 font-semibold mt-1">Prof. Marco Flores</p>
+                <p class="text-gray-700 mt-4 max-w-xl mx-auto">
+                    ¡Hola! Soy Marco. Llevo más de 12 años dedicado a guiar transformaciones físicas basadas en ciencia y resultados. Mi enfoque se centra en la sobrecarga progresiva y la adaptación inteligente, una filosofía que he perfeccionado a lo largo de una carrera muy diversa: desde centros de alto rendimiento como Youtopia y la Ciudad Deportiva USS, hasta mi trabajo en el campo clínico y en el sector público de Providencia. Mi pasión por el movimiento comenzó a los 16 años con el Kickboxing y las MMA, y esa disciplina la aplico hoy para ayudarte, sea cual sea tu nivel, a construir tu mejor versión.
+                </p>
+                <blockquote class="mt-6 italic text-gray-600 border-l-4 border-amber-300 pl-4 inline-block text-left">
+                    “La fuerza no se hereda. Se construye, carga a carga.”
+                </blockquote>
+            </div>
+        </section>
+
+        <footer class="text-center mt-12 py-6 border-t border-gray-300">
+            <h3 class="text-3xl text-gray-900 font-bebas mb-4">¿Listo para el Siguiente Nivel?</h3>
+            <h4 class="text-xl font-bebas text-gray-900">Método Milón | Creado por Prof. Marco Flores</h4>
+            <p class="text-sm text-gray-600 mb-6">Tu Coach de Recomposición Corporal</p>
+            <a href="https://wa.me/56948505747?text=Hola%20Marco%2C%20termin%C3%A9%20el%20Nivel%201%20de%20Gimnasio%20y%20quiero%20ir%20por%20el%20siguiente%20nivel." target="_blank" class="bg-green-500 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-green-600 transition-all duration-300 transform hover:scale-105 font-bebas text-xl inline-flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.93 7.93 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.89 7.89 0 0 0 13.6 2.326zM7.994 14.521a6.57 6.57 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+                <span>¡QUIERO EL NIVEL 2!</span>
+            </a>
+        </footer>
+    </div>
+    
+    <div id="guide-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="guide-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6">
+                    <h2 id="guide-modal-title" class="text-4xl text-gray-900">Guía Esencial de Recomposición</h2>
+                    <button id="close-guide-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button>
+                </div>
+
+                <div id="guide-main-view" class="space-y-6 text-gray-700">
+                    <div>
+                        <h3 class="text-2xl text-amber-600 mb-2">Pilar 1: Nutrición Inteligente</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li><strong>Proteína es REY:</strong> Apunta a consumir <strong>1.6-2.2 gramos de proteína por kg de tu peso</strong>.</li>
+                            <li><strong>Déficit Calórico Controlado:</strong> Unas 300-500 calorías por debajo de tu mantenimiento es un punto de partida ideal.</li>
+                            <li>
+                                <strong>Carbohidratos para Rendir:</strong> Úsalos estratégicamente alrededor de tus entrenamientos. 
+                                <button id="show-carbs-btn" class="text-blue-600 hover:underline text-sm font-semibold">(Ver ejemplos)</button>
+                            </li>
+                            <li><strong>Grasas para la Salud:</strong> Son cruciales para tus hormonas. Prioriza fuentes saludables.</li>
+                        </ul>
+                    </div>
+                    <div><h3 class="text-2xl text-amber-600 mb-2">Pilar 2: Hidratación Constante</h3><ul class="list-disc list-inside space-y-2"><li><strong>El Músculo es Agua:</strong> Bebe un mínimo de <strong>2-3 litros de agua al día</strong>, y más en días de entrenamiento.</li></ul></div>
+                    <div><h3 class="text-2xl text-amber-600 mb-2">Pilar 3: Descanso y Recuperación</h3><ul class="list-disc list-inside space-y-2"><li><strong>Fábrica de Músculo Nocturna:</strong> Apunta a <strong>7-9 horas de sueño de calidad</strong> por noche.</li><li><strong>Días Libres son Días de Crecimiento:</strong> El músculo crece cuando descansas, no cuando entrenas.</li></ul></div>
+                </div>
+
+                <div id="guide-carbs-view" class="hidden space-y-4 text-gray-700">
+                    <div>
+                        <h3 class="text-2xl text-amber-600 mb-2">Fuentes de Carbohidratos Complejos</h3>
+                        <p class="text-sm mb-2">Ideales para energía sostenida durante el día.</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Avena</li>
+                            <li>Arroz integral / Quinoa</li>
+                            <li>Papas / Camote (Batata)</li>
+                            <li>Legumbres (lentejas, garbanzos)</li>
+                            <li>Pan integral o de masa madre</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl text-amber-600 mb-2">Fuentes de Carbohidratos Simples</h3>
+                        <p class="text-sm mb-2">Excelentes para reponer energía rápidamente después de entrenar.</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Frutas (plátano, manzana, berries)</li>
+                            <li>Arroz blanco</li>
+                            <li>Miel</li>
+                        </ul>
+                    </div>
+                    <div class="pt-4">
+                        <button id="back-to-guide-btn" class="text-blue-600 hover:underline font-semibold">&larr; Volver a la guía</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="theory-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-opacity duration-300">
+        <div id="theory-modal-overlay" class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="bg-white rounded-2xl shadow-2xl z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-6"><h2 class="text-4xl text-gray-900">¿Por qué "Milón"?</h2><button id="close-theory-btn" class="text-3xl text-gray-500 hover:text-gray-900 leading-none">&times;</button></div>
+                <div class="space-y-4 text-gray-700">
+                    <p>El nombre del método se inspira en <strong>Milón de Crotona</strong>, una leyenda de la antigua Grecia y uno de los atletas más grandes de la historia.</p>
+                    <p>La historia cuenta que Milón desarrolló su increíble fuerza levantando un ternero recién nacido sobre sus hombros cada día. A medida que el ternero crecía y se convertía en un toro, la fuerza de Milón crecía con él, hasta que fue capaz de levantar al animal adulto.</p>
+                    <p class="font-bold text-amber-800">Esta leyenda es la encarnación perfecta del principio de <strong>sobrecarga progresiva</strong>, el pilar fundamental de este programa. Tu progreso, al igual que la fuerza de Milón, se construirá día a día, carga a carga, repetición a repetición.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const programData = {
+        gimnasio: {
+            levels: {
+                1: {
+                    intro: "¡Bienvenido al Nivel 1 en el Gimnasio! Aquí construiremos los 'Fundamentos de Hierro'. Nos centraremos en los movimientos compuestos básicos para construir una base de fuerza y masa muscular que te servirá para siempre. ¡La técnica es tu prioridad número uno!",
+                    title: 'Gimnasio: Nivel 1<br><span class="text-2xl font-normal text-gray-500 tracking-wider">Fundamentos de Hierro</span>',
+                    weeks: {
+                        1: {focus:"Semana 1: Conexión Mente-Músculo",days:['Día 1: Full Body A','Día 2: Descanso','Día 3: Full Body B','Día 4: Descanso','Día 5: Full Body A'],workouts:{'0':{exercises:[{name:'Sentadilla con Barra',sets:3,reps:'8-12',rest:'90s',rir:'3',tip:'Enfócate en la profundidad y en mantener el pecho erguido. El peso es secundario por ahora.'},{name:'Press de Banca con Barra',sets:3,reps:'8-12',rest:'90s',rir:'3',tip:'Hombros hacia atrás y abajo. Toca el pecho en cada repetición.'},{name:'Remo con Barra',sets:3,reps:'8-12',rest:'90s',rir:'3',tip:'Espalda recta, casi paralela al suelo. Tira la barra hacia tu ombligo.'},{name:'Press Militar con Mancuernas',sets:3,reps:'10-15',rest:'75s',rir:'2',tip:'Sentado, con la espalda apoyada. Controla el movimiento.'},{name:'Jalón al Pecho (Polea)',sets:3,reps:'10-15',rest:'75s',rir:'2',tip:'Aprieta los dorsales, lidera con los codos.'},{name:'Plancha Abdominal',sets:3,reps:'45-60s',rest:'60s',tip:'Mantén el cuerpo en una línea recta perfecta.'}]},'2':{exercises:[{name:'Peso Muerto Rumano con Mancuernas',sets:3,reps:'10-15',rest:'90s',rir:'3',tip:'Siente el estiramiento en los femorales. Espalda siempre recta.'},{name:'Prensa de Piernas',sets:3,reps:'10-15',rest:'90s',rir:'2',tip:'Rango de movimiento completo y controlado. No bloquees las rodillas.'},{name:'Press Inclinado con Mancuernas',sets:3,reps:'10-15',rest:'75s',rir:'2',tip:'Enfocado en la parte superior del pectoral.'},{name:'Remo Sentado en Polea',sets:3,reps:'10-15',rest:'75s',rir:'2',tip:'Aprieta las escápulas al final del movimiento.'},{name:'Elevaciones Laterales con Mancuernas',sets:3,reps:'12-20',rest:'60s',rir:'1',tip:'Codos ligeramente flexionados, no superes la altura de los hombros.'},{name:'Elevación de Piernas Colgado',sets:3,reps:'Al fallo',rest:'60s',tip:'Si es muy difícil, hazlo con las rodillas flexionadas.'}]},'4':{exercises:[{name:'Sentadilla con Barra',sets:3,reps:'8-12',rest:'90s',rir:'3',tip:'Intenta mejorar la técnica o añadir un poco de peso respecto al Día 1.'},{name:'Press de Banca con Barra',sets:3,reps:'8-12',rest:'90s',rir:'3'},{name:'Remo con Barra',sets:3,reps:'8-12',rest:'90s',rir:'3'},{name:'Press Militar con Mancuernas',sets:3,reps:'10-15',rest:'75s',rir:'2'},{name:'Jalón al Pecho (Polea)',sets:3,reps:'10-15',rest:'75s',rir:'2'},{name:'Plancha Abdominal',sets:3,reps:'45-60s',rest:'60s'}]}}},
+                        2: {focus:"Semana 2: Aumentando el Volumen",days:['Día 1: Full Body A','Día 2: Descanso','Día 3: Full Body B','Día 4: Descanso','Día 5: Full Body A'],workouts:{'0':{exercises:[{name:'Sentadilla con Barra',sets:4,reps:'8-12',rest:'90s',rir:'2'},{name:'Press de Banca con Barra',sets:4,reps:'8-12',rest:'90s',rir:'2'},{name:'Remo con Barra',sets:4,reps:'8-12',rest:'90s',rir:'2'},{name:'Press Militar con Mancuernas',sets:3,reps:'10-15',rest:'75s',rir:'2'},{name:'Jalón al Pecho (Polea)',sets:3,reps:'10-15',rest:'75s',rir:'2'},{name:'Plancha Abdominal',sets:4,reps:'45-60s',rest:'60s'}]},'2':{exercises:[{name:'Peso Muerto Rumano con Mancuernas',sets:4,reps:'10-15',rest:'90s',rir:'2'},{name:'Prensa de Piernas',sets:4,reps:'10-15',rest:'90s',rir:'2'},{name:'Press Inclinado con Mancuernas',sets:4,reps:'10-15',rest:'75s',rir:'2'},{name:'Remo Sentado en Polea',sets:4,reps:'10-15',rest:'75s',rir:'2'},{name:'Elevaciones Laterales con Mancuernas',sets:4,reps:'12-20',rest:'60s',rir:'1'},{name:'Elevación de Piernas Colgado',sets:4,reps:'Al fallo',rest:'60s'}]},'4':{exercises:[{name:'Sentadilla con Barra',sets:4,reps:'8-12',rest:'90s',rir:'2'},{name:'Press de Banca con Barra',sets:4,reps:'8-12',rest:'90s',rir:'2'},{name:'Remo con Barra',sets:4,reps:'8-12',rest:'90s',rir:'2'},{name:'Press Militar con Mancuernas',sets:3,reps:'10-15',rest:'75s',rir:'2'},{name:'Jalón al Pecho (Polea)',sets:3,reps:'10-15',rest:'75s',rir:'2'},{name:'Plancha Abdominal',sets:4,reps:'45-60s',rest:'60s'}]}}},
+                        3: {focus:"Semana 3: Sobrecarga de Intensidad",days:['Día 1: Full Body A','Día 2: Descanso','Día 3: Full Body B','Día 4: Descanso','Día 5: Full Body A'],workouts:{'0':{exercises:[{name:'Sentadilla con Barra',sets:3,reps:'6-10',rest:'100s',rir:'2',tip:'Aumenta el peso. Cada repetición debe ser un desafío.'},{name:'Press de Banca con Barra',sets:3,reps:'6-10',rest:'100s',rir:'2',tip:'Más peso, pero sin sacrificar la forma ni el rango.'},{name:'Remo con Barra',sets:3,reps:'6-10',rest:'100s',rir:'2',tip:'Carga pesada. Mantén la espalda firme.'},{name:'Press Militar con Mancuernas',sets:3,reps:'8-12',rest:'75s',rir:'1'},{name:'Jalón al Pecho (Polea)',sets:3,reps:'8-12',rest:'75s',rir:'1'},{name:'Plancha con peso',sets:3,reps:'45s',rest:'60s',tip:'Pide a alguien que te coloque un disco en la espalda baja.'}]},'2':{exercises:[{name:'Peso Muerto Rumano con Mancuernas',sets:3,reps:'8-12',rest:'90s',rir:'2',tip:'Aumenta la carga, concéntrate en la bisagra de cadera.'},{name:'Prensa de Piernas',sets:3,reps:'8-12',rest:'90s',rir:'1',tip:'Más peso, acércate al fallo.'},{name:'Press Inclinado con Mancuernas',sets:3,reps:'8-12',rest:'75s',rir:'1'},{name:'Remo Sentado en Polea',sets:3,reps:'8-12',rest:'75s',rir:'1'},{name:'Elevaciones Laterales con Mancuernas',sets:3,reps:'Al fallo',rest:'60s',rir:'0'},{name:'Elevación de Piernas Colgado (con lastre)',sets:3,reps:'Al fallo',rest:'60s',tip:'Sostén una mancuerna ligera entre los pies.'}]},'4':{exercises:[{name:'Sentadilla con Barra',sets:3,reps:'6-10',rest:'100s',rir:'2',tip:'Intenta superar las repeticiones o el peso del Día 1.'},{name:'Press de Banca con Barra',sets:3,reps:'6-10',rest:'100s',rir:'2'},{name:'Remo con Barra',sets:3,reps:'6-10',rest:'100s',rir:'2'},{name:'Press Militar con Mancuernas',sets:3,reps:'8-12',rest:'75s',rir:'1'},{name:'Jalón al Pecho (Polea)',sets:3,reps:'8-12',rest:'75s',rir:'1'},{name:'Plancha con peso',sets:3,reps:'45s',rest:'60s'}]}}},
+                        4: {focus:"Semana 4: Descarga",days:['Día 1: Full Body Ligero','Día 2: Descanso','Día 3: Full Body Ligero','Día 4: Descanso','Día 5: Descanso Activo'],workouts:{'0':{exercises:[{name:'Sentadilla con Barra',sets:2,reps:'10',rest:'75s',rir:'4',tip:'Usa el 60% del peso de la semana pasada.'},{name:'Press de Banca con Barra',sets:2,reps:'10',rest:'75s',rir:'4'},{name:'Remo con Barra',sets:2,reps:'10',rest:'75s',rir:'4'},{name:'Jalón al Pecho (Polea)',sets:2,reps:'15',rest:'60s',rir:'4'},{name:'Elevaciones Laterales',sets:2,reps:'15',rest:'60s',rir:'4'}]},'2':{exercises:[{name:'Peso Muerto Rumano con Mancuernas',sets:2,reps:'15',rest:'75s',rir:'4',tip:'Muy ligero, enfócate en el movimiento.'},{name:'Prensa de Piernas',sets:2,reps:'15',rest:'75s',rir:'4'},{name:'Press Inclinado con Mancuernas',sets:2,reps:'15',rest:'60s',rir:'4'},{name:'Remo Sentado en Polea',sets:2,reps:'15',rest:'60s',rir:'4'},{name:'Plancha Abdominal',sets:3,reps:'30s',rest:'60s'}]},'4':{cardio:"20-30 min de cardio de baja intensidad (bici estática, elíptica) y estiramientos."}}}
+                    }
+                }
+            }
+        }
+    };
+    let currentCategory = 'gimnasio';
+    let currentLevel = '1';
+    let currentWeek = 1;
+
+    const workoutTitle = document.getElementById('workout-title');
+    const introTextContainer = document.getElementById('level-intro-text');
+    const weekTabsContainer = document.getElementById('week-tabs');
+    const dayTabsContainer = document.getElementById('day-tabs');
+    const workoutsContainer = document.getElementById('workouts-container');
+    const calendarContainer = document.querySelector('#calendario .flex');
+    
+    const openGuideBtn = document.getElementById('open-guide-btn');
+    const closeGuideBtn = document.getElementById('close-guide-btn');
+    const guideModal = document.getElementById('guide-modal');
+    const openTheoryBtn = document.getElementById('open-theory-btn');
+    const closeTheoryBtn = document.getElementById('close-theory-btn');
+    const theoryModal = document.getElementById('theory-modal');
+
+    const guideModalTitle = document.getElementById('guide-modal-title');
+    const guideMainView = document.getElementById('guide-main-view');
+    const guideCarbsView = document.getElementById('guide-carbs-view');
+    const showCarbsBtn = document.getElementById('show-carbs-btn');
+    const backToGuideBtn = document.getElementById('back-to-guide-btn');
+
+    function showWorkoutView(category, level) {
+        const levelData = programData[category].levels[level];
+        workoutTitle.innerHTML = levelData.title;
+        introTextContainer.textContent = levelData.intro;
+        generateWeekTabs(Object.keys(levelData.weeks));
+        showWeek(Object.keys(levelData.weeks)[0]);
+    }
+
+    function generateWeekTabs(weeks) {
+        weekTabsContainer.innerHTML = '';
+        weeks.forEach(weekNumber => {
+            const weekData = programData[currentCategory].levels[currentLevel].weeks[weekNumber];
+            const tab = document.createElement('button');
+            tab.className = `week-tab py-2 px-4 font-bebas text-lg rounded-t-lg week-tab-inactive`;
+            tab.innerHTML = `Semana ${weekNumber}<br><span class="text-xs font-normal">${weekData.focus}</span>`;
+            tab.dataset.week = weekNumber;
+            tab.onclick = () => showWeek(weekNumber);
+            weekTabsContainer.appendChild(tab);
+        });
+    }
+
+    function showWeek(weekNumber) {
+        currentWeek = weekNumber;
+        document.querySelectorAll('.week-tab').forEach(tab => {
+            tab.classList.toggle('week-tab-active', tab.dataset.week == weekNumber);
+            tab.classList.toggle('week-tab-inactive', tab.dataset.week != weekNumber);
+        });
+        const weekData = programData[currentCategory].levels[currentLevel].weeks[weekNumber];
+        generateDayTabs(weekData.days, weekNumber);
+        generateCalendar(weekData.days, weekNumber);
+        if(weekData.days.length > 0) {
+            const firstWorkoutDayIndex = Object.keys(weekData.workouts)[0];
+            showWorkout(firstWorkoutDayIndex, weekNumber);
+        } else {
+             workoutsContainer.innerHTML = '';
+        }
+    }
+    
+    function generateDayTabs(days, weekNumber) {
+        dayTabsContainer.innerHTML = '';
+        const workoutKeys = Object.keys(programData[currentCategory].levels[currentLevel].weeks[weekNumber].workouts);
+        days.forEach((day, index) => {
+            const tab = document.createElement('button');
+            tab.className = `day-tab py-2 px-4 font-bebas text-md rounded-lg m-1 ${index === 0 ? 'day-tab-active' : 'day-tab-inactive'}`;
+            tab.textContent = day;
+            tab.dataset.dayIndex = index;
+            tab.onclick = () => showWorkout(index, weekNumber);
+            dayTabsContainer.appendChild(tab);
+        });
+    }
+
+    function showWorkout(dayIndex, weekNumber) {
+        document.querySelectorAll('.day-tab').forEach(tab => {
+            tab.classList.toggle('day-tab-active', tab.dataset.dayIndex == dayIndex);
+            tab.classList.toggle('day-tab-inactive', tab.dataset.dayIndex != dayIndex);
+        });
+        
+        const workoutData = programData[currentCategory].levels[currentLevel].weeks[weekNumber].workouts[dayIndex];
+        workoutsContainer.innerHTML='';
+        if(!workoutData || (!workoutData.exercises && !workoutData.cardio)){
+            workoutsContainer.innerHTML=`<p class="text-center text-gray-500">Día de descanso o actividad ligera.</p>`;
+            return;
+        }
+        if(workoutData.exercises){
+            workoutData.exercises.forEach(ex => {
+                const uniqueId=`prog-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}-${ex.name.replace(/\s+/g,'-')}`;
+                let setsCheckboxes = '';
+                if(ex.sets){
+                    setsCheckboxes=Array.from({length:ex.sets},(_,i)=>`<div class="flex items-center"><input type="checkbox" id="set-${uniqueId}-${i}" class="set-checkbox h-4 w-4 rounded bg-gray-100 border-gray-300 text-amber-500 focus:ring-amber-600"><label for="set-${uniqueId}-${i}" class="ml-2 text-sm text-gray-600">Serie ${i+1}</label></div>`).join('');
+                }
+                const exerciseCard=document.createElement('div');
+                exerciseCard.className="bg-white border border-gray-200 p-5 rounded-lg shadow-sm";
+                exerciseCard.innerHTML=`
+                    <div class="flex justify-between items-start flex-wrap gap-4">
+                        <div>
+                            <h4 class="text-2xl text-gray-900">${ex.name}</h4>
+                            <p class="text-amber-600 font-semibold text-sm mt-1">${ex.sets||'N/A'} series x ${ex.reps||'N/A'} reps</p>
+                            <p class="text-gray-600 text-xs mt-1">${ex.rest?`Desc: ${ex.rest}`:''} ${ex.rir?`| RIR: ${ex.rir}`:''}</p>
+                            <div class="mt-2 flex items-center gap-2">
+                                <label for="weight-${uniqueId}" class="text-sm font-semibold text-gray-500">Peso:</label>
+                                <input type="text" id="weight-${uniqueId}" class="weight-input w-24 rounded-md border-gray-300 shadow-sm text-sm focus:ring-amber-500 focus:border-amber-500" placeholder="ej: 50kg">
+                            </div>
+                        </div>
+                        <div class="flex space-x-3">${setsCheckboxes}</div>
+                    </div>
+                    ${ex.tip?`<p class="text-sm mt-3 pt-3 border-t border-gray-200 text-gray-600"><strong>Técnica Clave:</strong> ${ex.tip}</p>`:''}`;
+                workoutsContainer.appendChild(exerciseCard);
+            });
+        }
+        if(workoutData.cardio){
+            const cardioCard=`<div class="bg-white border-2 border-dashed border-amber-400 p-5 rounded-lg mt-6"><div class="flex items-center gap-4"><svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-amber-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg><div><h4 class="text-2xl text-gray-900">Cardio y Recuperación</h4><p class="text-gray-700 mt-1">${workoutData.cardio}</p></div></div></div>`;
+            if(!workoutData.exercises){
+                workoutsContainer.innerHTML=cardioCard;
+            } else {
+                workoutsContainer.innerHTML+=cardioCard;
+            }
+        }
+        loadAndSaveProgress();
+    }
+    
+    function generateCalendar(days, weekNumber) {
+        calendarContainer.innerHTML = '';
+        const weekEl = document.createElement('div');
+        weekEl.className = 'bg-white border border-gray-200 p-4 rounded-lg w-full max-w-2xl';
+        weekEl.innerHTML = `<h3 class="text-xl text-gray-900 text-center mb-4">Progreso Semana ${weekNumber}</h3>`;
+        const weekGrid = document.createElement('div');
+        weekGrid.className = 'grid grid-cols-3 sm:grid-cols-5 gap-2 text-center';
+        days.forEach((day, dayIndex) => {
+            const dayEl = document.createElement('div');
+            let dayName = day.split(':')[0];
+            const dayId = `cal-${currentCategory}-${currentLevel}-w${weekNumber}-d${dayIndex}`;
+            dayEl.id = dayId;
+            dayEl.className = 'calendar-day bg-gray-200 p-3 rounded-md cursor-pointer border-2 border-transparent hover:border-amber-500 transition-all font-semibold';
+            dayEl.textContent = dayName;
+            if (localStorage.getItem(dayId) === 'true') {
+                dayEl.classList.add('day-checked');
+            }
+            dayEl.addEventListener('click', () => {
+                dayEl.classList.toggle('day-checked');
+                localStorage.setItem(dayId, dayEl.classList.contains('day-checked'));
+            });
+            weekGrid.appendChild(dayEl);
+        });
+        weekEl.appendChild(weekGrid);
+        calendarContainer.appendChild(weekEl);
+    }
+
+    function loadAndSaveProgress(){
+        document.querySelectorAll('.set-checkbox').forEach(checkbox => {
+            if(localStorage.getItem(checkbox.id) === 'true'){
+                checkbox.checked = true;
+            }
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(checkbox.id, checkbox.checked);
+            });
+        });
+        document.querySelectorAll('.weight-input').forEach(input => {
+            input.value = localStorage.getItem(input.id) || '';
+            input.addEventListener('input', () => {
+                localStorage.setItem(input.id, input.value);
+            });
+        });
+    }
+
+    function openModal(modal){
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+           modal.querySelector('.opacity-70, .scale-95')?.classList.remove('opacity-0', 'scale-95');
+        }, 10);
+    }
+
+    function closeModal(modal){
+        modal.querySelector('.opacity-70, .z-10')?.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+             modal.classList.add('hidden');
+             modal.classList.remove('flex');
+        }, 300);
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        showWorkoutView('gimnasio', '1');
+
+        openGuideBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Guía Esencial de Recomposición';
+            guideMainView.classList.remove('hidden');
+            guideCarbsView.classList.add('hidden');
+            openModal(guideModal);
+        });
+
+        closeGuideBtn.addEventListener('click', () => closeModal(guideModal));
+        guideModal.querySelector('.absolute.inset-0').addEventListener('click', () => closeModal(guideModal));
+        
+        openTheoryBtn.addEventListener('click', () => openModal(theoryModal));
+        closeTheoryBtn.addEventListener('click', () => closeModal(theoryModal));
+        theoryModal.querySelector('.absolute.inset-0').addEventListener('click', () => closeModal(theoryModal));
+
+        showCarbsBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Fuentes de Carbohidratos';
+            guideMainView.classList.add('hidden');
+            guideCarbsView.classList.remove('hidden');
+        });
+
+        backToGuideBtn.addEventListener('click', () => {
+            guideModalTitle.textContent = 'Guía Esencial de Recomposición';
+            guideCarbsView.classList.add('hidden');
+            guideMainView.classList.remove('hidden');
+        });
+    });
+</script>
+</body>
+</html>
